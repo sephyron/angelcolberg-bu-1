@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+
+	<head>
+
+		<!-- MISC/META -->
+		<title>  </title>
+        <meta charset="utf-8">
+		<meta name="description" content="Zenpen - A minimal web based text editor, for the modern man.">
+        
+		<!-- CSS -->
+		<link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+		<link href="css/pre-style.css" rel="stylesheet">
+		<link href="css/fonts.css" rel="stylesheet">
+
+		<!-- LIBS -->
+		<script src="js/libs/head.min.js"></script>
+		
+		<!-- JS loading in footer -->
+
+    </head>
+
+	<body class="yin">
+
+		<div class="overlay">
+			<div class="wordcount modal">
+				<h1>Target Word Count</h1>
+				<div>
+					<input type="number" name="quantity" value="0" min="0"></input>
+				</div>
+			</div>
+
+			<div class="description modal">
+				<h1> </h1>
+				<p> </p>
+			</div>
+		</div>
+
+		<div class="text-options">
+			<div class="options">
+				<span class="no-overflow">
+					<span class="lengthen ui-inputs">
+						<button class="url useicons">&#xe001;</button>
+						<input class="url-input" type="text" placeholder="Type or Paste URL here"/>
+						<button class="bold">b</button>
+						<button class="italic">i</button>
+						<button class="quote">&rdquo;</button>
+                        <button class="hstyles">H</button>
+					</span>
+				</span>
+			</div>
+		</div>
+		<div id="workpanel" class="" ></div>
+		<div class="ui">
+
+			<div class="wrapper">
+
+				<div class="top editing">
+					<!--button class="fullscreen useicons">
+						&#xe006;
+					</button>
+
+					<button class="color-flip useicons">
+						&#xe000;
+					</button>
+
+					<button class="target useicons">
+						&#xe002;
+					</button-->
+                    <button class="feed useicons">
+						&#xe006;
+					</button>
+
+					<button class="tools useicons">
+						&#xe033;
+					</button>
+
+					<button class="tasks useicons">
+						&#xe034;
+					</button>
+				</div>
+
+				<div class="bottom">
+					<button class="about">
+						?
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="word-counter">
+			<span class="progress"></span>
+		</div>
+
+		<section>
+			
+			<header contenteditable="true" class="header">
+				Page Title
+			</header>
+
+			<article contenteditable="true" class="content">
+
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vehicula eros quis odio imperdiet ac faucibus dolor mattis. Sed consequat fermentum urna, eget ultrices sapien cursus id. Mauris vel aliquet diam. Donec eu metus mauris. Quisque quis placerat libero. Aliquam erat volutpat. Pellentesque euismod turpis sit amet neque cursus adipiscing. Sed in libero sit amet tellus semper interdum. Duis purus tellus, auctor in pulvinar non, eleifend at odio. Nunc rhoncus lacinia consequat. Nam id diam non nulla luctus egestas.
+
+Sed cursus ligula sed mi blandit sed placerat enim porttitor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla sed sem non sapien viverra vulputate non quis augue. Praesent dapibus diam non libero feugiat consequat. Nunc magna arcu, vehicula a lacinia in, dignissim sit amet arcu. Vestibulum hendrerit nisl commodo justo venenatis sagittis eu sed augue. Curabitur ut enim lorem. Pellentesque facilisis, urna id viverra fermentum, metus neque feugiat odio, eget sollicitudin tortor diam a ligula. Vestibulum molestie, orci varius sodales consectetur, odio elit ultricies tortor, iaculis elementum orci orci at massa.
+
+Integer sed nulla magna. Maecenas mollis commodo dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam non metus enim. Vestibulum et diam vitae nisi congue dapibus sed vel nunc. Aliquam eu libero sem. Sed facilisis scelerisque vehicula.
+
+Fusce at dictum lectus. Maecenas ullamcorper ornare faucibus. Suspendisse diam odio, sollicitudin sed facilisis sit amet, dapibus a nisi. Morbi molestie, purus sed imperdiet volutpat, neque lacus ultrices dui, ut sagittis nulla neque a nibh. Suspendisse ullamcorper lobortis sem quis pulvinar. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus lacinia, elit at viverra mattis, urna neque volutpat velit, id iaculis lectus leo sit amet risus. Aliquam et ligula quis lacus bibendum porttitor. Sed lacus lorem, sodales et pellentesque et, blandit in nibh.
+
+Vestibulum vehicula eros eget sapien pretium at porttitor lorem tempor. Aenean felis felis, ultrices quis iaculis a, varius non enim. Sed mattis convallis quam eget auctor. Integer id massa non elit convallis molestie nec ut lectus. Vestibulum dapibus consectetur malesuada. Etiam sed enim non libero scelerisque ultrices vitae at orci. Etiam tincidunt cursus turpis, eget cursus purus tempus eu. Sed venenatis, massa quis elementum pulvinar, eros sapien porttitor arcu, et laoreet ante ligula non mauris. Donec vitae tincidunt nisl. Etiam at faucibus magna. Phasellus scelerisque tellus id dolor dignissim ut tempor libero tincidunt. Cras urna nisi, convallis et auctor ac, ullamcorper quis risus.</p>
+
+			</article>
+
+		</section>
+
+		<!-- JS -->
+		<script type="text/javascript">
+
+			// Load required scripts.	
+			head.js( "js/libs/fullScreen.js",
+				"js/pre-utils.js",
+				"js/pre-ui.js",
+				"js/pre-editor.js",
+	        	function(){
+	            	
+	            	// Initiate ZenPen
+	            	editor.init();
+	    			ui.init();
+	            }
+	        );
+        </script>
+	</body>
+</html>
+

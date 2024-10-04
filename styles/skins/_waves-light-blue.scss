@@ -1,0 +1,51 @@
+// Colors
+// Global colors
+$black: #191919;
+$white: #fff;
+$background-color: $white;
+$facebook: #3b5998;
+$twitter: #4099ff;
+$dribbble: #c73b6f;
+$github: #999;
+$vk: #2b587a;
+$linkedin: #4075b4;
+$googleplus: #c24e40;
+$pinterest: #bd081c;
+$button-background: transparent;
+$button-color: $white;
+// Skin customisation
+.waves-light-blue-skin {
+    .navbar-fixed {
+        height: 0;
+    }
+    .btn,
+    .btn-large {
+        color: $button-color;
+        background-color: $button-background;
+    }
+    .waves {
+        background-color: color('blue', 'base');
+    }
+    .hero {
+        position: relative;
+        overflow: hidden;
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+    h1 {
+        @include translateX(-50%);
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        z-index: 10;
+        width: 90%;
+        font-size: 4.5rem;
+        font-weight: 200;
+        letter-spacing: -3px;
+        color: $white;
+        text-align: left;
+    }
+}
