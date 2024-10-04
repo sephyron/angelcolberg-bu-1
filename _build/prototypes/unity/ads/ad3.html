@@ -1,0 +1,82 @@
+<html>
+<title>Unity Ads Demos</title>
+<head>
+<link href="css/main.css" rel=stylesheet />
+
+</head>
+
+<body>
+
+<div id="phone" >
+  <div id="screen">
+
+    <div id="loader"><i class="loader-icon anim"></i></div>
+
+
+<div class="pages">
+  <video id="ad3-video" preload>
+    <source src="media/Gamead_clean.mp4" type="video/mp4" />
+
+  Your browser does not support the video tag.
+  </video>
+
+
+    <div class="page ad-images ad3-image" id="ad3">
+      <div class="hotspot ad3-hotspot">
+
+      </div>
+
+
+    </div>
+
+
+
+</div>
+  </div>
+
+
+
+
+</div>
+
+<div id="text">
+  <div class="unity-logo"></div>
+  <!--h1 style="font-weight:lighter; font-family: Roboto;">Unity<br/>Ads</h1-->
+  <h2>Watch Video to Extend Lure</h2>
+  <ul>
+    <li><a href="ad1.html">Demo 1</a></li>
+
+    <li><a href="ad2.html">Demo 2</a></li>
+
+    <li><a href="ad3.html" class="selected">Demo 3</a></li>
+  </ul>
+</div>
+
+</body>
+
+
+
+<script src="js/jquery.min.js"></script>
+
+
+
+<script>
+$(document).ready(function(){
+$("#ad3-video").hide();
+$("#ad3").show();
+
+
+
+
+
+
+
+    $(".ad3-hotspot").click(function() {
+      $("#ad3-video").show();
+      $("#ad3-video")[0].play();
+
+    })
+});
+
+</script>
+</html>

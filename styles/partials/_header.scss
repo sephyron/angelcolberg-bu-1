@@ -130,7 +130,7 @@ body.stretched #header.full-header .container {
 
 .header-extras {
     float: right;
-    margin: ( ($header-height - 40px) / 2) 0 0;
+    margin: calc(($header-height - 40px) / 2) 0 0;
 }
 
 .header-extras li {
@@ -277,11 +277,13 @@ body.stretched #header.full-header .container {
     color: $theme-color;
     div {
         //background-color: #666;
-        //background-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0);
     }
 }
 
-#primary-menu>ul>li.sub-menu>a>div {}
+#primary-menu>ul>li.sub-menu>a>div {
+    display: block;
+}
 
 body.no-superfish #primary-menu li:hover>ul:not(.mega-menu-column),
 body.no-superfish #primary-menu li:hover>.mega-menu-content {
@@ -834,7 +836,7 @@ body:not(.device-sm):not(.device-xs):not(.device-xxs) #primary-menu.style-2.cent
 #side-panel-trigger,
 #top-account {
     float: right;
-    margin: ( ($header-height - 20) / 2) 0 ( ($header-height - 20) / 2) 15px;
+    margin: calc(($header-height - 20px) / 2) 0 calc(($header-height - 20px) / 2) 15px;
 }
 
 #top-cart {
@@ -989,12 +991,11 @@ body:not(.device-sm):not(.device-xs):not(.device-xxs) #header.transparent-header
     box-shadow: 0px 20px 50px 10px rgba(0, 0, 0, 0.05);
     border: 1px solid #EEE;
     border-top: 2px solid $theme-color;
-    top: ( $header-height - ($header-height - 20) / 2);
+    top: calc($header-height - calc(($header-height - 20px) / 2));
     right: -15px;
     left: auto;
     margin: -10000px 0 0;
-    @include transition(opacity .5s ease,
-    top .4s ease);
+    @include transition(opacity .5s ease, top .4s ease);
 }
 
 .style-2 .container #top-cart .top-cart-content {
@@ -1215,8 +1216,8 @@ body.top-search-open #top-account {
     @include translate3d(0,
     0,
     0);
-    -webkit-perspective: 1000px;
-    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    backface-visibility: hidden;
 }
 
 #header.sticky-header #header-wrap {
@@ -1373,7 +1374,7 @@ body.top-search-open #top-account {
     @include translate3d(0,
     0,
     0);
-    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 #page-menu.sticky-page-menu #page-menu-wrap {
@@ -1862,7 +1863,7 @@ body.side-push-panel {
     height: 100%;
     background-color: #F5F5F5;
     overflow: hidden;
-    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 body.side-panel-left #side-panel {
@@ -1968,7 +1969,7 @@ body.side-push-panel.stretched .slider-parallax-inner {
     background-color: rgba(0, 0, 0, 0.6);
     z-index: -1;
     pointer-events: none;
-    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     @include transition(opacity .3s ease);
 }
 

@@ -25,7 +25,7 @@ body.dark,
 .dark .css3-spinner,
 body.dark #side-panel,
 body #side-panel.dark {
-    background-color: #383838;
+    background-color: rgb(56, 56, 56, 1);
 }
 
 .dark .css3-spinner>div,
@@ -57,13 +57,13 @@ body #side-panel.dark {
 .darker .section,
 .section.darker {
     background-color: #282828;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .darkest .section,
 .section.darkest {
     background-color: #181818;
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .dark #top-bar,

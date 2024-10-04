@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Workspace</title>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var docked = 0;
+            
+            $("#dock li ul").height($(window).height());
+            
+            $("#dock .dock").click(function(){
+                $(this).parent().parent().addClass("docked").removeClass("free");
+                
+                docked += 1;
+                var dockH = ($(window).height()) / docked
+                var dockT = 0;               
+                
+                $("#dock li ul.docked").each(function(){
+                    $(this).height(dockH).css("top", dockT + "px");
+                    dockT += dockH;
+                });
+                $(this).parent().find(".undock").show();
+                $(this).hide();
+                
+                if (docked > 0)
+                    $(".co-edit-frame").css("margin-right","185px");
+                else
+                    $(".co-edit-frame").css("margin-right", "0px");
+            });
+            
+             $("#dock .undock").click(function(){
+                $(this).parent().parent().addClass("free").removeClass("docked")
+                    .animate({right:"-185px"}, 200).height($(window).height()).css("top", "0px");
+                
+                docked = docked - 1;
+                var dockH = ($(window).height()) / docked
+                var dockT = 0;               
+                
+                $("#dock li ul.docked").each(function(){
+                    $(this).height(dockH).css("top", dockT + "px");
+                    dockT += dockH;
+                });
+                $(this).parent().find(".dock").show();
+                $(this).hide();
+                
+                if (docked > 0)
+                    $(".co-edit-frame").css("margin-right", "185px");
+                else
+                    $(".co-edit-frame").css("margin-right", "0px");
+            });
+
+            $("#dock li").hover(function(){
+                $(this).find("ul").animate({right:"0px"}, 200);
+            }, function(){
+                $(this).find("ul.free").animate({right:"-185px"}, 200);
+           });
+        }); 
+    </script>
+</head>
+
+<body>
+
+<div class="worksheet">
+    <ul id="dock">
+        <li id="links">
+            <ul class="free">
+                <li class="header"><a href="#" class="dock"></a><a href="#" class="undock"></a> Feed</li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+
+            </ul>
+        </li>
+        <li id="files">
+            <ul class="free">
+                <li class="header"><a href="#" class="dock"></a><a href="#" class="undock"></a> Clipboard</li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+
+            </ul>
+        </li>
+        <li id="tools">
+            <ul class="free">
+                <li class="header"><a href="#" class="dock"></a><a href="#" class="undock"></a> Tools</li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+
+           </ul>
+        </li>
+    </ul>
+<div class="co-edit-frame">
+<iframe id="co-edit-frame" src="_co-edit.html" frameborder="0" height="100%" width="100%" />
+</div>
+</div>
+</body>
+</html>

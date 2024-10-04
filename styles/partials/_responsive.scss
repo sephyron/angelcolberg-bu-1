@@ -1420,7 +1420,7 @@
     }
     #page-title {
         padding: 20px 0 25px;
-        text-align: center;
+        text-align: left;
         h1 {
             line-height: 1.5;
             font-size: 24px;
@@ -1438,10 +1438,8 @@
     }
     #page-title .portfolio-navigation,
     .portfolio-ajax-title .portfolio-navigation {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 15px auto 0;
+        
+        margin: 0;
     }
     .portfolio-ajax-title {
         text-align: center;

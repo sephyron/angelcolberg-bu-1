@@ -56,6 +56,6 @@
 //---------- Blog Grid Item Size Builder ----------//
 
 @function blog-grid-item-width($container, $columns, $margin) {
-	@return floor( ( $container - ( $margin * ( $columns - 1 ) ) ) / $columns );
+	@return floor( calc(( $container - ( $margin * ( $columns - 1 ) ) ) / $columns) );
 }
 

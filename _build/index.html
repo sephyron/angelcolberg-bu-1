@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-csp="" ng-app="portfolio-app">
+<!--<![endif]-->
+
+<head>
+
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Angel Colberg</title>
+    <meta name="description" content="Product Design Portfolio for Angel Colberg">
+    <meta name="keywords" content="ux, design, development, user research, user experience, design strategy, design recruiting, information architecture, interaction design, html, css, angular, ixd, job story, ia, prototyping, lean ux">
+
+    <!-- mobile meta -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+    <!--[if IE]>
+			<link rel="shortcut icon" href="favicon.ico">
+		<![endif]-->
+    <!-- or, set /favicon.ico for IE10 win -->
+    <meta name="msapplication-TileColor" content="#f01d4f">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+</head>
+
+<body class="stretched loading side-panel-left">
+
+    <div class="body-overlay"></div>
+
+    <div id="side-panel" class="">
+
+        <div id="side-panel-trigger-close" class="side-panel-trigger"><a href="#"><i class="icon-line-cross"></i></a></div>
+
+        <div class="side-panel-wrap">
+
+
+
+        </div>
+
+    </div>
+    <!--[if lt IE 8]>
+		    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+    <!-- Navigation -->
+
+
+    <!-- Content Wrapper -->
+
+
+    <!-- Views Container -->
+    <div id="wrapper" data-ng-view="" class="dark clearfix view {{ cssClass }}"></div>
+
+
+
+    <!-- Footer -->
+
+
+    <!-- Go To Top
+	============================================= -->
+    <div id="gotoTop" class="icon-angle-up"></div>
+</body>
+
+
+
+<!-- Vendors -->
+<script src="js/nonangularlibs.js"></script>
+
+<!-- Non-angular libraries -->
+<script src="js/libs.js"></script>
+
+<!-- Angular external libraries for application -->
+<script src="js/angularlibs.js"></script>
+
+<!-- Angular components -->
+<script src="js/appcomponents.js"></script>
+
+<!-- Application sections -->
+<script src="js/mainapp.js"></script>
+<!-- templates from $templateCache -->
+<script type="text/javascript" src="js/templates.js"></script>
+
+<!-- Google Analytics -->
+<script  type="module">
+    (function(b, o, i, l, e, r) {
+        b.GoogleAnalyticsObject = l;
+        b[l] || (b[l] =
+            function() {
+                (b[l].q = b[l].q || []).push(arguments)
+            });
+        b[l].l = +new Date;
+        e = o.createElement(i);
+        r = o.getElementsByTagName(i)[0];
+        e.src = 'https://www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e, r)
+    }(window, document, 'script', 'ga'));
+    ga('create', 'UA-37365141-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</html>

@@ -24,8 +24,9 @@ $button-color: $white;
         background-color: $button-background;
     }
     .waves {
-        background-color: color('blue', 'base');
+        background-color: $black;
     }
+
     .hero {
         position: relative;
         overflow: hidden;

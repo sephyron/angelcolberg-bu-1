@@ -1,0 +1,86 @@
+<html>
+<head>
+<link href="css/main.css" rel=stylesheet />
+
+</head>
+
+<body>
+
+<div id="phone">
+  <div id="screen">
+
+    <div id="loader"><i class="loader-icon anim"></i></div>
+
+
+
+<div class="pages">
+
+  <video id="ad2-video" >
+    <source src="media/ad2.mp4" type="video/mp4">
+
+  Your browser does not support the video tag.
+  </video>
+
+
+    <div class="page ad-images ad2-image" id="ad2">
+      <div class="hotspot ad2-hotspot">
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+
+</div>
+  </div>
+
+
+
+
+</div>
+
+<div id="text">
+  <div class="unity-logo"></div>
+  <!--h1 style="font-weight:lighter; font-family: Roboto;">Unity<br/>Ads</h1-->
+  <h2>Watch Video to Get Poke Balls</h2>
+
+</div>
+
+</body>
+
+
+
+<script src="js/jquery.min.js"></script>
+
+
+
+<script>
+$(document).ready(function(){
+$("#ad2-video").hide();
+$("#ad2").show();
+
+
+
+
+
+
+
+
+
+
+
+
+    $(".ad2-hotspot").click(function() {
+      $("#ad2-video").show();
+      $("#ad2-video")[0].play();
+
+    })
+
+});
+
+</script>
+</html>

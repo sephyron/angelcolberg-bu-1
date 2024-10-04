@@ -1,10 +1,10 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
-const $ = require('gulp-load-plugins')();
+const load = require('gulp-load-plugins')();
 const del = require('del');
 const historyApiFallback = require('connect-history-api-fallback');
-const gulpDartSass = require('gulp-dart-sass'); // Use gulp-dart-sass
+const gulpDartSass = require('gulp-dart-sass');
 
 // Task to serve the application
 function serve() {
@@ -19,8 +19,8 @@ function serve() {
 // Minify CSS
 function minifycss() {
   return gulp.src(['./styles/static/**/*.css', '!./styles/**/*.min.css'])
-    .pipe($.rename({suffix: '.min'}))
-    .pipe($.minifyCss({keepBreaks: true}))
+    .pipe(load.rename({suffix: '.min'}))
+    .pipe(load.minifyCss({keepBreaks: true}))
     .pipe(gulp.dest('./_build/css/'))
     .pipe(browserSync.stream());
 }
@@ -28,7 +28,7 @@ function minifycss() {
 // Minify JS
 function minifyjs() {
   return gulp.src('js/*.js')
-    .pipe($.uglify())
+    .pipe(load.uglify())
     .pipe(gulp.dest('./_build/'));
 }
 
@@ -59,7 +59,16 @@ function images() {
 // Example templates, views, usemin, fonts, assets, build:size tasks 
 // (replace with your actual implementations)
 function templates() {
-  return Promise.resolve();
+  return gulp.src([
+    './**/*.html',
+    '!bower_components/**/*.*',
+    '!node_modules/**/*.*',
+    '!_build/**/*.*'
+  ]).pipe(load.minifyHtml())
+  .pipe(load.angularTemplatecache({
+    module: 'angel2017'
+  })).pipe(gulp.dest('./_build/js/'));
+
 }
 
 function views() {
@@ -67,15 +76,31 @@ function views() {
 }
 
 function usemin() {
-  return Promise.resolve();
+  return gulp.src('./index.html')
+  // add templates path
+  .pipe(load.htmlReplace({
+    'templates': '<script type="text/javascript" src="js/templates.js"></script>'
+  }))
+  .pipe(load.usemin({
+    css: [load.minifyCss(), 'concat'],
+    libs: [load.uglify()],
+    nonangularlibs: [load.uglify()],
+    angularlibs: [load.uglify()],
+    appcomponents: [load.uglify()],
+    mainapp: [load.uglify()]
+  }))
+  .pipe(gulp.dest('./_build/'));
 }
 
 function fonts() {
-  return Promise.resolve();
+  return gulp.src('./assets/fonts/**/*.{ttf,woff,eof,eot,svg}').pipe(load.changed('./_build/fonts'))
+    .pipe(gulp.dest('./_build/fonts'));
+  
 }
 
 function assets() {
-  return Promise.resolve();
+  return gulp.src('./assets/prototypes/**/*.*').pipe(load.changed('./_build/prototypes'))
+    .pipe(gulp.dest('./_build/prototypes'));
 }
 
 function buildSize() {
