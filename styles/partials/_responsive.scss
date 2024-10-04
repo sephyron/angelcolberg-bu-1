@@ -1438,9 +1438,9 @@
     }
     #page-title .portfolio-navigation,
     .portfolio-ajax-title .portfolio-navigation {
-        position: relative;
+        position: absolute;
         top: 0;
-        left: 0;
+        right: 0;
         margin: 15px auto 0;
     }
     .portfolio-ajax-title {
