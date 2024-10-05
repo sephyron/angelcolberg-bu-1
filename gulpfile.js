@@ -72,7 +72,8 @@ function templates() {
 }
 
 function views() {
-  return Promise.resolve();
+  return gulp.src('views/**/*')
+    .pipe(gulp.dest('./_build/views/'));
 }
 
 function usemin() {
@@ -104,7 +105,11 @@ function assets() {
 }
 
 function buildSize() {
-  return Promise.resolve();
+  return gulp.src('./_build/**/*')
+    .pipe(load.size({
+      showFiles: false,
+      gzip: false
+    }));
 }
 
 // Default task
