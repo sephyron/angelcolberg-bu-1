@@ -10,9 +10,15 @@ const gulpDartSass = require('gulp-dart-sass');
 function serve() {
   browserSync.init({
     server: {
-      baseDir: "./",
+      baseDir: "./_build",  
       middleware: [historyApiFallback()]
-    }
+    },
+    port: 3000, // You can change the port if needed
+    files: [
+      './*.html',            // Watch changes in the root
+      'components/**/*.html', // Watch changes in components folder
+      'views/**/*.html'       // Watch changes in views folder (including views/projects)
+    ]
   });
 }
 
@@ -32,32 +38,40 @@ function minifyjs() {
     .pipe(gulp.dest('./_build/'));
 }
 
-// Reload all Browsers
-function bsreload() {
-  browserSync.reload();
+function minifyHtml() {
+  var opts = {
+    comments: true,
+    spare: true,
+    conditionals: true
+  };
+  gulp.src('./*.html')
+    .pipe($.minifyHtml(opts))
+    .pipe(gulp.dest('./_build/'));
 }
+
+
+require('events').EventEmitter.prototype._maxListeners = 100;
+
 
 // Clean build directory
 async function cleanbuild() {
-  const deletedFiles = await del(['./_build/']);
+  const deletedFiles =  del(['./_build/']);
   return Promise.resolve(deletedFiles);
 }
 
-// Sass build task 
+
 function sassbuild() {
   return gulp.src('styles/**/*.scss')
     .pipe(gulpDartSass().on('error', gulpDartSass.logError))
     .pipe(gulp.dest('./_build/css/'));
 }
 
-// Example images task (replace with your actual image processing)
+
 function images() {
   return gulp.src('images/**/*')
     .pipe(gulp.dest('./_build/images/'));
 }
 
-// Example templates, views, usemin, fonts, assets, build:size tasks 
-// (replace with your actual implementations)
 function templates() {
   return gulp.src([
     './**/*.html',
@@ -66,13 +80,13 @@ function templates() {
     '!_build/**/*.*'
   ]).pipe(load.minifyHtml())
   .pipe(load.angularTemplatecache({
-    module: 'angel2017'
+    module: 'portfolio-app'
   })).pipe(gulp.dest('./_build/js/'));
 
 }
 
 function views() {
-  return gulp.src('views/**/*')
+  return gulp.src('views/**/*.html')
     .pipe(gulp.dest('./_build/views/'));
 }
 
@@ -103,7 +117,13 @@ function assets() {
   return gulp.src('./assets/prototypes/**/*.*').pipe(load.changed('./_build/prototypes'))
     .pipe(gulp.dest('./_build/prototypes'));
 }
-
+// Reload all Browsers
+function bsreload() {
+  return new Promise((resolve) => {
+    browserSync.reload();
+    resolve();
+  });
+}
 function buildSize() {
   return gulp.src('./_build/**/*')
     .pipe(load.size({
@@ -114,10 +134,13 @@ function buildSize() {
 
 // Default task
 gulp.task('default', gulp.series(serve, gulp.parallel(minifycss, minifyjs), function () {
-  gulp.watch('styles/**/*.scss', minifycss);
-  gulp.watch(['*.html', 'components/**/*.html', 'views/*.html'], bsreload);
+  gulp.watch('styles/**/*.scss', minifycss); 
+  gulp.watch(['*.html', 'components/**/*.html', 'views/**/*.html'], gulp.series(templates, views, minifyHtml, bsreload)); 
   gulp.watch(['app/*.js', 'components/**/*.js', 'js/*.js'], gulp.series(minifyjs, bsreload));
 }));
+
+
+
 
 // Build task
 gulp.task('build', gulp.series(
@@ -129,6 +152,7 @@ gulp.task('build', gulp.series(
   usemin,
   fonts,
   assets,
+  bsreload,
   buildSize
 ));
 
