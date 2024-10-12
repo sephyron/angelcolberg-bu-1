@@ -1,31 +1,8 @@
 
-@font-face {
-  font-family: 'Brown-Light';
-  src: url("../../migrate-2017/assets/fonts/lineto-brown-light.eot");
-  src: url("../../migrate-2017/assets/fonts/lineto-brown-light.eot?#iefix") format("embedded-opentype"), url("../../migrate-2017/assets/fonts/lineto-brown-light.woff") format("woff"), url("../../migrate-2017/assets/fonts/lineto-brown-light.ttf") format("truetype"), url("../../migrate-2017/assets/fonts/lineto-brown-light.svg#svgFontName") format("svg");
-  /* Legacy iOS */ }
-
-@font-face {
-  font-family: 'Brown-Regular';
-  src: url("../../migrate-2017/assets/fonts/lineto-brown-regular.eot");
-  src: url("../../migrate-2017/assets/fonts/lineto-brown-regular.eot?#iefix") format("embedded-opentype"), url("../../migrate-2017/assets/fonts/lineto-brown-regular.woff") format("woff"), url("../../migrate-2017/assets/fonts/lineto-brown-regular.ttf") format("truetype"), url("../../migrate-2017/assets/fonts/lineto-brown-regular.svg#svgFontName") format("svg");
-  /* Legacy iOS */ }
-
-@font-face {
-  font-family: 'Brown-Bold';
-  src: url("../../migrate-2017/assets/fonts/lineto-brown-bold.eot");
-  src: url("../../migrate-2017/assets/fonts/lineto-brown-bold.eot?#iefix") format("embedded-opentype"), url("../../migrate-2017/assets/fonts/lineto-brown-bold.woff") format("woff"), url("../../migrate-2017/assets/fonts/lineto-brown-bold.ttf") format("truetype"), url("../../migrate-2017/assets/fonts/lineto-brown-bold.svg#svgFontName") format("svg");
-  /* Legacy iOS */ }
 
 /*-----------------------------------------------------------------------------------
 	typography.scss
 -----------------------------------------------------------------------------------*/
-@font-face {
-  font-family: 'square-deal';
-  src: url("../../migrate-2017/assets/fonts/square-deal-squarewebfont.eot");
-  src: url("../../migrate-2017/assets/fonts/square-deal-squarewebfont.eot?#iefix") format("embedded-opentype"), url("../../migrate-2017/assets/fonts/square-deal-squarewebfont.woff2") format("woff2"), url("../../migrate-2017/assets/fonts/square-deal-squarewebfont.woff") format("woff"), url("../../migrate-2017/assets/fonts/square-deal-squarewebfont.svg#square_dealregular") format("svg");
-  font-weight: normal;
-  font-style: normal; }
 
 dl,
 dt,

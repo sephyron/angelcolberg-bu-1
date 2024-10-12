@@ -455,6 +455,9 @@ const angelPortfolio = angelPortfolio || {};
         case '2':
           loaderHtml = '<div class="css3-spinner-flipper"></div>';
           break;
+        case '3':
+          loaderHtml = '<div class="loader"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="50"></circle></svg><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="50"></circle></svg><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="50"></circle></svg></div>';
+          break;
         // Add more cases for different loader styles
       }
 

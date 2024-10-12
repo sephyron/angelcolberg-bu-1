@@ -10,7 +10,7 @@ const gulpDartSass = require('gulp-dart-sass');
 function serve() {
   browserSync.init({
     server: {
-      baseDir: "./_build",  
+      baseDir: "./",  
       middleware: [historyApiFallback()]
     },
     port: 3000, // You can change the port if needed
@@ -120,7 +120,7 @@ function assets() {
 // Reload all Browsers
 function bsreload() {
   return new Promise((resolve) => {
-    browserSync.reload();
+    browserSync.reload;
     resolve();
   });
 }

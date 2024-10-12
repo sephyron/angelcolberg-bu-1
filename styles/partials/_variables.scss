@@ -1,32 +1,4 @@
-@font-face {
-    font-family: 'Brown-Light';
-    src: url('../../2017/assets/fonts/lineto-brown-light.eot');
-    src: url('../../2017/assets/fonts/lineto-brown-light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../../2017/assets/fonts/lineto-brown-light.woff') format('woff'), /* Pretty Modern Browsers */
-    url('../../2017/assets/fonts/lineto-brown-light.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../../2017/assets/fonts/lineto-brown-light.svg#svgFontName') format('svg');
-    /* Legacy iOS */
-}
 
-@font-face {
-    font-family: 'Brown-Regular';
-    src: url('../../2017/assets/fonts/lineto-brown-regular.eot');
-    src: url('../../2017/assets/fonts/lineto-brown-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../../2017/assets/fonts/lineto-brown-regular.woff') format('woff'), /* Pretty Modern Browsers */
-    url('../../2017/assets/fonts/lineto-brown-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../../2017/assets/fonts/lineto-brown-regular.svg#svgFontName') format('svg');
-    /* Legacy iOS */
-}
-
-@font-face {
-    font-family: 'Brown-Bold';
-    src: url('../../2017/assets/fonts/lineto-brown-bold.eot');
-    src: url('../../2017/assets/fonts/lineto-brown-bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../../2017/assets/fonts/lineto-brown-bold.woff') format('woff'), /* Pretty Modern Browsers */
-    url('../../2017/assets/fonts/lineto-brown-bold.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../../2017/assets/fonts/lineto-brown-bold.svg#svgFontName') format('svg');
-    /* Legacy iOS */
-}
 
 //-------------------- Base Colors --------------------//
 $theme-color: #888;

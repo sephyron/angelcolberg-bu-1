@@ -12,7 +12,7 @@
      * in the console.
      *
      * @category  factory
-     * @author    Jozef Butko
+     * @author    Angel
      * @example   Inject QueryService as the dependency and then use it this way:
      *
      * QueryService.query('GET', 'users/user/', {get: query}, {post: params})

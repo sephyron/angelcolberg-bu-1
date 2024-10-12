@@ -9,7 +9,7 @@
      * Service for complex localStorage functionality
      *
      * @category  factory
-     * @author    Jozef Butko
+     * @author    Angel
      * @example   Inject LocalStorage as the dependency and then use it like this:
      *
      * var data = { property: 'name'};

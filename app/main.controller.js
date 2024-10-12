@@ -2179,7 +2179,7 @@
                     $('#prev-portfolio').attr('data-id', portPrev);
                 },
 
-                loadItem: function(portPostId, prevPostPortId, getIt) {
+                loadItem: function(portPostId, _prevPostPortId, getIt) {
                     if (!getIt) { getIt = false; }
                     var portNext = angelPortfolio.portfolio.getNextItem(portPostId);
                     var portPrev = angelPortfolio.portfolio.getPrevItem(portPostId);

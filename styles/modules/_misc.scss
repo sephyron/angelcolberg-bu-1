@@ -3,7 +3,51 @@
 	Shortcodes: misc.scss
 
 -----------------------------------------------------------------------------------*/
-
+// new loader
+.loader {
+    position: relative;
+    width: 48px;
+    height: 48px;
+  }
+  
+.loader svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+.loader svg circle {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 10px;
+    stroke-linecap: round;
+    animation: animateLoader 2s linear infinite;
+  }
+  
+.loader svg:nth-child(1) circle {
+    filter: blur(10px);
+    stroke: #43acff;
+  }
+  
+.loader svg:nth-child(2) circle {
+    filter: blur(20px);
+    stroke: #43acff;
+  }
+  
+  @keyframes animateLoader {
+    0% {
+      stroke-dasharray: 295;
+      stroke-dashoffset: 295;
+    }
+    50% {
+      stroke-dasharray: 295;
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dasharray: 295;
+      stroke-dashoffset: -295;
+    }
+  }
 
 /* Infinity Scroll - Message Style
 -----------------------------------------------------------------*/
@@ -27,17 +71,17 @@
 
 #infscr-loading,
 #portfolio-ajax-loader {
-    img {
+    svg {
         display: none;
-        width: 24px;
-        height: 24px;
-        margin: 12px;
+        width: 48px;
+        height: 48px;
+        margin: 2px;
     }
 }
 
 #portfolio-ajax-loader {
     display: none;
-    img {
+    svg {
         display: block;
     }
 }
@@ -281,7 +325,8 @@ blockquote {
     }
     &:before {
         font-family: 'font-icons';
-        speak: none;
+        font-variation-settings: 'slnt' 0;
+
         font-style: normal;
         font-weight: normal;
         font-variant: normal;
@@ -572,7 +617,7 @@ button {
         cursor: pointer;
         background: transparent;
         border: 0;
-        -webkit-appearance: none;
+        appearance: none;
     }
 }
 
