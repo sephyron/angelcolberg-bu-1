@@ -17,7 +17,7 @@ function serve() {
     files: [
       './*.html',            // Watch changes in the root
       'components/**/*.html', // Watch changes in components folder
-      'views/**/*.html'       // Watch changes in views folder (including views/projects)
+      'views/projects/*.html'       // Watch changes in views folder (including views/projects)
     ]
   });
 }
