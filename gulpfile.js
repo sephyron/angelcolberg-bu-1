@@ -17,7 +17,8 @@ function serve() {
     files: [
       './*.html',            // Watch changes in the root
       'components/**/*.html', // Watch changes in components folder
-      'views/projects/*.html'       // Watch changes in views folder (including views/projects)
+      'views/**/*.html'        // Watch changes in all views, including projects
+
     ]
   });
 }
@@ -132,12 +133,12 @@ function buildSize() {
     }));
 }
 
-// Default task
-gulp.task('default', gulp.series(serve, gulp.parallel(minifycss, minifyjs), function () {
-  gulp.watch('styles/**/*.scss', minifycss); 
-  gulp.watch(['*.html', 'components/**/*.html', 'views/**/*.html'], gulp.series(templates, views, minifyHtml, bsreload)); 
+gulp.task('default', gulp.series(serve, gulp.parallel(minifycss, minifyjs, templates, views, minifyHtml), function () { // Include templates, views, and minifyHtml here
+  gulp.watch('styles/**/*.scss', minifycss);
+  gulp.watch(['*.html', 'components/**/*.html', 'views/**/*.html'], gulp.series(templates, views, minifyHtml, bsreload)); // Include templates, views, and minifyHtml here
   gulp.watch(['app/*.js', 'components/**/*.js', 'js/*.js'], gulp.series(minifyjs, bsreload));
 }));
+
 
 
 
