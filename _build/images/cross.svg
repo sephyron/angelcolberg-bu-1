@@ -1,7 +1,1 @@
-<svg width="100%" height="100%" viewBox="0 0 60 60" preserveAspectRatio="none">
-
-                        <g class="icon--cross-page">
-                            <line x1="4.5" y1="55.5" x2="54.953" y2="5.046" />
-                            <line x1="54.953" y1="55.5" x2="4.5" y2="5.047" />
-                        </g>
-                    </svg>
+<svg viewBox="0 0 60 60" preserveAspectRatio="none"><path d="M4.5 55.5L54.953 5.046m0 50.454L4.5 5.047"/></svg>

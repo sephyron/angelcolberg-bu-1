@@ -1,0 +1,523 @@
+/* ----------------------------------------------------------------
+	CSS Specific to the One Page Module
+
+	Some of the CSS Codes have been modified from the Original
+	style.css File to match the Minimal Styling of this Module
+
+	Version: 4.3
+----------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------
+	Header
+---------------------------------------------------------------------------- */
+
+#header {
+  border-bottom: 0;
+}
+
+#header #header-wrap {
+  z-index: 199;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  transition: height 0.4s ease, background-color 0.4s ease, opacity 0.3s ease;
+}
+
+#header.full-header:not(.border-full-header):not(.sticky-header) #header-wrap {
+  border-bottom: 0;
+}
+
+#header.transparent-header:not(.sticky-header) #header-wrap {
+  background-color: transparent;
+}
+
+#header.transparent-header + #slider,
+#header.transparent-header + #page-title.page-title-parallax,
+#slider + #header.transparent-header {
+  top: -70px;
+  margin-bottom: -70px;
+}
+
+#header.full-header #logo {
+  border-right: 0;
+}
+
+#header.full-header #primary-menu > ul {
+  padding-right: 0;
+  margin-right: 0;
+  border-right: 0;
+}
+
+#header,
+#header-wrap,
+#logo img {
+  height: 70px;
+  transition: height 0.4s ease, opacity 0.3s ease;
+}
+
+/* Sticky Header
+---------------------------------------------------------------------------- */
+
+#header.sticky-header #header-wrap {
+  box-shadow: none;
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
+  backface-visibility: hidden;
+}
+
+.progress-count {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 100px;
+  color: #0082ff;
+}
+
+svg {
+  position: absolute;
+}
+
+circle {
+  fill: rgb(255 255 255 / 90%);
+}
+
+svg .animated-circle {
+  fill: transparent;
+  stroke-width: 40px;
+  stroke: #0a74da;
+  stroke-dasharray: 126;
+  stroke-dashoffset: 126;
+}
+
+.progress-indicator-2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background-color: rgb(255 255 255 / 100%);
+  z-index: 999999;
+}
+
+/* Side Header
+---------------------------------------------------------------------------- */
+
+@media (min-width: 992px) {
+  .side-header #header #header-wrap {
+    position: relative;
+  }
+
+  .side-header #header,
+  .side-header #header-wrap {
+    height: 100%;
+  }
+
+  .side-header #header-wrap {
+    width: 300px !important;
+  }
+
+  .side-header #logo,
+  .side-header #logo img,
+  .side-header #primary-menu:not(.style-2),
+  .side-header #primary-menu:not(.style-2) > ul {
+    height: auto;
+  }
+}
+
+/* Primary Menu
+---------------------------------------------------------------------------- */
+
+#primary-menu ul li a {
+  padding: 24px 22px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 3px;
+}
+
+/* Side Panel
+---------------------------------------------------------------------------- */
+
+body.side-push-panel.stretched #header .container {
+  right: 0;
+}
+
+body.side-push-panel.side-panel-open.stretched #header .container {
+  right: 300px;
+}
+
+body.side-panel-left.side-push-panel.stretched #header .container {
+  left: 0;
+  right: auto;
+}
+
+body.side-panel-left.side-push-panel.side-panel-open.stretched #header .container {
+  left: 300px;
+}
+
+#side-panel-trigger {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+/* ----------------------------------------------------------------------------
+	Page Section
+---------------------------------------------------------------------------- */
+
+.page-section {
+  padding: 120px 0;
+}
+
+/* ----------------------------------------------------------------------------
+	Heading Block
+---------------------------------------------------------------------------- */
+
+.heading-block h2 {
+  font-weight: 500;
+  letter-spacing: 3px;
+  font-family: Montserrat, sans-serif;
+}
+
+/* ----------------------------------------------------------------------------
+	Portfolio Overlay
+---------------------------------------------------------------------------- */
+
+.portfolio-overlay {}
+
+.portfolio-overlay .portfolio-desc h3 {
+  font-size: 22px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.portfolio-overlay .portfolio-desc h3 a {
+  color: #333 !important;
+  text-shadow: none;
+}
+
+.portfolio-overlay .portfolio-desc span {
+  margin-top: 12px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+.portfolio-overlay .portfolio-desc span a {
+  color: #999 !important;
+  text-shadow: none;
+}
+
+/* ----------------------------------------------------------------------------
+	Buttons
+---------------------------------------------------------------------------- */
+
+.button.button-border {
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 14px;
+  line-height: 40px;
+  font-family: Brown, sans-serif;
+}
+
+.button.button-border.button-light {
+  border-color: #f9f9f9;
+  color: #f9f9f9;
+}
+
+.button.button-border.button-light:hover {
+  background-color: rgb(255 255 255 / 25%);
+  border-color: #f9f9f9;
+  color: #fff;
+  text-shadow: none;
+}
+
+/* More Link
+---------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------
+	Team & Testimonials
+---------------------------------------------------------------------------- */
+
+.parallax .fslider * {
+  backface-visibility: hidden !important;
+}
+
+.parallax .testimonial .testi-content p {
+  line-height: 1.6 !important;
+  font-size: 24px;
+  letter-spacing: 1px;
+  font-weight: 300;
+  font-family: "Source Sans Pro", sans-serif;
+  font-style: normal;
+}
+
+.parallax .testimonial .testi-meta {
+  margin-top: 20px;
+  font-size: 15px;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.parallax .testimonial .testi-meta span {
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* Page Menu - Dots Style
+----------------------------------------------------------------- */
+
+#page-menu.dots-menu nav ul li {
+  margin: 15px 6px;
+}
+
+#page-menu.dots-menu nav li a {
+  background-color: rgb(0 0 0 / 30%);
+}
+
+#page-menu.dots-menu nav li a:hover,
+#page-menu.dots-menu nav li.current a {
+  background-color: rgb(0 0 0 / 65%) !important;
+}
+
+/* Border Form Design
+---------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------
+	Helper CSS Styles
+---------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------
+	Footer Widgets
+---------------------------------------------------------------------------- */
+
+#footer .widget {
+  padding: 30px 0;
+}
+
+#footer .widget > h4 {
+  margin-bottom: 50px;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+#footer .widget .form-control {
+  text-align: center;
+}
+
+.widget p.lead {
+  font-size: 17px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+
+/* ----------------------------------------------------------------------------
+	Services Grid
+---------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------
+	One Page Module: Slider Specifics
+---------------------------------------------------------------------------- */
+
+.one-page-arrow i {
+  animation-duration: 1.5s !important;
+}
+
+/* Large One Word in Slider
+---------------------------------------------------------------------------- */
+
+.opm-large-word {
+  font-size: 50px;
+  animation: blurText 6s ease-out infinite;
+  font-family: Montserrat, sans-serif;
+  text-align: center;
+  letter-spacing: 2px;
+  font-weight: lighter;
+}
+
+.device-sm .opm-large-word {
+  font-size: 42px;
+}
+
+.device-xs .opm-large-word {
+  font-size: 34px;
+}
+
+.device-xxs .opm-large-word {
+  font-size: 26px;
+}
+
+@keyframes blurText {
+  0% {
+    text-shadow: 0 0 100px #fff;
+    opacity: 0;
+  }
+
+  5% {
+    text-shadow: 0 0 90px #fff;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  20% {
+    text-shadow: 0 0 0 #fff;
+  }
+
+  80% {
+    text-shadow: 0 0 0 #fff;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  95% {
+    text-shadow: 0 0 90px #fff;
+  }
+
+  100% {
+    text-shadow: 0 0 100px #fff;
+    opacity: 0;
+  }
+}
+
+@keyframes blurText {
+  0% {
+    text-shadow: 0 0 100px #fff;
+    opacity: 0;
+  }
+
+  5% {
+    text-shadow: 0 0 90px #fff;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  20% {
+    text-shadow: 0 0 0 #fff;
+  }
+
+  80% {
+    text-shadow: 0 0 0 #fff;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  95% {
+    text-shadow: 0 0 90px #fff;
+  }
+
+  100% {
+    text-shadow: 0 0 100px #fff;
+    opacity: 0;
+  }
+}
+
+/* Medium One Word in Slider
+---------------------------------------------------------------------------- */
+
+/* Medium Before Heading
+---------------------------------------------------------------------------- */
+
+/* Large Counter in Slider
+---------------------------------------------------------------------------- */
+
+/* Slider Grid Blocks
+---------------------------------------------------------------------------- */
+
+/* Content Switch
+---------------------------------------------------------------------------- */
+
+/* Hero Video Play Event
+---------------------------------------------------------------------------- */
+
+.slider-caption h2 {
+  font-size: 78px;
+  letter-spacing: 3px;
+  text-transform: lowercase;
+  margin-bottom: 50px;
+}
+
+.slider-caption p {
+  font-weight: 300;
+  text-transform: lowercase;
+  font-size: 26px;
+  line-height: 1.8;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----------------------------------------------------------------------------
+	Dark
+---------------------------------------------------------------------------- */
+
+.dark #header.sticky-header #header-wrap,
+#header.sticky-header.dark #header-wrap {
+  border-bottom-color: rgb(255 255 255 / 10%) !important;
+}
+
+/* ----------------------------------------------------------------------------
+	Responsive
+---------------------------------------------------------------------------- */
+
+@media (max-width: 991px) {
+  #logo {
+    height: 70px !important;
+  }
+
+  #header {
+    min-height: 70px;
+  }
+
+  #header.transparent-header:not(.sticky-header) #header-wrap {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+  }
+
+  #header.transparent-header.dark:not(.sticky-header) #header-wrap {
+    background-color: #333;
+    border-bottom-color: rgb(255 255 255 / 10%) !important;
+  }
+
+  #header.transparent-header:not(.hidden) + #slider,
+  #header.transparent-header:not(.hidden) + #page-title.page-title-parallax,
+  #slider + #header.transparent-header:not(.hidden) {
+    top: 0;
+    margin-bottom: 0;
+  }
+
+  #primary-menu-trigger {
+    top: 10px !important;
+  }
+
+  #side-panel-trigger {
+    margin: 25px 0 !important;
+    right: 15px !important;
+  }
+
+  .dark #header.transparent-header #header-wrap,
+  .dark #header.semi-transparent #header-wrap,
+  #header.dark.transparent-header #header-wrap,
+  #header.dark.semi-transparent #header-wrap {
+    background-color: #333;
+    border-bottom-color: rgb(255 255 255 / 10%);
+  }
+
+  .dark.overlay-menu #primary-menu:not(.not-dark) ul,
+  .overlay-menu #primary-menu.dark ul {
+    background-color: transparent;
+  }
+}
