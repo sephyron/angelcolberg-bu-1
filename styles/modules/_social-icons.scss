@@ -20,9 +20,12 @@
     border: 1px solid #AAA;
     @include border-radius(3px);
     overflow: hidden;
+    &.fa-brands {
+        line-height: inherit !important;
+    }
 }
 
-
+  
 /* Social Icons - Rounded
 -----------------------------------------------------------------*/
 
@@ -577,6 +580,7 @@ body:not(.device-touch) {
 .si-mixcloud:hover,
 .si-colored.si-mixcloud {
     background-color: $mixcloud !important;
+   
 }
 
 

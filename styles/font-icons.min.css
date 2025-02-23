@@ -990,4 +990,4 @@
 .icon-line2-volume-2:before{content:"\e0a0"}
 .icon-line2-volume-off:before{content:"\e0a1"}
 .icon-line2-users:before{content:"\e001"}
-.icon-mixcloud:before{content:' ';background-image:url(../../2017/images/logo/mixcloud.svg);background-size:28px 28px;background-repeat:no-repeat;background-position:center center;fill:#eee;color:#eee;height:38px;width:38px;display:block;position:relative}
+.icon-mixcloud:before{content:'\f289'}
