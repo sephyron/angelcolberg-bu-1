@@ -106,7 +106,7 @@ h1 {
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 60px;
 }
 
 h3 {
@@ -5413,8 +5413,8 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 .portfolio-single-content h2 {
   margin: 0 0 20px;
   padding: 0;
-  font-size: 20px;
-  font-weight: 600 !important;
+  font-size: 64px;
+  font-weight: 100 ;
 }
 
 .portfolio-ajax-modal {
@@ -5453,7 +5453,8 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 }
 
 #portfolio-ajax-single h2 {
-  font-size: 26px;
+  font-size: 64px;
+  font-weight: 100;
 }
 
 /* Portfolio Single - Meta
@@ -5462,11 +5463,15 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 .portfolio-share {
   list-style: none;
   font-size: 14px;
+  position: relative;
+  right: 0;
+  top: 0;
 }
 
 .portfolio-meta li {
-  margin: 10px 0;
+  padding: 10px 0px;
   color: #666;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
 }
 
 .portfolio-meta li:first-child {

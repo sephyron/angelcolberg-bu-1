@@ -42,7 +42,7 @@
                 rotate: 0,
                 ease: 'SineInOut',
                 waves: [{
-                        //type: 'Sawtooth',
+                        //type: 'Triangle',
                         timeModifier: 1,
                         lineWidth: 3,
                         amplitude: 350,

@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
-const load = require('gulp-load-plugins')();
 const del = require('del');
 const historyApiFallback = require('connect-history-api-fallback');
 const gulpDartSass = require('gulp-dart-sass');
@@ -10,6 +9,11 @@ const path = require('path');
 const postcss = require('gulp-postcss');
 const purgecss = require('gulp-purgecss');
 const cssnano = require('cssnano');
+const uglify = require('gulp-uglify');
+const imagemin = require('gulp-imagemin');
+const angularTemplatecache = require('gulp-angular-templatecache');
+const usemin = require('gulp-usemin');
+const minifyHtml = require('gulp-minify-html');
 
 function ensureDirectoryExistence(filePath) {
     const dirname = path.dirname(filePath);
@@ -147,7 +151,6 @@ function purgeCSS() {
 // Minify CSS
 function minifycss() {
   return gulp.src(['./styles/static/**/*.css', '!./styles/**/*.min.css', './node_modules/**/*.css'])
-    .pipe(load.rename({suffix: '.min'}))
     .pipe(postcss([
       cssnano({
         preset: ['default', {
@@ -164,20 +167,20 @@ function minifycss() {
 // Minify JS
 function minifyjs() {
   return gulp.src('js/*.js')
-    .pipe(load.uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('./_build/'))
     .pipe(browserSync.stream());
 }
 
 // Minify HTML
-function minifyHtml() {
+function minifyHtmlFiles() {
   var opts = {
     comments: true,
     spare: true,
     conditionals: true
   };
   return gulp.src('./*.html')
-    .pipe(load.minifyHtml(opts))
+    .pipe(minifyHtml(opts))
     .pipe(gulp.dest('./_build/'));
 }
 
@@ -206,8 +209,7 @@ function sassbuild() {
 // Image optimization
 function images() {
   return gulp.src(['images/**/*', '!images/README'])
-    .pipe(load.changed('./_build/images'))
-    .pipe(load.imagemin({
+    .pipe(imagemin({
       optimizationLevel: 3,
       progressive: true,
       interlaced: true
@@ -222,7 +224,7 @@ function images() {
 // Template cache
 function templates() {
   return gulp.src(['components/**/*.html'])
-    .pipe(load.angularTemplatecache({
+    .pipe(angularTemplatecache({
       root: 'components/',
       module: 'app.templates',
       standalone: true
@@ -237,9 +239,9 @@ function views() {
 }
 
 // Usemin task
-function usemin() {
+function useminTask() {
   return gulp.src('./index.html')
-    .pipe(load.usemin({
+    .pipe(usemin({
       css: [
         function() {
           return postcss([
@@ -253,8 +255,8 @@ function usemin() {
           ]);
         }
       ],
-      js: [load.uglify()],
-      html: [function() { return load.minifyHtml({ empty: true }); }],
+      js: [uglify()],
+      html: [function() { return minifyHtml({ empty: true }); }],
       path: './_build'
     }))
     .on('error', function(err) {
@@ -286,13 +288,13 @@ function bsreload() {
 // Build size
 function buildSize() {
   return gulp.src('./_build/**/*')
-    .pipe(load.size({title: 'build', gzip: true}));
+    .pipe(gulp.dest('./_build/'));
 }
 
 // Default task
-gulp.task('default', gulp.series(serve, gulp.parallel(lintCss, minifycss, minifyjs, templates, views, minifyHtml), function () {
+gulp.task('default', gulp.series(serve, gulp.parallel(lintCss, minifycss, minifyjs, templates, views, minifyHtmlFiles), function () {
   gulp.watch('styles/**/*.scss', gulp.series(lintCss, minifycss));
-  gulp.watch(['*.html', 'components/**/*.html', 'views/**/*.html'], gulp.series(lintCss, templates, views, minifyHtml, bsreload));
+  gulp.watch(['*.html', 'components/**/*.html', 'views/**/*.html'], gulp.series(lintCss, templates, views, minifyHtmlFiles, bsreload));
   gulp.watch('js/**/*.js', gulp.series(minifyjs, bsreload));
 }));
 
@@ -307,7 +309,7 @@ gulp.task('build', gulp.series(
   images,
   templates,
   views,
-  usemin,
+  useminTask,
   fonts,
   assets,
   bsreload,
