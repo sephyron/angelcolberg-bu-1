@@ -1,7 +1,7 @@
 # Angel Colberg Portfolio - Site Architecture Audit
 
 ## 🏗️ Project Overview
-This is an AngularJS (v1.8) portfolio website built in 2017, featuring a modern design with animations, responsive layouts, and interactive portfolio elements. The site uses Gulp as a build system with BrowserSync for development.
+This is an AngularJS (v1.8) portfolio website built in 2014, featuring a modern design with animations, responsive layouts, and interactive portfolio elements. The site uses Gulp as a build system with BrowserSync for development. Has been updated numerous times from Angular 1.2 and Jquery.
 
 ## 📊 Dependency Analysis
 
