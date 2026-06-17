@@ -1099,6 +1099,16 @@ body.stretched #header.full-header .container {
   border-right-color: rgb(0 0 0 / 10%);
 }
 
+/* Make hero/header logo white on transparent header */
+#header.transparent-header #logo img {
+  filter: brightness(0) invert(1);
+}
+
+/* Make About section logo white */
+#section-about .img-portrait {
+  filter: brightness(0) invert(1);
+}
+
 #logo a {
   display: block;
   color: #000;
@@ -5414,7 +5424,7 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
   margin: 0 0 20px;
   padding: 0;
   font-size: 64px;
-  font-weight: 100 ;
+  font-weight: 100;
 }
 
 .portfolio-ajax-modal {
@@ -5438,18 +5448,24 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 
 #portfolio-ajax-wrap {
   position: relative;
-  max-height: 0;
+  height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease;
+
+  /* Keep browser scroll anchoring from chasing the collapsing content. */
+  overflow-anchor: none;
+  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: height;
 }
 
 #portfolio-ajax-wrap.portfolio-ajax-opened {
-  max-height: 100%;
+  height: auto;
 }
 
 #portfolio-ajax-container {
   display: none;
   padding: 3em;
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
 }
 
 #portfolio-ajax-single h2 {
@@ -5469,7 +5485,7 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 }
 
 .portfolio-meta li {
-  padding: 10px 0px;
+  padding: 10px 0;
   color: #666;
   border-bottom: 1px solid rgb(255 255 255 / 10%);
 }
@@ -12596,6 +12612,67 @@ body:not(.device-touch) .social-icon i {
   background-color: #52aad8 !important;
 }
 
+.si-mixcloud i {
+  display: block;
+  height: 38px;
+  line-height: 38px !important;
+  width: 40px;
+  text-align: center;
+  color: transparent !important;
+  position: relative;
+}
+
+.si-mixcloud i::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  background-color: #fff;
+  mask: url("../images/logo/mixcloud-svgrepo-com.svg") center / contain no-repeat;
+}
+
+.si-mixcloud:hover i::before,
+.si-colored.si-mixcloud i::before {
+  background-color: #fff;
+}
+
+.si-flickr-custom:hover,
+.si-colored.si-flickr-custom {
+  background-color: #ff007e !important;
+}
+
+.si-flickr-custom i {
+  display: block;
+  height: 38px;
+  line-height: 38px !important;
+  width: 40px;
+  text-align: center;
+  color: transparent !important;
+  position: relative;
+}
+
+.si-flickr-custom i::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  background-color: #fff;
+  mask: url("../images/logo/flickr-svgrepo-com.svg") center / contain no-repeat;
+}
+
+.si-flickr-custom:hover i::before,
+.si-colored.si-flickr-custom i::before {
+  background-color: #fff;
+}
+
 /* Social Icons Text Color
 ----------------------------------------------------------------- */
 .si-text-color.si-facebook i {
@@ -15491,12 +15568,12 @@ h2.fancy-heading {
   z-index: 20;
   top: 50%;
   left: 50%;
-  width: 48px;
-  height: 48px;
-  margin: -24px 0 0 -24px;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
   background-color: rgb(0 0 0 / 70%);
   border-radius: 3px;
-  line-height: 48px;
+  line-height: 64px;
   font-size: 24px;
   color: #fff;
   text-align: center;
@@ -15516,6 +15593,119 @@ h2.fancy-heading {
 
 #portfolio-ajax-loader img {
   display: block;
+}
+
+#portfolio-ajax-loader {
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+#portfolio-ajax-loader.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#portfolio-ajax-loader .loader {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  margin: 11px auto;
+}
+
+#portfolio-ajax-loader .loader svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+#portfolio-ajax-loader .loader circle {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 185 320;
+  animation: portfolioLoaderDash 1.4s ease-in-out infinite;
+}
+
+#portfolio-ajax-loader .loader svg:nth-child(2) circle {
+  animation-delay: 0.2s;
+  opacity: 0.7;
+}
+
+#portfolio-ajax-loader .loader svg:nth-child(3) circle {
+  animation-delay: 0.4s;
+  opacity: 0.4;
+}
+
+#portfolio-ajax-container.portfolio-ajax-visible {
+  display: block;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  animation: fadeInUpContent 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Backwards compatibility for inline style based show/hide logic. */
+#portfolio-ajax-container[style*="display: block"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  animation: fadeInUpContent 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Staggered reveal of the project content while the wrapper slides open. */
+#portfolio-ajax-single #portfolio-ajax-title {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: fadeInUpContent 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+#portfolio-ajax-single .portfolio-single-image,
+#portfolio-ajax-single .portfolio-single-video {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: fadeInUpContent 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+#portfolio-ajax-single .portfolio-single-content,
+#portfolio-ajax-container .use-case {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: fadeInUpContent 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+@keyframes portfolioLoaderDash {
+  0% {
+    stroke-dashoffset: 360;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInUpContent {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeOutDownContent {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
 }
 
 /* ----------------------------------------------------------------
@@ -15825,6 +16015,10 @@ blockquote.pull-right {
 ----------------------------------------------------------------- */
 .text-rotater > .t-rotate > .animated {
   display: inline-block;
+}
+
+#slider .text-rotater > .t-rotate {
+  font-family: Raleway, sans-serif !important;
 }
 
 /* ----------------------------------------------------------------

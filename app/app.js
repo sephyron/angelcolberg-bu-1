@@ -109,7 +109,7 @@
     function run($rootScope, $location, $routeParams) {
         $rootScope.path = '/' + $routeParams.dir;
         // put here everything that you need to run on page load
-        var $ = jQuery.noConflict();
+        var $ = window.jQuery;
 
 
 

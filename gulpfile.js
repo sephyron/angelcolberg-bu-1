@@ -7,7 +7,7 @@ const gulpDartSass = require('gulp-dart-sass');
 const fs = require('fs');
 const path = require('path');
 const postcss = require('gulp-postcss');
-const purgecss = require('gulp-purgecss');
+// const purgecss = require('gulp-purgecss');
 const cssnano = require('cssnano');
 const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
@@ -65,17 +65,20 @@ function lintCss() {
 
 // Copy static CSS files
 function copyStaticCss() {
-  return gulp.src([
-    // Static CSS files
-    './styles/static/**/*.css',
-    // Node module CSS files
-    './node_modules/owl.carousel/dist/assets/owl.carousel.css',
-    './node_modules/morphext/dist/morphext.css',
-    './node_modules/animate.css/animate.css',
-    // Main CSS files
+  // Copy main compiled CSS to expected location for usemin
+  gulp.src([
     './styles/style.css',
-    './styles/single-page.css',
-    // Additional static files
+    './styles/single-page.css'
+  ], { allowEmpty: true })
+    .pipe(gulp.dest('./_build/styles/'))
+    .on('error', function(err) {
+      console.error('Copy CSS Error (main):', err.message);
+      this.emit('end');
+    });
+
+  // Copy vendor/static CSS to static folder
+  return gulp.src([
+    './styles/static/**/*.css',
     './styles/static/swiper.css',
     './styles/static/magnific-popup.css',
     './styles/static/brands.css',
@@ -86,71 +89,17 @@ function copyStaticCss() {
     './styles/static/responsive.css',
     './styles/static/bootstrap.css'
   ], { allowEmpty: true })
-    .pipe(gulp.dest('./_build/styles/'))
+    .pipe(gulp.dest('./_build/styles/static/'))
     .on('error', function(err) {
-      console.error('Copy CSS Error:', err.message);
+      console.error('Copy CSS Error (static):', err.message);
       this.emit('end');
     })
-    .pipe(browserSync.stream());
-}
-
-// Purge CSS
-function purgeCSS() {
-  return gulp.src([
-    './styles/style.css',
-    './styles/animation.css',
-    './styles/single-page.css',
-    '!./styles/**/*.min.css'
-  ], { allowEmpty: true })
-    .pipe(purgecss({
-      content: [
-        './index.html',
-        './views/**/*.html',
-        './components/**/*.html',
-        './js/**/*.js',
-        './app/**/*.js'
-      ],
-      safelist: {
-        standard: [
-          /^animate-/,
-          /^owl-/,
-          /^swiper-/,
-          /^fa-/,
-          /^et-/,
-          'active',
-          'show',
-          'hide',
-          'open',
-          'close',
-          'current',
-          'fade',
-          'in'
-        ],
-        deep: [
-          /^modal/,
-          /^popup/,
-          /^carousel/,
-          /^swiper/
-        ],
-        greedy: [
-          /^ng-/,
-          /^fa-/,
-          /^owl-/
-        ]
-      },
-      defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
-    }))
-    .on('error', function(err) {
-      console.error('PurgeCSS Error:', err);
-      this.emit('end');
-    })
-    .pipe(gulp.dest('./_build/css/'))
     .pipe(browserSync.stream());
 }
 
 // Minify CSS
 function minifycss() {
-  return gulp.src(['./styles/static/**/*.css', '!./styles/**/*.min.css', './node_modules/**/*.css'])
+  return gulp.src(['./styles/static/**/*.css', '!./styles/**/*.min.css'])
     .pipe(postcss([
       cssnano({
         preset: ['default', {
@@ -160,13 +109,13 @@ function minifycss() {
         }],
       })
     ]))
-    .pipe(gulp.dest('./_build/css/'))
+    .pipe(gulp.dest('./_build/styles/static/'))
     .pipe(browserSync.stream());
 }
 
 // Minify JS
 function minifyjs() {
-  return gulp.src('js/*.js')
+  return gulp.src(['js/**/*.js', 'app/**/*.js', 'components/**/*.js'], { base: './', allowEmpty: true })
     .pipe(uglify())
     .pipe(gulp.dest('./_build/'))
     .pipe(browserSync.stream());
@@ -203,6 +152,14 @@ function sassbuild() {
   return gulp.src('./styles/**/*.scss')
     .pipe(gulpDartSass().on('error', gulpDartSass.logError))
     .pipe(gulp.dest('./_build/css/'))
+    .pipe(browserSync.stream());
+}
+
+// Sass compilation for development (writes to styles/style.css)
+function sassdev() {
+  return gulp.src('./styles/style.scss')
+    .pipe(gulpDartSass().on('error', gulpDartSass.logError))
+    .pipe(gulp.dest('./styles/'))
     .pipe(browserSync.stream());
 }
 
@@ -292,9 +249,9 @@ function buildSize() {
 }
 
 // Default task
-gulp.task('default', gulp.series(serve, gulp.parallel(lintCss, minifycss, minifyjs, templates, views, minifyHtmlFiles), function () {
-  gulp.watch('styles/**/*.scss', gulp.series(lintCss, minifycss));
-  gulp.watch(['*.html', 'components/**/*.html', 'views/**/*.html'], gulp.series(lintCss, templates, views, minifyHtmlFiles, bsreload));
+gulp.task('default', gulp.series(serve, gulp.parallel(sassdev, lintCss, minifycss, minifyjs, templates, views, minifyHtmlFiles), function () {
+  gulp.watch('styles/**/*.scss', gulp.series(sassdev));
+  gulp.watch(['*.html', 'components/**/*.html', 'views/**/*.html'], gulp.series(templates, views, minifyHtmlFiles, bsreload));
   gulp.watch('js/**/*.js', gulp.series(minifyjs, bsreload));
 }));
 
@@ -305,9 +262,21 @@ gulp.task('build', gulp.series(
   copyStaticCss,
   sassbuild,
   lintCss,
-  purgeCSS,
+  // purgeCSS,
   images,
   templates,
+  // ensure required JS assets exist where usemin expects them
+  function copyNodeModulesJs() {
+    return gulp.src([
+      'node_modules/sine-waves/sine-waves.min.js',
+      'node_modules/angular/angular.min.js',
+      'node_modules/angular-route/angular-route.js',
+      'node_modules/angular-animate/angular-animate.js'
+    ], { allowEmpty: true, base: './' })
+      .pipe(gulp.dest('./_build/'));
+  },
+  // copy and minify local JS so usemin finds them
+  minifyjs,
   views,
   useminTask,
   fonts,

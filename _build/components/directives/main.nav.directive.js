@@ -1,0 +1,1 @@
+angular.module("portfolio-app").directive("mainNav",function(){return{restrict:"E",templateUrl:"components/directives/main-nav.html"}});

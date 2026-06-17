@@ -1,0 +1,1 @@
+(()=>{function o(o,r,e,t){e.cssClass="view2 pt-page-current",e.path="/"+t.dir,jQuery.noConflict()}angular.module("portfolio-app").controller("WorkController",o),o.$inject=["LocalStorage","QueryService","$rootScope","$routeParams"]})();

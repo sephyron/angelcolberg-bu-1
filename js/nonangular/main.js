@@ -1,4 +1,4 @@
-// Replace jQuery selectors with vanilla JS equivalents
+// Use vanilla selectors consistently in this file.
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => document.querySelectorAll(selector);
 
@@ -145,16 +145,36 @@ function onScrollSliderParallax() {
   killRequesting();
 }
 
-const angelPortfolio = angelPortfolio || {};
+// Initialize global namespace safely (avoid TDZ on const)
+window.angelPortfolio = window.angelPortfolio || {};
+const angelPortfolio = window.angelPortfolio;
 
 (function() {
   "use strict";
 
   angelPortfolio.initialize = {
+    topScrollOffset: function() {
+      const body = document.body;
+      const header = $('#header');
+      const pagemenu = $('#page-menu');
+      let topOffsetScroll = 40;
+
+      if ((body.classList.contains('device-lg') || body.classList.contains('device-md')) && !angelPortfolio.isMobile.any()) {
+        const sticky = header && header.classList.contains('sticky-header');
+        if (pagemenu) {
+          const dots = pagemenu.classList.contains('dots-menu');
+          topOffsetScroll = sticky ? (dots ? 100 : 144) : (dots ? 140 : 184);
+        } else {
+          topOffsetScroll = sticky ? 100 : 140;
+        }
+      }
+
+      return topOffsetScroll;
+    },
+
     init: function() {
-      this.newSlider();
       this.responsiveClasses();
-      this.imagePreload('.portfolio-item:not(:has(.fslider)) img');
+      this.imagePreload('.portfolio-item img');
       this.stickyElements();
       this.goToTop();
       this.lazyLoad();
@@ -166,16 +186,6 @@ const angelPortfolio = angelPortfolio || {};
       this.pageTransition();
       this.dataResponsiveClasses();
       this.dataResponsiveHeights();
-
-      $$('.fslider').forEach(el => el.classList.add('preloader2'));
-    },
-
-    newSlider: function() {
-      const slider = $('#slider .flexslider');
-      if (slider) {
-        // Implement flexslider functionality here
-        // This would require creating a custom slider or using a vanilla JS slider library
-      }
     },
 
     responsiveClasses: function() {
@@ -562,20 +572,29 @@ const angelPortfolio = angelPortfolio || {};
       if (window.innerWidth > 991) {
         $$('#primary-menu.sub-title > ul > li').forEach(item => {
           item.addEventListener('mouseenter', function() {
-            this.previousElementSibling.style.backgroundImage = 'none';
+            if (this.previousElementSibling) {
+              this.previousElementSibling.style.backgroundImage = 'none';
+            }
           });
           item.addEventListener('mouseleave', function() {
-            this.previousElementSibling.style.backgroundImage = 'url("images/icons/menu-divider.png")';
+            if (this.previousElementSibling) {
+              this.previousElementSibling.style.backgroundImage = 'url("images/icons/menu-divider.png")';
+            }
           });
         });
 
-        $('#primary-menu.sub-title').children('ul').children('.current').prev().css({ backgroundImage: 'none' });
+        const subTitleCurrent = $('#primary-menu.sub-title > ul > li.current');
+        if (subTitleCurrent && subTitleCurrent.previousElementSibling) {
+          subTitleCurrent.previousElementSibling.style.backgroundImage = 'none';
+        }
       }
 
       // Mobile Menu Toggle
-      $('#primary-menu-trigger,#overlay-menu-close').addEventListener('click', function() {
-        $('body').classList.toggle('primary-menu-open');
-        return false;
+      $$('#primary-menu-trigger, #overlay-menu-close').forEach(trigger => {
+        trigger.addEventListener('click', function() {
+          document.body.classList.toggle('primary-menu-open');
+          return false;
+        });
       });
 
       // Android Devices Menu Toggle
@@ -925,7 +944,6 @@ const angelPortfolio = angelPortfolio || {};
               },
               slideChangeTransitionEnd: function() {
                 angelPortfolio.widget.animations();
-                angelPortfolio.widget.loadFlexSlider();
                 angelPortfolio.initialize.lightbox();
                 angelPortfolio.widget.resizeVideos();
                 angelPortfolio.widget.youtubeBgVideo();
@@ -1090,7 +1108,49 @@ const angelPortfolio = angelPortfolio || {};
       }
     };
   
+    let prevPostPortId = null;
+
+    // Pending open/close animation timers. Cancelled whenever a new open or
+    // close starts, so rapid toggling can't apply stale state.
+    let portfolioTimers = [];
+    const clearPortfolioTimers = () => {
+      portfolioTimers.forEach(clearTimeout);
+      portfolioTimers = [];
+    };
+    const schedulePortfolioTimer = (fn, ms) => {
+      portfolioTimers.push(setTimeout(fn, ms));
+    };
+
+    // While a project is open, scrolling is clamped to the project's bounds.
+    let portfolioScrollLock = null;
+
     angelPortfolio.portfolio = {
+      enableScrollLock: function() {
+        if (portfolioScrollLock) return;
+        const portfolioDetails = $('#portfolio-details') || $('#portfolio-ajax-wrap');
+        if (!portfolioDetails) return;
+
+        portfolioScrollLock = () => {
+          const topOffset = angelPortfolio.initialize.topScrollOffset();
+          const wrapTop = portfolioDetails.getBoundingClientRect().top + window.scrollY;
+          const minY = Math.max(0, wrapTop - topOffset);
+          const maxY = Math.max(minY, wrapTop + portfolioDetails.offsetHeight - window.innerHeight);
+
+          if (window.scrollY < minY) {
+            window.scrollTo(0, minY);
+          } else if (window.scrollY > maxY) {
+            window.scrollTo(0, maxY);
+          }
+        };
+        window.addEventListener('scroll', portfolioScrollLock, { passive: true });
+      },
+
+      disableScrollLock: function() {
+        if (!portfolioScrollLock) return;
+        window.removeEventListener('scroll', portfolioScrollLock);
+        portfolioScrollLock = null;
+      },
+
       init: function() {
         this.ajaxload();
       },
@@ -1208,6 +1268,8 @@ const angelPortfolio = angelPortfolio || {};
   
       ajaxload: function() {
         $$('.portfolio-ajax .portfolio-item a.center-icon').forEach(item => {
+          if (item.dataset.ajaxloadBound) { return; }
+          item.dataset.ajaxloadBound = 'true';
           item.addEventListener('click', function(e) {
             e.preventDefault();
             const portPostId = this.closest('.portfolio-item').id;
@@ -1221,8 +1283,10 @@ const angelPortfolio = angelPortfolio || {};
       newNextPrev: function(portPostId) {
         const portNext = this.getNextItem(portPostId);
         const portPrev = this.getPrevItem(portPostId);
-        $('#next-portfolio').setAttribute('data-id', portNext);
-        $('#prev-portfolio').setAttribute('data-id', portPrev);
+        const next = $('#next-portfolio');
+        const prev = $('#prev-portfolio');
+        if (next) next.setAttribute('data-id', portNext);
+        if (prev) prev.setAttribute('data-id', portPrev);
       },
   
       loadItem: function(portPostId, prevPostPortId, getIt) {
@@ -1230,20 +1294,19 @@ const angelPortfolio = angelPortfolio || {};
         const portNext = this.getNextItem(portPostId);
         const portPrev = this.getPrevItem(portPostId);
         if (getIt === false) {
-          this.closeItem();
+          this.closeItem(true);
           const portfolioAjaxLoader = $('#portfolio-ajax-loader');
-          portfolioAjaxLoader.style.display = 'block';
+          portfolioAjaxLoader.style.display = 'flex';
+          // Re-show the loader; it keeps .loader-hidden from the previous open.
+          portfolioAjaxLoader.classList.remove('loader-hidden');
           const portfolioDataLoader = document.getElementById(portPostId).getAttribute('data-loader');
           const portfolioDetailsContainer = $('#portfolio-ajax-container');
   
-          fetch(portfolioDataLoader, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `portid=${portPostId}&portnext=${portNext}&portprev=${portPrev}`
+          fetch(portfolioDataLoader)
+          .then(response => {
+            if (!response.ok) throw new Error(`Failed to load ${portfolioDataLoader}: ${response.status}`);
+            return response.text();
           })
-          .then(response => response.text())
           .then(data => {
             portfolioDetailsContainer.innerHTML = data;
             this.initializeAjax(portPostId);
@@ -1257,67 +1320,131 @@ const angelPortfolio = angelPortfolio || {};
         }
       },
   
-      closeItem: function() {
-        const portfolioDetails = $('#portfolio-details');
+      // skipScroll is set when closing is just a prelude to opening another
+      // project, which does its own scrolling.
+      closeItem: function(skipScroll) {
+        const portfolioDetails = $('#portfolio-details') || $('#portfolio-ajax-wrap');
+        const portfolioDetailsContainer = $('#portfolio-ajax-container');
+        
         if (portfolioDetails && portfolioDetails.offsetHeight > 32) {
-          $('#portfolio-ajax-loader').style.display = 'block';
-          const portfolioAjaxSingle = portfolioDetails.querySelector('#portfolio-ajax-single');
-          if (portfolioAjaxSingle) {
-            portfolioAjaxSingle.style.animationName = 'fadeOutDown';
-            setTimeout(() => {
-              portfolioAjaxSingle.remove();
-            }, 500);
+          clearPortfolioTimers();
+          this.disableScrollLock();
+          // Deactivate immediately, not at cleanup: ajaxload ignores clicks on
+          // the active item, which used to swallow a re-open during the close
+          // animation.
+          $$('.portfolio-item').forEach(item => item.classList.remove('portfolio-active'));
+          // Fade out the whole container, not just #portfolio-ajax-single:
+          // sections like .use-case sit outside the single and used to get
+          // clipped abruptly by the collapse.
+          portfolioDetailsContainer.style.animation = 'fadeOutDownContent 0.4s ease-out forwards';
+
+          if (!skipScroll) {
+            // Glide back to the top of the (collapsing) project area. The grid
+            // below it rides up to this exact spot once the collapse finishes,
+            // so the viewport lands on the portfolio grid. Don't target the
+            // grid items themselves: their document position changes while the
+            // wrapper above them collapses.
+            const topScrollOffset = angelPortfolio.initialize.topScrollOffset();
+            const wrapTop = portfolioDetails.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+              top: Math.max(wrapTop - topScrollOffset, 0),
+              behavior: 'smooth'
+            });
           }
-          portfolioDetails.classList.remove('portfolio-ajax-opened');
+
+          schedulePortfolioTimer(() => {
+            portfolioDetails.style.height = `${portfolioDetails.scrollHeight}px`;
+            void portfolioDetails.offsetWidth;
+            portfolioDetails.style.height = '0px';
+            portfolioDetails.classList.remove('portfolio-ajax-opened');
+
+            // Remove content only after collapse completes to avoid abrupt jump.
+            schedulePortfolioTimer(() => {
+              portfolioDetailsContainer.classList.remove('portfolio-ajax-visible');
+              portfolioDetailsContainer.innerHTML = '';
+              $$('.portfolio-item').forEach(item => item.classList.remove('portfolio-active'));
+            }, 560);
+          }, 400);
         }
       },
   
       openItem: function() {
-        const portfolioDetails = $('#portfolio-details');
+        const portfolioDetails = $('#portfolio-details') || $('#portfolio-ajax-wrap');
         const portfolioDetailsContainer = $('#portfolio-ajax-container');
         const portfolioAjaxLoader = $('#portfolio-ajax-loader');
         const images = portfolioDetails.querySelectorAll('img');
         let imagesLoaded = 0;
-  
-        if (images.length > 0) {
-          images.forEach(img => {
-            img.onload = () => {
-              imagesLoaded++;
-              if (imagesLoaded === images.length) {
-                portfolioDetailsContainer.style.display = 'block';
-                portfolioDetails.classList.add('portfolio-ajax-opened');
-                portfolioAjaxLoader.style.display = 'none';
-                setTimeout(() => {
-                  angelPortfolio.widget.loadFlexSlider();
-                  angelPortfolio.initialize.lightbox();
-                  angelPortfolio.initialize.resizeVideos();
-                  angelPortfolio.widget.masonryThumbs();
-                  
-                  const topScrollOffset = angelPortfolio.initialize.topScrollOffset();
-                  window.scrollTo({
-                    top: portfolioDetails.offsetTop - topScrollOffset,
-                    behavior: 'smooth'
-                  });
-                }, 500);
-              }
-            };
-          });
-        } else {
-          portfolioDetailsContainer.style.display = 'block';
+        
+        const revealContent = () => {
+          // Cancel any in-flight close animation so it can't clobber this open.
+          clearPortfolioTimers();
           portfolioDetails.classList.add('portfolio-ajax-opened');
-          portfolioAjaxLoader.style.display = 'none';
-          setTimeout(() => {
-            angelPortfolio.widget.loadFlexSlider();
+          portfolioAjaxLoader.classList.add('loader-hidden');
+
+          // Render the content first, while the wrapper is still collapsed
+          // (overflow hidden keeps it invisible). The expansion below can then
+          // animate to the real content height; measuring against display:none
+          // content made the wrapper expand to 0 and pop open abruptly at the
+          // end instead of sliding.
+          // Clear any leftover close fade so the new content isn't stuck at opacity 0.
+          portfolioDetailsContainer.style.animation = '';
+          portfolioDetailsContainer.classList.remove('portfolio-ajax-visible');
+          // Force reflow so repeated opens reliably replay the fade-in.
+          void portfolioDetailsContainer.offsetWidth;
+          portfolioDetailsContainer.classList.add('portfolio-ajax-visible');
+
+          // Slide the wrapper open to the measured content height.
+          portfolioDetails.style.height = '0px';
+          void portfolioDetails.offsetWidth;
+          portfolioDetails.style.height = `${portfolioDetails.scrollHeight}px`;
+
+          schedulePortfolioTimer(() => {
             angelPortfolio.initialize.lightbox();
             angelPortfolio.initialize.resizeVideos();
             angelPortfolio.widget.masonryThumbs();
-            
+
             const topScrollOffset = angelPortfolio.initialize.topScrollOffset();
+            // Document-relative position; offsetTop is relative to the nearest
+            // positioned ancestor and pointed at the wrong place.
+            const wrapTop = portfolioDetails.getBoundingClientRect().top + window.scrollY;
             window.scrollTo({
-              top: portfolioDetails.offsetTop - topScrollOffset,
+              top: wrapTop - topScrollOffset,
               behavior: 'smooth'
             });
-          }, 500);
+          }, 250);
+
+          schedulePortfolioTimer(() => {
+            // Expansion finished: release the fixed height so embedded content
+            // (sliders, lazy images) can resize naturally, then anchor the view.
+            portfolioDetails.style.height = 'auto';
+            angelPortfolio.portfolio.enableScrollLock();
+          }, 620);
+        };
+  
+        if (images.length > 0) {
+          images.forEach(img => {
+            if (img.complete) {
+              imagesLoaded++;
+              if (imagesLoaded === images.length) {
+                revealContent();
+              }
+            } else {
+              img.onload = () => {
+                imagesLoaded++;
+                if (imagesLoaded === images.length) {
+                  revealContent();
+                }
+              };
+              img.onerror = () => {
+                imagesLoaded++;
+                if (imagesLoaded === images.length) {
+                  revealContent();
+                }
+              };
+            }
+          });
+        } else {
+          revealContent();
         }
       },
   
@@ -1336,7 +1463,7 @@ const angelPortfolio = angelPortfolio || {};
       initializeAjax: function(portPostId) {
         prevPostPortId = document.getElementById(portPostId);
   
-        $('#next-portfolio, #prev-portfolio').forEach(nav => {
+        $$('#next-portfolio, #prev-portfolio').forEach(nav => {
           nav.addEventListener('click', function(e) {
             e.preventDefault();
             const portPostId = this.getAttribute('data-id');
@@ -1346,17 +1473,12 @@ const angelPortfolio = angelPortfolio || {};
           });
         });
   
-        $('#close-portfolio').addEventListener('click', function(e) {
+        const closeBtn = $('#close-portfolio');
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener('click', function(e) {
           e.preventDefault();
-          const portfolioDetailsContainer = $('#portfolio-ajax-container');
-          portfolioDetailsContainer.style.animationName = 'fadeOutDown';
-          setTimeout(() => {
-            portfolioDetailsContainer.style.display = 'none';
-            portfolioDetailsContainer.querySelector('#portfolio-ajax-single').remove();
-          }, 500);
-          const portfolioDetails = $('#portfolio-details');
-          portfolioDetails.classList.remove('portfolio-ajax-opened');
-          $$('.portfolio-item').forEach(item => item.classList.remove('portfolio-active'));
+          angelPortfolio.portfolio.closeItem();
         });
       }
     };
@@ -1819,12 +1941,6 @@ const angelPortfolio = angelPortfolio || {};
               }
               html += '</ul>';
               element.innerHTML = html;
-  
-              if (element.classList.contains('fslider')) {
-                setTimeout(() => {
-                  angelPortfolio.widget.loadFlexSlider();
-                }, 500);
-              }
             },
             "lang": 'en'
           });
@@ -2489,18 +2605,21 @@ const angelPortfolio = angelPortfolio || {};
           angelPortfolio.initialize.dataResponsiveClasses();
           angelPortfolio.initialize.dataResponsiveHeights();
           
-          if ($('.grid-container').length > 0) {
-            if (!$('.grid-container').hasClass('.customjs')) {
+          if ($('.grid-container')) {
+            if (!$('.grid-container').classList.contains('customjs')) {
               if (typeof Isotope !== 'undefined') {
-                $('.grid-container').isotope('layout');
+                const gridContainer = $('.grid-container');
+                const iso = Isotope.data(gridContainer);
+                if (iso) iso.layout();
               } else {
                 console.log('documentOnResize > init: Isotope not defined.');
               }
             }
           }
   
-          if ($('body').hasClass('device-xl') || $('body').hasClass('device-lg')) {
-            $('#primary-menu').find('ul.mobile-primary-menu').removeClass('show');
+          if (document.body.classList.contains('device-xl') || document.body.classList.contains('device-lg')) {
+            const mobileMenu = $('#primary-menu ul.mobile-primary-menu');
+            if (mobileMenu) mobileMenu.classList.remove('show');
           }
         }, 500);
   
@@ -2514,10 +2633,10 @@ const angelPortfolio = angelPortfolio || {};
       init: function() {
         angelPortfolio.initialize.init();
         angelPortfolio.header.init();
-        if ($('#slider').length > 0) { 
+        if ($('#slider')) { 
           angelPortfolio.slider.init();
         }
-        if ($('.portfolio').length > 0) {
+        if ($('.portfolio')) {
           angelPortfolio.portfolio.init();
         }
         angelPortfolio.widget.init();
@@ -2529,29 +2648,35 @@ const angelPortfolio = angelPortfolio || {};
             headerWrapOffset = 0,
             pageMenuOffset = 0;
   
-        if ($('#header').length > 0) { 
-          headerOffset = $('#header').offset().top;
+        if ($('#header')) { 
+          const headerEl = $('#header');
+          headerOffset = headerEl.getBoundingClientRect().top + window.pageYOffset;
         }
-        if ($('#header').length > 0) {
-          headerWrapOffset = $('#header-wrap').offset().top;
+        if ($('#header')) {
+          const headerWrapEl = $('#header-wrap');
+          headerWrapOffset = headerWrapEl ? (headerWrapEl.getBoundingClientRect().top + window.pageYOffset) : 0;
         }
-        if ($('#page-menu').length > 0) {
-          if ($('#header').length > 0 && !$('#header').hasClass('no-sticky')) {
-            if ($('#header').hasClass('sticky-style-2') || $('#header').hasClass('sticky-style-3')) {
-              pageMenuOffset = $('#page-menu').offset().top - $('#header-wrap').outerHeight();
+        if ($('#page-menu')) {
+          const pageMenuEl = $('#page-menu');
+          const headerEl = $('#header');
+          const headerWrapEl = $('#header-wrap');
+          if (headerEl && !headerEl.classList.contains('no-sticky')) {
+            if (headerEl.classList.contains('sticky-style-2') || headerEl.classList.contains('sticky-style-3')) {
+              pageMenuOffset = (pageMenuEl.getBoundingClientRect().top + window.pageYOffset) - (headerWrapEl ? headerWrapEl.offsetHeight : 0);
             } else {
-              pageMenuOffset = $('#page-menu').offset().top - $('#header').outerHeight();
+              pageMenuOffset = (pageMenuEl.getBoundingClientRect().top + window.pageYOffset) - headerEl.offsetHeight;
             }
           } else {
-            pageMenuOffset = $('#page-menu').offset().top;
+            pageMenuOffset = pageMenuEl.getBoundingClientRect().top + window.pageYOffset;
           }
         }
   
-        let headerDefinedOffset = $('#header').attr('data-sticky-offset');
+        const headerEl = $('#header');
+        let headerDefinedOffset = headerEl ? headerEl.getAttribute('data-sticky-offset') : undefined;
         if (typeof headerDefinedOffset !== 'undefined') {
           if (headerDefinedOffset == 'full') {
             headerWrapOffset = window.innerHeight;
-            let headerOffsetNegative = $('#header').attr('data-sticky-offset-negative');
+            let headerOffsetNegative = headerEl ? headerEl.getAttribute('data-sticky-offset-negative') : undefined;
             if (typeof headerOffsetNegative !== 'undefined') {
               headerWrapOffset = headerWrapOffset - parseFloat(headerOffsetNegative) - 1;
             }
@@ -2565,7 +2690,8 @@ const angelPortfolio = angelPortfolio || {};
   
         window.addEventListener('scroll', function() {
           angelPortfolio.initialize.goToTopScroll();
-          $('body.open-header.close-header-on-scroll').removeClass("side-header-open");
+          const openedHeader = $('body.open-header.close-header-on-scroll');
+          if (openedHeader) openedHeader.classList.remove("side-header-open");
           angelPortfolio.header.stickyMenu(headerWrapOffset);
           angelPortfolio.header.stickyPageMenu(pageMenuOffset);
           angelPortfolio.header.logo();
@@ -2583,8 +2709,12 @@ const angelPortfolio = angelPortfolio || {};
     angelPortfolio.documentOnLoad = {
       init: function() {
         angelPortfolio.slider.captionPosition();
-        angelPortfolio.slider.swiperSliderMenu(true);
-        angelPortfolio.slider.revolutionSliderMenu(true);
+        if (typeof angelPortfolio.slider.swiperSliderMenu === 'function') {
+          angelPortfolio.slider.swiperSliderMenu(true);
+        }
+        if (typeof angelPortfolio.slider.revolutionSliderMenu === 'function') {
+          angelPortfolio.slider.revolutionSliderMenu(true);
+        }
         angelPortfolio.initialize.maxHeight();
         angelPortfolio.initialize.testimonialsGrid();
         angelPortfolio.initialize.verticalMiddle();
@@ -2596,7 +2726,6 @@ const angelPortfolio = angelPortfolio || {};
         angelPortfolio.portfolio.arrange();
         angelPortfolio.portfolio.portfolioDescMargin();
         angelPortfolio.widget.parallax();
-        angelPortfolio.widget.loadFlexSlider();
         angelPortfolio.widget.html5Video();
         angelPortfolio.widget.masonryThumbs();
         angelPortfolio.header.topsocial();
@@ -2626,9 +2755,11 @@ const angelPortfolio = angelPortfolio || {};
   
   })();
   
-  // Helper Functions
-  function $$(selector) {
-    return document.querySelectorAll(selector);
+  // Helper Functions (avoid redefining $$ if already defined elsewhere)
+  if (typeof window.$$ === 'undefined') {
+    window.$$ = function(selector) {
+      return document.querySelectorAll(selector);
+    };
   }
   
   function setCookie(name, value, days) {

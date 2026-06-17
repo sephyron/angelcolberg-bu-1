@@ -32,63 +32,56 @@
 
                 el: document.getElementById('waves'),
 
-                speed: -5,
+                speed: 4,
                 width: function() {
-                    return $(window).width() + 100;
+                    return $(window).width();
                 },
                 height: function() {
                     return $(window).height();
                 },
-                rotate: 0,
                 ease: 'SineInOut',
+                wavesWidth: '70%',
                 waves: [{
-                        //type: 'Triangle',
-                        timeModifier: 1,
-                        lineWidth: 3,
-                        amplitude: 350,
-                        //strokeStyle: 'rgba(55, 55, 55, 0.5)',
-                        wavelength: 200,
-                        segmentLength: 20
+                        timeModifier: 4,
+                        lineWidth: 1,
+                        amplitude: -25,
+                        wavelength: 25
                     },
                     {
-                        timeModifier: 1,
+                        timeModifier: 2,
                         lineWidth: 2,
-                        amplitude: 150,
-                        //strokeStyle: 'rgba(55, 55, 55, 0.5)',
-                        wavelength: 100
+                        amplitude: -50,
+                        wavelength: 50
                     },
                     {
                         timeModifier: 1,
                         lineWidth: 1,
-                        amplitude: -150,
-                        //strokeStyle: 'rgba(55, 55, 55, 0.5)',
-                        wavelength: 50,
-                        segmentLength: 10
+                        amplitude: -100,
+                        wavelength: 100
                     },
                     {
-                        timeModifier: 1,
-                        lineWidth: .5,
-                        amplitude: -100,
-                        //strokeStyle: 'rgba(55, 55, 55, 0.5)',
-                        wavelength: 100,
-                        segmentLength: 10
+                        timeModifier: 0.5,
+                        lineWidth: 1,
+                        amplitude: -200,
+                        wavelength: 200
+                    },
+                    {
+                        timeModifier: 0.25,
+                        lineWidth: 2,
+                        amplitude: -400,
+                        wavelength: 400
                     }
                 ],
-                initialize: function() {},
                 resizeEvent: function() {
                     var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0);
-                    gradient.addColorStop(0, 'rgba(55, 55, 55, 1)');
-                    gradient.addColorStop(0.5, 'rgba(50, 50, 50, 0)');
-                    gradient.addColorStop(1, 'rgba(55, 55, 55, 1)');
+                    gradient.addColorStop(0, 'rgba(23, 210, 168, 0.2)');
+                    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)');
+                    gradient.addColorStop(1, 'rgba(23, 210, 168, 0.2)');
 
                     var index = -1;
                     var length = this.waves.length;
                     while (++index < length) {
                         this.waves[index].strokeStyle = gradient;
-                        this.waves[index].shadowBlur = 20;
-                        this.waves[index].shadowColor = '#fff';
-
-
                     }
                     // Clean Up
                     index = void 0;
@@ -315,7 +308,7 @@
                 init: function() {
 
                     angelPortfolio.initialize.responsiveClasses();
-                    angelPortfolio.initialize.imagePreload('.portfolio-item:not(:has(.fslider)) img');
+                    angelPortfolio.initialize.imagePreload('.portfolio-item img');
                     angelPortfolio.initialize.stickyElements();
                     angelPortfolio.initialize.goToTop();
                     angelPortfolio.initialize.lazyLoad();
@@ -328,8 +321,6 @@
                     angelPortfolio.initialize.dataResponsiveClasses();
                     angelPortfolio.initialize.dataResponsiveHeights();
                     angelPortfolio.initialize.useCase();
-                    $('.fslider').addClass('preloader2');
-
                 },
                 useCase: function() {
                     //need to fix this call
@@ -400,10 +391,10 @@
                     $(selector).each(function() {
                         var image = $(this);
                         image.css({ visibility: 'hidden', opacity: 0, display: 'block' });
-                        image.wrap('<span class="preloader2" />');
+                        image.wrap('<span class="preloader2"></span>');
                         image.one("load", function(evt) {
                             $(this).delay(params.delay).css({ visibility: 'visible' }).animate({ opacity: 1 }, params.transition, params.easing, function() {
-                                $(this).unwrap('<span class="preloader2" />');
+                                $(this).unwrap('span.preloader2');
                             });
                         }).each(function() {
                             if (this.complete) $(this).trigger("load");
@@ -658,7 +649,6 @@
                             callbacks: {
 
                                 ajaxContentAdded: function(mfpResponse) {
-                                    angelPortfolio.widget.loadFlexSlider();
                                     angelPortfolio.initialize.resizeVideos();
                                     angelPortfolio.widget.masonryThumbs();
 
@@ -687,7 +677,6 @@
                             },
                             callbacks: {
                                 ajaxContentAdded: function(mfpResponse) {
-                                    angelPortfolio.widget.loadFlexSlider();
                                     angelPortfolio.initialize.resizeVideos();
                                     angelPortfolio.widget.masonryThumbs();
                                 },
@@ -814,9 +803,9 @@
                 pageTransition: function() {
                     if ($body.hasClass('no-transition')) { return true; }
 
-                    if (!$().animsition) {
+                    if (typeof jQuery === 'undefined' || typeof jQuery.fn.animsition !== 'function') {
                         $body.addClass('no-transition');
-                        console.log('pageTransition: Animsition not Defined.');
+                        console.log('pageTransition: Animsition not Defined. Skipping.');
                         return true;
                     }
 
@@ -2162,14 +2151,14 @@
                 },
 
                 ajaxload: function() {
-                    $('.portfolio-ajax .portfolio-item a.center-icon').click(function(e) {
-                        var portPostId = $(this).parents('.portfolio-item').attr('id');
-                        if (!$(this).parents('.portfolio-item').hasClass('portfolio-active')) {
-                            angelPortfolio.portfolio.loadItem(portPostId);
-
-                        }
-                        e.preventDefault();
-                    });
+                    // The inline portfolio ajax is owned by the vanilla implementation in
+                    // js/nonangular/main.js. The duplicate jQuery handlers that used to
+                    // live here raced it and broke open/close. We only delegate, because
+                    // this controller runs when the Angular view is actually in the DOM
+                    // (main.js binds too early, on DOMContentLoaded).
+                    if (window.angelPortfolio && window.angelPortfolio.portfolio) {
+                        window.angelPortfolio.portfolio.ajaxload();
+                    }
                 },
 
                 newNextPrev: function(portPostId) {
@@ -2220,7 +2209,6 @@
                                 $portfolioDetails.addClass('portfolio-ajax-opened');
                                 $portfolioAjaxLoader.fadeOut();
                                 var t = setTimeout(function() {
-                                    angelPortfolio.widget.loadFlexSlider();
                                     angelPortfolio.initialize.lightbox();
                                     angelPortfolio.initialize.resizeVideos();
                                     angelPortfolio.widget.masonryThumbs();
@@ -2237,7 +2225,6 @@
                         $portfolioDetails.addClass('portfolio-ajax-opened');
                         $portfolioAjaxLoader.fadeOut();
                         var t = setTimeout(function() {
-                            angelPortfolio.widget.loadFlexSlider();
                             angelPortfolio.initialize.lightbox();
                             angelPortfolio.initialize.resizeVideos();
                             angelPortfolio.widget.masonryThumbs();
@@ -2355,8 +2342,6 @@
                                     animationDelayTime = 0,
                                     animationDelayOutTime = 3000;
 
-                                if (element.parents('.fslider.no-thumbs-animate').length > 0) { return true; }
-
                                 if (animationDelay) { animationDelayTime = Number(animationDelay) + 500; } else { animationDelayTime = 500; }
                                 if (animationOut && animationDelayOut) { animationDelayOutTime = Number(animationDelayOut) + animationDelayTime; }
 
@@ -2377,89 +2362,6 @@
                                 }
                             });
                         }
-                    }
-                },
-
-                loadFlexSlider: function() {
-
-                    if (!$().flexslider) {
-                        console.log('loadFlexSlider: FlexSlider not Defined.');
-                        return true;
-                    }
-
-                    var $flexSliderEl = $('.fslider:not(.customjs)').find('.flexslider');
-                    if ($flexSliderEl.length > 0) {
-                        $flexSliderEl.each(function() {
-                            var $flexsSlider = $(this),
-                                flexsAnimation = $flexsSlider.parent('.fslider').attr('data-animation'),
-                                flexsEasing = $flexsSlider.parent('.fslider').attr('data-easing'),
-                                flexsDirection = $flexsSlider.parent('.fslider').attr('data-direction'),
-                                flexsReverse = $flexsSlider.parent('.fslider').attr('data-reverse'),
-                                flexsSlideshow = $flexsSlider.parent('.fslider').attr('data-slideshow'),
-                                flexsPause = $flexsSlider.parent('.fslider').attr('data-pause'),
-                                flexsSpeed = $flexsSlider.parent('.fslider').attr('data-speed'),
-                                flexsVideo = $flexsSlider.parent('.fslider').attr('data-video'),
-                                flexsPagi = $flexsSlider.parent('.fslider').attr('data-pagi'),
-                                flexsArrows = $flexsSlider.parent('.fslider').attr('data-arrows'),
-                                flexsThumbs = $flexsSlider.parent('.fslider').attr('data-thumbs'),
-                                flexsHover = $flexsSlider.parent('.fslider').attr('data-hover'),
-                                flexsSheight = $flexsSlider.parent('.fslider').attr('data-smooth-height'),
-                                flexsTouch = $flexsSlider.parent('.fslider').attr('data-touch'),
-                                flexsUseCSS = false;
-
-                            if (!flexsAnimation) { flexsAnimation = 'slide'; }
-                            if (!flexsEasing || flexsEasing == 'swing') {
-                                flexsEasing = 'swing';
-                                flexsUseCSS = true;
-                            }
-                            if (!flexsDirection) { flexsDirection = 'horizontal'; }
-                            if (flexsReverse == 'true') { flexsReverse = true; } else { flexsReverse = false; }
-                            if (!flexsSlideshow) { flexsSlideshow = true; } else { flexsSlideshow = false; }
-                            if (!flexsPause) { flexsPause = 5000; }
-                            if (!flexsSpeed) { flexsSpeed = 600; }
-                            if (!flexsVideo) { flexsVideo = false; }
-                            if (flexsSheight == 'false') { flexsSheight = false; } else { flexsSheight = true; }
-                            if (flexsDirection == 'vertical') { flexsSheight = false; }
-                            if (flexsPagi == 'false') { flexsPagi = false; } else { flexsPagi = true; }
-                            if (flexsThumbs == 'true') { flexsPagi = 'thumbnails'; } else { flexsPagi = flexsPagi; }
-                            if (flexsArrows == 'false') { flexsArrows = false; } else { flexsArrows = true; }
-                            if (flexsHover == 'false') { flexsHover = false; } else { flexsHover = true; }
-                            if (flexsTouch == 'false') { flexsTouch = false; } else { flexsTouch = true; }
-
-                            $flexsSlider.flexslider({
-                                selector: ".slider-wrap > .slide",
-                                animation: flexsAnimation,
-                                easing: flexsEasing,
-                                direction: flexsDirection,
-                                reverse: flexsReverse,
-                                slideshow: flexsSlideshow,
-                                slideshowSpeed: Number(flexsPause),
-                                animationSpeed: Number(flexsSpeed),
-                                pauseOnHover: flexsHover,
-                                video: flexsVideo,
-                                controlNav: flexsPagi,
-                                directionNav: flexsArrows,
-                                smoothHeight: flexsSheight,
-                                useCSS: flexsUseCSS,
-                                touch: flexsTouch,
-                                start: function(slider) {
-                                    angelPortfolio.widget.animations();
-                                    angelPortfolio.initialize.verticalMiddle();
-                                    slider.parent().removeClass('preloader2');
-                                    var t = setTimeout(function() { $('.grid-container').isotope('layout'); }, 1200);
-                                    angelPortfolio.initialize.lightbox();
-                                    $('.flex-prev').html('<i class="icon-angle-left"></i>');
-                                    $('.flex-next').html('<i class="icon-angle-right"></i>');
-                                    angelPortfolio.portfolio.portfolioDescMargin();
-                                },
-                                after: function() {
-                                    if ($('.grid-container').hasClass('portfolio-full')) {
-                                        $('.grid-container.portfolio-full').isotope('layout');
-                                        angelPortfolio.portfolio.portfolioDescMargin();
-                                    }
-                                }
-                            });
-                        });
                     }
                 },
 
@@ -2887,19 +2789,7 @@
                             if (!twitterFeedLoader) { twitterFeedLoader = 'include/twitter/tweets.php'; }
 
                             $.getJSON(twitterFeedLoader + '?username=' + twitterFeedUser + '&count=' + twitterFeedCount, function(tweets) {
-                                if (element.hasClass('fslider')) {
-                                    element.find(".slider-wrap").html(sm_format_twitter3(tweets)).promise().done(function() {
-                                        var timer = setInterval(function() {
-                                            if (element.find('.slide').length > 1) {
-                                                element.removeClass('customjs');
-                                                var t = setTimeout(function() { angelPortfolio.widget.loadFlexSlider(); }, 500);
-                                                clearInterval(timer);
-                                            }
-                                        }, 500);
-                                    });
-                                } else {
-                                    element.html(sm_format_twitter(tweets));
-                                }
+                                element.html(sm_format_twitter(tweets));
                             });
                         });
                     }
@@ -3828,7 +3718,6 @@
                     angelPortfolio.portfolio.arrange();
                     angelPortfolio.portfolio.portfolioDescMargin();
                     angelPortfolio.widget.parallax();
-                    angelPortfolio.widget.loadFlexSlider();
                     angelPortfolio.widget.html5Video();
                     angelPortfolio.widget.masonryThumbs();
                     angelPortfolio.header.topsocial();
@@ -3896,7 +3785,7 @@
                 $cookieNotification = $('#cookie-notification');
 
             $(document).ready(angelPortfolio.documentOnReady.init);
-            $window.load(angelPortfolio.documentOnLoad.init);
+            jQuery($window).on('load', angelPortfolio.documentOnLoad.init);
             $window.on('resize', angelPortfolio.documentOnResize.init);
 
         })(jQuery);
@@ -3941,7 +3830,7 @@
 
 
         ////////////  function definitions
-        jQuery(window).load(function() {
+        jQuery(window).on('load', function() {
 
 
 
