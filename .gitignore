@@ -2,3 +2,18 @@ node_modules
 .env
 .env.local
 .DS_Store
+
+# Accidental duplicate build output
+_build/assets/prototypes 2/
+
+# Removed legacy assets (local copies may still exist on disk)
+components/directives/owl.slider.directive.js
+js/nonangular/components/
+js/nonangular/functions.js
+js/nonangular/jquery-1.11.2.min.js
+js/nonangular/jquery.camera.js
+js/nonangular/jquery.elastic.js
+js/nonangular/jquery.js
+js/nonangular/jquery.mousewheel.min.js
+js/nonangular/jquery.nivo.js
+js/nonangular/jquery.vmap.js
