@@ -19,6 +19,17 @@ The site has two cooperating runtime layers:
 
 Angular controls routing and view composition; the theme layer enhances the DOM after Angular renders it. Keep those responsibilities separate when adding features.
 
+## Recent Updates
+
+- Registered `WorkController` and `ContactController` in [index.html](index.html), restoring the `/work` and `/contact` routes.
+- Removed unused `jQuery.noConflict()` calls from the Work and Contact controllers.
+- Kept jQuery available for the legacy theme plugins in `MainController` and `js/nonangular/plugins.js`; its removal is a planned, incremental migration rather than a completed change.
+- Replaced the incorrect link icon on every portfolio Date row with the existing `icon-line2-calendar` icon.
+- Replaced portfolio carousels with stacked images and smooth project transitions.
+- Added guarded theme startup and DOM existence checks to prevent duplicate initialization and route-specific startup errors.
+
+The controller scripts referenced by `index.html` must remain synchronized with the routes in [app/app.js](app/app.js). Adding a route requires loading its controller before Angular bootstraps.
+
 ## Directory Layout
 
 ```text
@@ -67,7 +78,7 @@ npm install
 npm start
 ```
 
-BrowserSync serves the project from the repository root at `http://localhost:3000`. Its UI is normally available at `http://localhost:3001`. The server watches HTML, templates, JavaScript, and SCSS changes and reloads or recompiles the relevant output.
+BrowserSync serves the project from the repository root at `http://localhost:3000`. Its UI is normally available at `http://localhost:3001`. If those ports are already occupied, the active server may use an alternate port, such as `3002`; use the URL reported by Gulp. The server watches HTML, templates, JavaScript, and SCSS changes and reloads or recompiles the relevant output.
 
 Create a production build with:
 
