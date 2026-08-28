@@ -17,13 +17,16 @@ The site has two cooperating runtime layers:
 	- Vendor libraries in `js/nonangular/` and selected packages in `node_modules/` support animation, layout, media, and interaction features.
 	- The theme layer is DOM-safe: it checks optional elements before operating on them and uses `window.__angelPortfolioReady` and `window.__angelPortfolioLoaded` to prevent duplicate ready/load initialization.
 
+The Angular main controller is intentionally small: [app/main.controller.js](app/main.controller.js) owns route state and the home-page Sine Waves canvas only. It no longer duplicates the legacy theme runtime or uses jQuery. jQuery remains available only for legacy theme plugins that have not yet been migrated.
+
 Angular controls routing and view composition; the theme layer enhances the DOM after Angular renders it. Keep those responsibilities separate when adding features.
 
 ## Recent Updates
 
 - Registered `WorkController` and `ContactController` in [index.html](index.html), restoring the `/work` and `/contact` routes.
 - Removed unused `jQuery.noConflict()` calls from the Work and Contact controllers.
-- Kept jQuery available for the legacy theme plugins in `MainController` and `js/nonangular/plugins.js`; its removal is a planned, incremental migration rather than a completed change.
+- Replaced the duplicate jQuery-heavy `MainController` theme implementation with a focused controller using native browser APIs for viewport sizing, styles, and the Sine Waves gradient.
+- Kept jQuery available for the legacy theme runtime and plugins in `js/nonangular/main.js` and `js/nonangular/plugins.js`; its removal is a planned, incremental migration rather than a completed change.
 - Replaced the incorrect link icon on every portfolio Date row with the existing `icon-line2-calendar` icon.
 - Replaced portfolio carousels with stacked images and smooth project transitions.
 - Added guarded theme startup and DOM existence checks to prevent duplicate initialization and route-specific startup errors.
