@@ -1,1 +1,0 @@
-angular.module("portfolio-app").directive("footerNav",function(){return{restrict:"E",templateUrl:"components/directives/footer.html"}});

@@ -1,1 +1,0 @@
-angular.module("portfolio-app").constant("CONSTANTS",{API_URL:"http://www.angelcolberg.com/"});
