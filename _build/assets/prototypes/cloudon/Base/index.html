@@ -1,0 +1,104 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html>
+<script type="text/javascript" language="javascript" >
+function overlay() {
+	el = document.getElementById("overlay");
+	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+	
+	
+}
+</script>
+<head>
+<meta charset="UTF-8">
+<title>CloudOn Base</title>
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/base.css">
+
+    <!--[if lt IE 9]>
+        <script src="js/html5-3.6-respond-1.1.0.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <nav class="leftnav clearfix">
+        <ul>
+            <li><a href="_home.html" class="home">Home</a></li>
+            <li><a href="_files.html" class="files">Files</a></li>
+            <li><a href="_support.html" class="settings">Support</a></li>
+            <li><a href="_settings.html" class="settings">Settings</a></li>
+            <li><a href="#" class="logout">Logout</a></li>
+        </ul>
+    </nav>
+	
+    <main id="main">
+    
+        <section id="content">
+        </section>
+
+    </main>
+    
+    
+ </div>   <!-- /wrapper -->
+  
+ <div id="overlay">
+ 	<div class="dialog">
+         <header><h2>Dialog Title</h2></header>
+         <div>
+         hello
+         </div>
+         <footer class="footer"><a href="#" class="close">close</a></footer>
+     </div>
+ </div>  
+    
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+	
+	$(".logout, .close").on('click', function(event){
+			if ($("#overlay").is(":visible")) {
+				$("#overlay").hide();
+			} else {
+				$("#overlay").show();
+			}
+		event.preventDefault();
+	});
+var $loadblob = "<div id='loader'><div id='floatingBarsG'><div class='blockG' id='rotateG_01'></div><div class='blockG' id='rotateG_02'></div><div class='blockG' id='rotateG_03'></div><div class='blockG' id='rotateG_04'></div><div class='blockG' id='rotateG_05'></div><div class='blockG' id='rotateG_06'></div><div class='blockG' id='rotateG_07'></div><div class='blockG' id='rotateG_08'></div></div></div>"
+
+	$("#content").html($loadblob).load("_home.html", function() {		
+		$("#content").hide().fadeIn(200);	
+		
+		$pageId = $(this).find($("section")).attr("id");
+		$('a.menu').trigger('click');			
+	});
+
+
+
+	$("nav.leftnav ul li a").click( function(event){
+		$nlink = $(this).attr('href');
+		
+		$("nav li a").removeClass('active');
+		$(this).addClass('active');
+		
+		$("#content").html($loadblob).load($nlink, function() {
+			$pageId = $(this).find($("section")).attr("id"); 
+			$("#content").hide().fadeIn(200);
+	});	
+
+		event.preventDefault();	
+	  
+	});
+	
+});	
+</script> 
+
+</body>
+</html>

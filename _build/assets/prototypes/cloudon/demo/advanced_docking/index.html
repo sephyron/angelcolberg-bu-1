@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Untitled Page</title>
+    <style type="text/css">
+        body{margin:0px; font-family:Arial, Sans-Serif; font-size:13px;}
+/* dock */
+#dock{margin:0px; padding:0px; list-style:none; position:fixed; top:0px; height:100%; 
+	  z-index:100; background-color:#f0f0f0; left:0px;}
+#dock > li {width:40px; height:120px; margin: 0 0 1px 0; background-color:#dcdcdc;
+			 background-repeat:no-repeat; background-position:left center;}
+
+#dock #links {background-image:url(links.png);}
+#dock #files {background-image:url(files.png);}
+#dock #tools {background-image:url(tools.png);}
+
+#dock > li:hover {background-position:-40px 0px;}
+
+/* panels */
+#dock ul li {padding:5px; border: solid 1px #F1F1F1;}
+#dock ul li:hover {background:#D3DAED url(item_bkg.png) repeat-x; border: solid 1px #A8D8EB;}
+#dock ul li.header, #dock ul li .header:hover {background:#D3DAED url(header_bkg.png) repeat-x;border: solid 1px #F1F1F1;}
+
+#dock > li:hover ul {display:block;}
+#dock > li ul {position:absolute; top:0px; left:-180px;  z-index:-1;width:180px; display:none;
+			   background-color:#F1F1F1; border:solid 1px #969696; padding:0px; margin:0px; list-style:none;}
+#dock > li ul.docked { display:block;z-index:-2;}
+
+.dock,.undock{float:right;}
+.undock {display:none;}
+#content {margin: 10px 0 0 60px;}
+     
+    </style>
+    <script type="text/javascript" src="jquery-1.2.6.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var docked = 0;
+            
+            $("#dock li ul").height($(window).height());
+            
+            $("#dock .dock").click(function(){
+                $(this).parent().parent().addClass("docked").removeClass("free");
+                
+                docked += 1;
+                var dockH = ($(window).height()) / docked
+                var dockT = 0;               
+                
+                $("#dock li ul.docked").each(function(){
+                    $(this).height(dockH).css("top", dockT + "px");
+                    dockT += dockH;
+                });
+                $(this).parent().find(".undock").show();
+                $(this).hide();
+                
+                if (docked > 0)
+                    $("#content").css("margin-left","250px");
+                else
+                    $("#content").css("margin-left", "60px");
+            });
+            
+             $("#dock .undock").click(function(){
+                $(this).parent().parent().addClass("free").removeClass("docked")
+                    .animate({left:"-180px"}, 200).height($(window).height()).css("top", "0px");
+                
+                docked = docked - 1;
+                var dockH = ($(window).height()) / docked
+                var dockT = 0;               
+                
+                $("#dock li ul.docked").each(function(){
+                    $(this).height(dockH).css("top", dockT + "px");
+                    dockT += dockH;
+                });
+                $(this).parent().find(".dock").show();
+                $(this).hide();
+                
+                if (docked > 0)
+                    $("#content").css("margin-left", "250px");
+                else
+                    $("#content").css("margin-left", "60px");
+            });
+
+            $("#dock li").hover(function(){
+                $(this).find("ul").animate({left:"40px"}, 200);
+            }, function(){
+                $(this).find("ul.free").animate({left:"-180px"}, 200);
+           });
+        }); 
+    </script>
+</head>
+<body>
+    <ul id="dock">
+        <li id="links">
+            <ul class="free">
+                <li class="header"><a href="#" class="dock">Dock</a><a href="#" class="undock">Undock</a>Links</li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+            </ul>
+        </li>
+        <li id="files">
+            <ul class="free">
+                <li class="header"><a href="#" class="dock">Dock</a><a href="#" class="undock">Undock</a>Files</li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+            </ul>
+        </li>
+        <li id="tools">
+            <ul class="free">
+                <li class="header"><a href="#" class="dock">Dock</a><a href="#" class="undock">Undock</a>Tools</li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+                <li><a href="#">This is one item</a></li>
+           </ul>
+        </li>
+    </ul>
+    <div id="content">
+        <h1>JankoAtWarpSpeed.com</h1>
+        <h2>Demo for Advanced Docking using jQuery</h2>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id pharetra 
+            augue. Phasellus venenatis suscipit lacus, consectetur iaculis libero suscipit 
+            in. Morbi euismod placerat purus, id ultricies risus semper eget. Pellentesque 
+            tincidunt fringilla mauris, vitae rutrum augue dictum vel. Aenean viverra 
+            consectetur elit vitae dictum. Ut dapibus convallis mi, id imperdiet lorem 
+            eleifend id. Donec lacus neque, lobortis a blandit et, varius eget mi. In felis 
+            justo, auctor nec fringilla in, laoreet varius velit. Etiam lacinia orci sit 
+            amet metus rutrum eget aliquam tellus congue. Ut sagittis, lectus sed auctor 
+            varius, lectus felis aliquet nulla, non tempor justo mauris ut dui. Nulla sed 
+            erat sem. Suspendisse purus ligula, cursus id hendrerit et, vestibulum bibendum 
+            lacus.
+        </p>
+        <p>
+            Praesent iaculis lectus id magna semper laoreet vel sit amet lectus. Vestibulum 
+            purus ante, pellentesque quis fringilla a, suscipit id lectus. In ullamcorper 
+            posuere leo, vel auctor enim placerat ac. Sed vitae hendrerit ipsum. Nam ac 
+            nulla eget lectus sagittis suscipit. Fusce eu risus vitae elit vehicula 
+            fermentum. Integer commodo fringilla mi, eget viverra nunc dapibus non. Sed 
+            faucibus mi vel turpis lobortis consectetur. Donec pulvinar, erat id vulputate 
+            tempus, leo tortor tincidunt nisl, id hendrerit sapien nibh a sapien. Morbi eu 
+            mauris sed felis euismod semper. Pellentesque nunc mi, placerat ut faucibus nec, 
+            suscipit ut orci. Duis eu enim risus, a dictum nunc. Ut gravida neque vel arcu 
+            faucibus convallis. Aliquam euismod eleifend nunc at ornare. Aliquam tellus 
+            nisl, pellentesque vitae imperdiet nec, eleifend eu augue. Integer bibendum 
+            posuere nisl, eu vehicula orci luctus at. Vestibulum ante ipsum primis in 
+            faucibus orci luctus et ultrices posuere cubilia Curae; Aenean in ante sapien.
+        </p>
+        <p>
+            Proin mattis condimentum erat, et accumsan nunc tempus vulputate. Proin posuere 
+            mauris ut tortor accumsan ultricies. Aenean felis purus, pretium non pretium 
+            quis, iaculis sed erat. Donec ultrices libero eu dui tristique convallis. Fusce 
+            risus libero, bibendum in placerat sed, hendrerit ac sem. Nulla ornare risus non 
+            magna aliquam vehicula viverra elit tincidunt. Donec porttitor dapibus nunc sed 
+            cursus. Sed pretium sapien ut dolor placerat at cursus ligula aliquet. Nulla 
+            adipiscing nunc nec lacus consectetur vel gravida dui pharetra. Curabitur 
+            pharetra odio a sapien facilisis id faucibus magna dignissim. Sed auctor porta 
+            tellus a porttitor. Pellentesque consequat, eros in adipiscing rhoncus, arcu dui 
+            hendrerit risus, at sodales sapien est in odio. In accumsan interdum diam, sed 
+            congue nibh ultricies quis. Integer nec leo dolor, a porta mi. Sed adipiscing, 
+            neque et faucibus egestas, diam orci rutrum erat, eget congue arcu purus rutrum 
+            dolor. Nullam vel nisl non lacus pretium sodales.
+        </p>
+        <p>
+            Praesent eros est, varius a lobortis sed, ultricies id erat. Integer lacinia 
+            nulla lacus, sit amet vulputate tortor. Nullam tincidunt velit at nunc pharetra 
+            sit amet condimentum sapien ultricies. Class aptent taciti sociosqu ad litora 
+            torquent per conubia nostra, per inceptos himenaeos. Nunc sagittis ornare 
+            vehicula. Vestibulum a arcu ac dui vulputate porta ac non nibh. Praesent sem mi, 
+            faucibus vel suscipit sit amet, iaculis sit amet orci. Nunc nec mauris ante, at 
+            eleifend felis. Aliquam quis vehicula nisi. Duis nisl urna, aliquet a 
+            pellentesque id, vehicula semper nunc.
+        </p>
+        <p>
+            Curabitur eget eros imperdiet purus semper malesuada. Pellentesque vitae dui 
+            est. Curabitur luctus commodo aliquam. Quisque ut ligula metus, id euismod 
+            ligula. Mauris sollicitudin nisl eget odio congue vel congue est hendrerit. 
+            Mauris eu libero ac lectus commodo sodales ut id risus. Maecenas ultricies 
+            euismod ante, ut semper nisi lobortis pulvinar. Duis mollis velit et tortor 
+            gravida imperdiet. Integer malesuada elit vel nibh rutrum in porta ipsum auctor. 
+            Proin lacinia arcu nec tellus consequat ornare.
+        </p>
+</div>
+More script and css style
+: <a href="http://www.htmldrive.net/" title="HTML DRIVE - Free DHMTL Scripts,Jquery plugins,Javascript,CSS,CSS3,Html5 Library">www.htmldrive.net </a>
+</body>
+</html>

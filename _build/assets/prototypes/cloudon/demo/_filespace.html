@@ -1,0 +1,122 @@
+
+<div id="fs-wrapper">
+<div id="fs-header">
+		<!--p><a href="#"> <img src="img/edit.png" alt="edit" width="40px" height="40px"></a></p-->
+		
+	</div>
+	
+	
+<div class="container">
+<div id="fs-metadata">
+	<div id="fs-docIcon"><a href="#" > <img src="img/docIcon.png" alt="edit"></a></div>
+	<ul id="fs-owner">
+    <li><img src="img/peopleIcon.png">Owner:Paul Smith</li>
+		<li>Size: 21.44 KB</li>
+		<li>Modified: July 7, 2013, 3:44pm</li>
+		<li>Extension: docx</li>
+        </ul>
+	<div id="fs-contextualMenu" style="display:none">
+		<a href="#"><img src="img/cutIcon.png"></a>
+		<a href="#"><img src="img/copyIcon.png"></a>
+		<a href="#"><img src="img/deleteIcon.png"></a>
+		<a href="#"><img src="img/shareIcon.png"></a>
+		<a href="#"><img src="img/unshareIcon.png"></a>
+	
+	</div>
+	
+	<ul id="fs-editorList">
+		<li>Editors</li>
+		<li>Jonathan Fox</li>
+		<li>Vivian Chen</li>
+		<li>Maria Zombrano</li>
+		<li>Roman Celluci</li>
+		<li>Rebecca Gilbert</li>
+		<li>Homer Simpson</li>
+		<li>Isabelle Trenton</li>
+		<li>Kaiser Wolfe</li>
+		<li>Daniel Correa</li>
+	</ul>
+
+</div>
+<div class="clearfix"> </div>
+<div class="stream">
+<ul class="comments">
+
+</ul>
+</div>
+<div class="clearfix"> </div>
+</div>
+
+
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
+
+
+<script type="text/javascript"> 
+jQuery.fn.fadeDelay = function() {
+	delay = 0;
+	return this.each(function() {
+		$(this).delay(delay).fadeIn(350);
+		delay += 50;
+	});
+};
+$(document).ready(
+//$('.filespace').on('click', 
+    function(){
+		
+        $.getJSON(
+            'objects.json',
+				function(data){
+					//cycle through JSON items and transform 
+					$.each(data.objects, function(entryIndex, entry) {
+					  var blobjson = '<li class="activity '+this.type.name+'">';
+					  blobjson += '<div class="pic"><img src="' + this.user.avatar + '"/></div>';
+					  blobjson += '<div class="body"><span class="name">  ' + this.user.name + ' </span>';
+					  blobjson += '<span class="verb">  ' + this.type.verb + ' </span>';
+					  blobjson += '<span class="object">  ' + this.target.file + '</span>';
+					  blobjson += '<p>'+this.content.detail+'</p></div>';
+					  blobjson += '</p><footer class="footer"><div class="time">' + this.time+ '</div>';
+					  blobjson += '<div class="actions"><span class="reply"><a href="#">Reply</a></span></div></footer>';
+					  blobjson += '</li>';
+					  //display the parsed JSON contents by appending them to .comments
+					  	/*$(".comments li").each(function(entryIndex) {
+							$('.comments').append(blobjson).delay(1500*entryIndex).fadeIn(400);
+							//$('.comments').append(blobjson).fadeDelay(entry);
+							
+						});*/
+					  $('.comments').append(blobjson);
+					});
+
+							(function() {  
+							   // Hide the lis 
+							   var lis = $('.comments li').hide();        
+							  // $('.filespace').on('click',function() {  
+								  var i = 0;  
+									//Now display them one at a time
+								  (function displayImages() {  
+									 lis.eq(i++).fadeIn(300, 'swing', displayImages);  
+								  })();  
+							  // });    
+							})();
+                }  
+        );
+    }
+);
+				//CONTEXTUAL MENU
+				//Can use on click
+				//$('#fs-docIcon').on('click', 
+				//or use auto function
+				(
+				
+				function() {
+				$('#fs-contextualMenu').slideToggle('down', function() {
+					
+					});
+				})
+				//auto function end below
+				()
+				;
+</script>
+
+

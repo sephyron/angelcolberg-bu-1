@@ -1,0 +1,1 @@
+(()=>{function a(a,t){return{loadData:loadData}}angular.module("portfolio-app").factory("getDataFromAPI",a),a.$inject=["$http","LocalStorage"]})();

@@ -1,0 +1,80 @@
+<html>
+<head>
+<link href="css/main.css" rel=stylesheet />
+
+</head>
+
+<body>
+
+<div id="phone">
+  <div id="screen">
+
+    <div id="loader"><i class="loader-icon anim"></i></div>
+
+
+<div class="pages">
+  <video id="ad1-video" preload>
+    <source src="media/ad1.mp4" type="video/mp4">
+
+  Your browser does not support the video tag.
+  </video>
+    <div class="page ad-images ad1-image" id="ad1">
+
+
+      <div class="hotspot ad1-hotspot">
+
+      </div>
+
+
+
+    </div>
+
+
+
+
+
+
+</div>
+  </div>
+
+
+
+
+</div>
+
+<div id="text">
+  <div class="unity-logo"></div>
+  <!--h1 style="font-weight:lighter; font-family: Roboto;">Unity<br/>Ads</h1-->
+  <h2>Watch Video for Item Demo</h2>
+
+</div>
+
+</body>
+
+
+
+<script src="js/jquery.min.js"></script>
+
+
+
+<script>
+$(document).ready(function(){
+$("#ad1-video").hide();
+$("#ad1").show();
+
+
+
+
+
+
+    $(".ad1-hotspot").click(function() {
+      $("#ad1-video").show();
+      $("#ad1-video")[0].play();
+
+
+    })
+
+});
+
+</script>
+</html>

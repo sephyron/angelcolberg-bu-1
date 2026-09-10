@@ -366,6 +366,18 @@ const angelPortfolio = window.angelPortfolio;
       }
     },
 
+    goToTopScroll: function() {
+      const goToTopEl = $('#gotoTop');
+      if (!goToTopEl) return;
+
+      const scrollOffset = angelPortfolio.initialize.topScrollOffset();
+      if (window.pageYOffset >= scrollOffset) {
+        goToTopEl.classList.add('show-top-scroll');
+      } else {
+        goToTopEl.classList.remove('show-top-scroll');
+      }
+    },
+
     lazyLoad: function() {
       const lazyLoadEl = $$('[data-lazyload]');
       if (lazyLoadEl.length > 0) {
@@ -394,7 +406,6 @@ const angelPortfolio = window.angelPortfolio;
     fullScreen: function() {
       $$('.full-screen').forEach(element => {
         const windowHeight = window.innerHeight;
-        const headerHeight = $('header').offsetHeight;
         let fullScreenHeight = windowHeight;
 
         if (element.id === 'slider') {
@@ -405,10 +416,8 @@ const angelPortfolio = window.angelPortfolio;
             const transformY = transformVal ? parseFloat(transformVal.split(',')[5]) : 0;
             fullScreenHeight = windowHeight - sliderOffset + transformY;
           }
-          if ($('#slider').nextElementSibling.id === 'header' && 
-              (document.body.classList.contains('device-lg') || document.body.classList.contains('device-md'))) {
-            fullScreenHeight -= headerHeight;
-          }
+          // note: the nav overlaps the slider's own bottom edge (negative margin), so it
+          // must not shrink the slider height further - doing so left a gap below the fold.
         }
 
         if (document.body.classList.contains('device-xs') || document.body.classList.contains('device-xxs')) {
@@ -447,8 +456,77 @@ const angelPortfolio = window.angelPortfolio;
     },
 
     lightbox: function() {
-      // Implement a vanilla JS lightbox here
-      // This would require creating a custom lightbox or using a vanilla JS lightbox library
+      const project = document.querySelector('#portfolio-ajax-single');
+      if (!project || project.dataset.mosaicInitialized === 'true') return;
+
+      const figures = Array.from(project.children).filter(element =>
+        element.matches('figure.portfolio-single-image')
+      );
+      if (figures.length === 0) return;
+
+      const mosaic = document.createElement('div');
+      mosaic.className = 'portfolio-image-mosaic';
+      mosaic.setAttribute('aria-label', 'Project images');
+
+      figures.forEach((figure, index) => {
+        const image = figure.querySelector('img');
+        if (!image) return;
+
+        const link = document.createElement('a');
+        link.className = 'mosaic-tile';
+        link.href = image.currentSrc || image.src;
+        link.setAttribute('aria-label', `Expand project image ${index + 1}`);
+        link.appendChild(image);
+
+        const caption = figure.querySelector('caption');
+        const captionText = caption ? caption.textContent.trim() : image.alt;
+        figure.className = 'portfolio-mosaic-item';
+        figure.replaceChildren(link);
+        if (captionText) figure.dataset.caption = captionText;
+        mosaic.appendChild(figure);
+      });
+
+      project.appendChild(mosaic);
+      project.dataset.mosaicInitialized = 'true';
+
+      let viewer = document.querySelector('#portfolio-image-viewer');
+      if (!viewer) {
+        viewer = document.createElement('div');
+        viewer.id = 'portfolio-image-viewer';
+        viewer.className = 'portfolio-image-viewer';
+        viewer.setAttribute('aria-hidden', 'true');
+        viewer.innerHTML = '<button type="button" class="portfolio-image-viewer-close" aria-label="Close image">&times;</button><figure><img alt=""><figcaption></figcaption></figure>';
+        document.body.appendChild(viewer);
+      }
+
+      const viewerImage = viewer.querySelector('img');
+      const viewerCaption = viewer.querySelector('figcaption');
+      const closeViewer = () => {
+        viewer.classList.remove('is-open');
+        viewer.setAttribute('aria-hidden', 'true');
+      };
+
+      viewer.querySelector('.portfolio-image-viewer-close').addEventListener('click', closeViewer);
+      viewer.addEventListener('click', event => {
+        if (event.target === viewer) closeViewer();
+      });
+
+      mosaic.querySelectorAll('.mosaic-tile').forEach(tile => {
+        tile.addEventListener('click', event => {
+          event.preventDefault();
+          const item = tile.closest('.portfolio-mosaic-item');
+          viewerImage.src = tile.href;
+          viewerImage.alt = tile.querySelector('img').alt;
+          viewerCaption.textContent = item.dataset.caption || viewerImage.alt;
+          viewer.classList.add('is-open');
+          viewer.setAttribute('aria-hidden', 'false');
+          viewer.querySelector('.portfolio-image-viewer-close').focus();
+        });
+      });
+
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && viewer.classList.contains('is-open')) closeViewer();
+      });
     },
 
     resizeVideos: function() {
@@ -878,7 +956,7 @@ const angelPortfolio = window.angelPortfolio;
     },
 
     stickyMenuClass: function() {
-      if (stickyMenuClasses) {
+      if (typeof stickyMenuClasses !== 'undefined' && stickyMenuClasses) {
         const newClassesArray = stickyMenuClasses.split(' ');
         const header = $('#header');
 
@@ -987,6 +1065,8 @@ const angelPortfolio = window.angelPortfolio;
       }
     };
   
+    let swiperSlider;
+
     angelPortfolio.slider = {
       init: function() {
         this.sliderParallaxDimensions();
@@ -1104,7 +1184,7 @@ const angelPortfolio = window.angelPortfolio;
   
       sliderParallaxOffset: function() {
         let sliderParallaxOffsetTop = 0;
-        const headerHeight = $('#header').offsetHeight;
+        let headerHeight = $('#header').offsetHeight;
         if (document.body.classList.contains('side-header') || $('#header').classList.contains('transparent-header')) {
           headerHeight = 0;
         }
@@ -1138,18 +1218,22 @@ const angelPortfolio = window.angelPortfolio;
                 const transformAmount = ((window.pageYOffset - parallaxOffsetTop) * -0.4).toFixed(0);
                 const transformAmount2 = ((window.pageYOffset - parallaxOffsetTop) * -0.15).toFixed(0);
                 sliderParallaxEl.querySelector('.slider-parallax-inner').style.transform = `translateY(${transformAmount}px)`;
-                $('.slider-parallax .slider-caption,.ei-title').style.transform = `translateY(${transformAmount2}px)`;
+                const captionEl = $('.slider-parallax .slider-caption,.ei-title');
+                if (captionEl) captionEl.style.transform = `translateY(${transformAmount2}px)`;
               } else {
                 const transformAmount = ((window.pageYOffset - parallaxOffsetTop) / 1.5).toFixed(0);
                 const transformAmount2 = ((window.pageYOffset - parallaxOffsetTop) / 7).toFixed(0);
                 sliderParallaxEl.style.transform = `translateY(${transformAmount}px)`;
-                $('.slider-parallax .slider-caption,.ei-title').style.transform = `translateY(${-transformAmount2}px)`;
+                const captionEl = $('.slider-parallax .slider-caption,.ei-title');
+                if (captionEl) captionEl.style.transform = `translateY(${-transformAmount2}px)`;
               }
             } else {
               if (sliderParallaxEl.querySelector('.slider-parallax-inner')) {
-                $('.slider-parallax-inner,.slider-parallax .slider-caption,.ei-title').style.transform = 'translateY(0px)';
+                const innerEl = $('.slider-parallax-inner,.slider-parallax .slider-caption,.ei-title');
+                if (innerEl) innerEl.style.transform = 'translateY(0px)';
               } else {
-                $('.slider-parallax,.slider-parallax .slider-caption,.ei-title').style.transform = 'translateY(0px)';
+                const outerEl = $('.slider-parallax,.slider-parallax .slider-caption,.ei-title');
+                if (outerEl) outerEl.style.transform = 'translateY(0px)';
               }
             }
           } else {
@@ -1164,9 +1248,11 @@ const angelPortfolio = window.angelPortfolio;
           }
         } else {
           if (sliderParallaxEl.querySelector('.slider-parallax-inner')) {
-            $('.slider-parallax-inner,.slider-parallax .slider-caption,.ei-title').style.transform = 'translateY(0px)';
+            const innerEl = $('.slider-parallax-inner,.slider-parallax .slider-caption,.ei-title');
+            if (innerEl) innerEl.style.transform = 'translateY(0px)';
           } else {
-            $('.slider-parallax,.slider-parallax .slider-caption,.ei-title').style.transform = 'translateY(0px)';
+            const outerEl = $('.slider-parallax,.slider-parallax .slider-caption,.ei-title');
+            if (outerEl) outerEl.style.transform = 'translateY(0px)';
           }
         }
       },
@@ -2484,7 +2570,8 @@ const angelPortfolio = window.angelPortfolio;
         const textRotaterEl = $$('.text-rotater');
         if (textRotaterEl.length < 1) return;
   
-        if (typeof Morphext === 'undefined') {
+        // Morphext is a jQuery plugin (jQuery.fn.Morphext), not a global constructor.
+        if (typeof jQuery === 'undefined' || typeof jQuery.fn.Morphext === 'undefined') {
           console.log('textRotater: Morphext not Defined.');
           return true;
         }
@@ -2494,7 +2581,7 @@ const angelPortfolio = window.angelPortfolio;
           const rotateSpeed = parseInt(element.getAttribute('data-speed')) || 1200;
           const rotateSeparator = element.getAttribute('data-separator') || ',';
   
-          new Morphext(element.querySelector('.t-rotate'), {
+          jQuery(element.querySelector('.t-rotate')).Morphext({
             animation: rotateText || 'fadeIn',
             separator: rotateSeparator,
             speed: rotateSpeed
@@ -2806,24 +2893,34 @@ const angelPortfolio = window.angelPortfolio;
     angelPortfolio.documentOnResize = {
       init: function() {
         let t = setTimeout(() => {
-          angelPortfolio.header.topsocial();
-          angelPortfolio.header.fullWidthMenu();
-          angelPortfolio.header.overlayMenu();
-          angelPortfolio.initialize.fullScreen();
-          angelPortfolio.initialize.verticalMiddle();
-          angelPortfolio.initialize.maxHeight();
-          angelPortfolio.initialize.testimonialsGrid();
-          angelPortfolio.initialize.stickyFooter();
-          angelPortfolio.slider.sliderParallaxDimensions();
-          angelPortfolio.slider.captionPosition();
-          angelPortfolio.portfolio.arrange();
-          angelPortfolio.portfolio.portfolioDescMargin();
-          angelPortfolio.widget.tabsResponsiveResize();
-          angelPortfolio.widget.tabsJustify();
-          angelPortfolio.widget.html5Video();
-          angelPortfolio.widget.masonryThumbs();
-          angelPortfolio.initialize.dataResponsiveClasses();
-          angelPortfolio.initialize.dataResponsiveHeights();
+          const steps = [
+            () => angelPortfolio.header.topsocial(),
+            () => angelPortfolio.header.fullWidthMenu(),
+            () => angelPortfolio.header.overlayMenu(),
+            () => angelPortfolio.initialize.fullScreen(),
+            () => angelPortfolio.initialize.verticalMiddle(),
+            () => angelPortfolio.initialize.maxHeight(),
+            () => angelPortfolio.initialize.testimonialsGrid(),
+            () => angelPortfolio.initialize.stickyFooter(),
+            () => angelPortfolio.slider.sliderParallaxDimensions(),
+            () => angelPortfolio.slider.captionPosition(),
+            () => angelPortfolio.portfolio.arrange(),
+            () => angelPortfolio.portfolio.portfolioDescMargin(),
+            () => angelPortfolio.widget.tabsResponsiveResize(),
+            () => angelPortfolio.widget.tabsJustify(),
+            () => angelPortfolio.widget.html5Video(),
+            () => angelPortfolio.widget.masonryThumbs(),
+            () => angelPortfolio.initialize.dataResponsiveClasses(),
+            () => angelPortfolio.initialize.dataResponsiveHeights()
+          ];
+
+          steps.forEach(step => {
+            try {
+              step();
+            } catch (err) {
+              console.error('documentOnResize > init: step failed.', err);
+            }
+          });
           
           if ($('.grid-container')) {
             if (!$('.grid-container').classList.contains('customjs')) {
@@ -2843,9 +2940,12 @@ const angelPortfolio = window.angelPortfolio;
           }
         }, 500);
   
-        window.addEventListener('resize', function() {
-          angelPortfolio.documentOnResize.init();
-        });
+        if (!window.__angelPortfolioResizeBound) {
+          window.__angelPortfolioResizeBound = true;
+          window.addEventListener('resize', function() {
+            angelPortfolio.documentOnResize.init();
+          });
+        }
       }
     };
   
@@ -2910,7 +3010,7 @@ const angelPortfolio = window.angelPortfolio;
   
         angelPortfolio.header.stickyMenu(headerWrapOffset);
         angelPortfolio.header.stickyPageMenu(pageMenuOffset);
-  
+
         window.addEventListener('scroll', function() {
           angelPortfolio.initialize.goToTopScroll();
           const openedHeader = $('body.open-header.close-header-on-scroll');
@@ -2919,10 +3019,10 @@ const angelPortfolio = window.angelPortfolio;
           angelPortfolio.header.stickyPageMenu(pageMenuOffset);
           angelPortfolio.header.logo();
         });
-  
-        window.addEventListener('scroll', angelPortfolio.slider.sliderParallax);
-        window.addEventListener('scroll', angelPortfolio.slider.sliderElementsFade);
-  
+
+        window.addEventListener('scroll', () => angelPortfolio.slider.sliderParallax());
+        window.addEventListener('scroll', () => angelPortfolio.slider.sliderElementsFade());
+
         if ($('.one-page-menu')) {
           window.addEventListener('scroll', angelPortfolio.header.onepageScroller);
         }
@@ -2994,19 +3094,14 @@ const angelPortfolio = window.angelPortfolio;
       }
     };
   
-    // Initialize Functions on Document Ready
-    document.addEventListener('DOMContentLoaded', function() {
-      if (!window.__angelPortfolioReady) {
-        angelPortfolio.documentOnReady.init();
-      }
-    });
-  
-    // Initialize Functions on Window Load
-    window.addEventListener('load', function() {
-      if (!window.__angelPortfolioLoaded) {
-        angelPortfolio.documentOnLoad.init();
-      }
-    });
+    // Note: documentOnReady.init()/documentOnLoad.init() are intentionally NOT
+    // bound to DOMContentLoaded/'load' here. Those events fire before ngRoute
+    // has fetched and injected the routed view's template into #wrapper, so
+    // running the init functions at that point binds nav/link/widget handlers
+    // against an empty DOM and permanently sets the __angelPortfolioReady/
+    // __angelPortfolioLoaded guards, preventing them from ever running again.
+    // app.js's run() block calls these on Angular's $viewContentLoaded event
+    // instead, once the real view markup exists.
   
     // Initialize Functions on Window Resize
     let resizeTimer;

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+		
+		<meta content="width=600px" user-scalable="yes" name="viewport" />
+		<meta name="robots" content="noindex, nofollow" />
+
+		<title></title>
+
+		<style type="text/css" media="all">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			body
+			{
+				position: relative;
+			}
+			body, div, p {
+				font-family: Arial, Helvetica, Verdana;
+				font-size: 16px;
+				line-height: 22px;
+				color: #fff;
+				-webkit-text-size-adjust: none;
+			}
+			body {
+				background-color: #999;
+			}
+			a, a:link, a:active, a:visited, a:hover {
+				color: #fff;
+				text-decoration: underline;
+			}
+
+			#tablet {
+				
+				height: 100%;
+				
+				
+				
+				z-index: 2;
+			}
+	
+			#tablet > div {
+				background: center center no-repeat transparent;
+				background-image: url(tablet.png);
+				background-size: 1024px 760px;
+				width: 1124px;
+				height: 860px;
+				margin: 0 0 0 0;
+				position: absolute;
+				
+				z-index: 1;
+			}
+			#tablet iframe {
+				box-shadow: 0 0 2px rgba( 0, 0, 0, 0.4 );
+				background: #878787;
+				border: none;
+				width: 833px;
+				height: 600px;
+				margin: 130px 0 0 147px;
+			}
+			
+			#page {
+				height: 100%;
+				width: 100%;
+				position: relative;
+			}
+			
+			#page > div {
+				width: 400px;
+				padding: 10px 0 0 0;
+				margin-top: -150px;
+				position: relative;
+				top: 50%;
+				left: 50%;
+			}
+			section#content {
+				height: 100% !important;	
+			}
+			.switchcontrols {
+				position: absolute;
+				right: 2%;
+				top: 10%;
+				z-index: 5;
+				background: #999;
+				font-size: 0.75em;	
+			}
+			@media screen and ( min-width: 950px ) {
+				.smallscreen
+				{
+					display: none;
+				}
+			}
+			@media screen and ( max-width: 949px ) {
+				.widescreen
+				{
+					display: none;
+				}
+				#phone
+				{
+					display: none;
+				}
+				#page > div
+				{
+					margin-left: -200px;
+				}
+			}
+		</style>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script language="javascript">
+        $(document).ready(function(){
+			 /*var locations = ["../Co-editing/index.html", "drilldown.html"];
+			var len = locations.length;
+			var iframe = $('#frame');
+			var i = 0;
+		   setInterval(function () {
+				$(iframe).attr('src', locations[++i % len]);
+			}, 30000);*/
+			$('.btn1').on('click', function(e){
+				$("#tabletframe").attr("src", "../Co-editing/index.html");
+				//e.preventDefault();		
+			});
+			
+			$('.btn2').on('click', function(e){
+				$("#tabletframe").attr("src","drilldown.html");
+				//e.preventDefault();	
+				//alert('hello');
+			});
+			$('.btn3').on('click', function(e){
+				$("#tabletframe").attr("src","sidebarmenu.html");
+				//e.preventDefault();	
+				//alert('hello');
+			});
+      });
+        </script>
+	</head>
+	<body>
+		<div id="tablet">
+			<div>
+				<iframe name="tablet" id="tabletframe" src="../Co-editing/index.html" frameborder="0" width="824" height="568"></iframe>
+			</div>
+		</div>
+			<div class="switchcontrols">
+        		<a class="btn1" href="#">Webapp</a>
+                <br />
+               <a class="btn2" href="#">Drill Down</a>
+               <br />
+               <a class="btn3" href="#">Sidebar Menu</a>
+        	</div>
+	</body>
+</html>

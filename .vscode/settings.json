@@ -4,5 +4,15 @@
     "search.exclude": {
         "**/node_modules": false
     },
-    "search.useIgnoreFiles": false
+    "search.useIgnoreFiles": false,
+    "chat.tools.terminal.autoApprove": {
+        "/^node --check app/work\\.controller\\.js && node --check app/contact\\.controller\\.js && ! grep -E -n \"jQuery\\|\\\\\\$\\\\\\(\" app/work\\.controller\\.js app/contact\\.controller\\.js$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^node --check app/work\\.controller\\.js && node --check app/contact\\.controller\\.js && ! grep -E -n \"jQuery\\|\\\\\\$\\\\\\(\" app/work\\.controller\\.js app/contact\\.controller\\.js; echo \"Exit code: \\$\\?\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
 }

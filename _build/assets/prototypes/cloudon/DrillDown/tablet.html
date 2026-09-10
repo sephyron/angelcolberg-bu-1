@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+		
+		<meta content="width=600px user-scalable=yes" name="viewport" />
+		<meta name="robots" content="noindex, nofollow" />
+
+		<title></title>
+
+		<style type="text/css" media="all">
+			html, body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+			}
+			body
+			{
+				position: relative;
+			}
+			body, div, p {
+				font-family: Arial, Helvetica, Verdana;
+				font-size: 16px;
+				line-height: 22px;
+				color: #fff;
+				-webkit-text-size-adjust: none;
+			}
+			body {
+				background-color: #999;
+			}
+			a, a:link, a:active, a:visited, a:hover {
+				color: #fff;
+				text-decoration: underline;
+			}
+
+			#tablet {
+				
+				height: 100%;
+				
+				position: absolute;
+				left: 70%;
+				
+				top: 0;
+				
+				z-index: 2;
+			}
+	
+			#tablet > div {
+				background: center center no-repeat transparent;
+				background-image: url(tablet.png);
+				background-size: 1224px 960px;
+				width: 1224px;
+				height: 960px;
+				margin: -500px 0 0 0;
+				position: absolute;
+				top: 50%;
+				right: -265px;
+				z-index: 1;
+			}
+			#tablet iframe {
+				box-shadow: 0 0 2px rgba( 0, 0, 0, 0.4 );
+				background: #eee;
+				border: none;
+				width: 1024px;
+				height: 768px;
+				margin: 100px 0 0 100px;
+			}
+			
+			#page {
+				height: 100%;
+				width: 100%;
+				position: relative;
+			}
+			
+			#page > div {
+				width: 400px;
+				padding: 10px 0 0 0;
+				margin-top: -150px;
+				position: relative;
+				top: 50%;
+				left: 50%;
+			}
+
+			@media screen and ( min-width: 950px ) {
+				.smallscreen
+				{
+					display: none;
+				}
+			}
+			@media screen and ( max-width: 949px ) {
+				.widescreen
+				{
+					display: none;
+				}
+				#phone
+				{
+					display: none;
+				}
+				#page > div
+				{
+					margin-left: -200px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="tablet">
+			<div>
+				<iframe name="tablet" src="drilldown.html" frameborder="0" width="1024" height="768"></iframe>
+			</div>
+		</div>
+		
+	</body>
+</html>

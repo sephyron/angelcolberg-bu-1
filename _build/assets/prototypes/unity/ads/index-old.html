@@ -1,0 +1,149 @@
+<html>
+<head>
+<link href="css/main.css" rel=stylesheet />
+
+</head>
+
+<body>
+
+<div id="phone">
+  <div id="screen">
+    <!--div id="header">
+      <ul id="menu">
+
+        <li>Ad 1</uli>
+        <li>Ad 2</uli>
+        <li>Ad 3</uli>
+
+        <li class="reload"><i class="loader-icon"></i></li>
+      </ul>
+      <div class="pullmenu-icon"></div>
+    </div-->
+    <div id="loader"><i class="loader-icon anim"></i></div>
+
+
+<div class="pages">
+
+    <div class="page ad-images ad1-image" id="ad1">
+
+
+      <div class="hotspot ad1-hotspot">
+
+      </div>
+      <video id="ad1-video" preload>
+        <source src="media/ad1.mp4" type="video/mp4">
+
+      Your browser does not support the video tag.
+      </video>
+
+
+    </div>
+
+
+
+    <div class="page ad-images ad2-image" id="ad2">
+      <div class="hotspot ad2-hotspot">
+
+      </div>
+      <video id="ad2-video" preload>
+        <source src="media/ad2.mp4" type="video/mp4">
+
+      Your browser does not support the video tag.
+      </video>
+
+    </div>
+
+
+    <div class="page ad-images ad3-image" id="ad3">
+      <div class="hotspot ad3-hotspot">
+
+      </div>
+
+      <video id="ad3-video" preload>
+        <source src="media/ad3.mov" type="video/mov">
+
+      Your browser does not support the video tag.
+      </video>
+    </div>
+
+
+
+</div>
+  </div>
+
+
+
+
+</div>
+
+<div id="text">
+  <div class="unity-logo"></div>
+  <!--h1 style="font-weight:lighter; font-family: Roboto;">Unity<br/>Ads</h1-->
+  <h2>Demo</h2>
+  <ul>
+  <li><a href="#" class="ad1-btn">Ad 1</a></li>
+  <li><a href="#" class="ad2-btn">Ad 2</a></li>
+  <li><a href="#" class="ad3-btn">Ad 3</a></li>
+</ul>
+</div>
+
+</body>
+
+
+
+<script src="js/jquery.min.js"></script>
+
+
+
+<script>
+$(document).ready(function(){
+$("#ad3-video, #ad1-video, #ad2-video").hide();
+
+    $(".ad1-btn").click( function() {
+      $(".pages").removeClass("hide");
+      $(".page").hide();
+      $("#ad1").show();
+
+
+    })
+
+    $(".ad2-btn").click( function() {
+      $(".pages").removeClass("hide");
+      $(".page").hide();
+      $("#ad2").show();
+
+
+    })
+
+    $(".ad3-btn").click( function() {
+      $(".pages").removeClass("hide");
+      $(".page").hide();
+      $("#ad3").show();
+
+      //alert("fu");
+    })
+
+
+
+    $(".ad1-hotspot").click(function() {
+      $("#ad1-video").show();
+      $("#ad1-video")[0].play();
+      $("#ad2-video, #ad3-video")[0].pause();
+
+    })
+    $(".ad2-hotspot").click(function() {
+      $("#ad2-video").show();
+      $("#ad2-video")[0].play();
+      $("#ad1-video, #ad3-video")[0].pause();
+      $("#ad1-video").first().attr('src','')
+      //alert("fu");
+    })
+    $(".ad3-hotspot").click(function() {
+      $("#ad3-video").show();
+      $("#ad3-video")[0].play();
+      $("#ad2-video, #ad1-video")[0].pause();
+    })
+});
+
+</script>
+</html>

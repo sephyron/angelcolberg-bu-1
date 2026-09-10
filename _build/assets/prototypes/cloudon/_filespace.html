@@ -1,0 +1,186 @@
+<div id="fs-wrapper">
+<div id="fs-header">
+		<!--<p><a href="#"> <img src="img/edit.png" alt="edit" width="40px" height="40px"></a></p>-->
+		
+	</div>
+	
+	
+<div class="container">
+<div id="fs-metadata">
+	<p><a href="#"  id="fs-docIcon"> <img src="img/docIcon.png" alt="edit"></a></p>
+	<div id="fs-owner"><img src="img/peopleIcon.png"></p>Owner:Paul Smith</p></div>
+		<p>Size: 21.44 KB</p>
+		<p>Modified: July 7, 2013, 3:44pm</p>
+		<p>Extension: docx</p>
+	<div id="fs-contextualMenu" style="display:none">
+		<a href="#"><img src="img/cutIcon.png"></a>
+		<a href="#"><img src="img/copyIcon.png"></a>
+		<a href="#"><img src="img/deleteIcon.png"></a>
+		<a href="#"><img src="img/shareIcon.png"></a>
+		<a href="#"><img src="img/unshareIcon.png"></a>
+	
+	</div>
+	
+	<div id="fs-editorList">
+		<p>Editors:</p>
+		<p>Jonathan Fox</p>
+		<p>Vivian Chen</p>
+		<p>Maria Zombrano</p>
+		<p>Roman Celluci</p>
+		<p>Rebecca Gilbert</p>
+		<p>Homer Simpson</p>
+		<p>Isabelle Trenton</p>
+		<p>Kaiser Wolfe</p>
+		<p>Daniel Correa</p>
+	</div>
+
+</div>
+<ul class="comments">
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>Vivian Chen edited the file.</p> </li>
+
+<li ><img src="img/shareInStream.png" width="22px" height="29px"><p>Jonathan Fox shared the file with Vivian Chen.</p></li>
+
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>Jonathan Fox edited the file.</p></li>
+
+<li ><img src="img/commentInStream.png" width="22px" height="29px"><p>Lorem ipsum loreum ipsum lorem ipsum.</p></li>
+
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>Paul Smith edited the file.</p></li>
+
+<li ><img src="img/commentInStream.png" width="22px" height="29px"><p>Lorem ipsum lorem ipsum.</p></li>
+
+<li ><img src="img/commentInStream.png" width="22px" height="29px"><p>Lorem ipsum lorem ipsum lorem ipsum.</p></li>
+
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>You edited the file.</p></li>
+
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>Jonathan Fox edited the file.</p></li>
+
+<li ><img src="img/commentInStream.png" width="22px" height="29px"><p>Lorem ipsum lorem ipsum.</p></li>
+
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>Jonathan Fox edited the file.</p></li>
+
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>You edited the file.</p></li>
+
+<li ><img src="img/editInStream.png" width="22px" height="29px"><p>You edited the file.</p></li>
+
+<li ><img src="img/shareInStream.png" width="22px" height="29px"><p>You shared the file with Jonathan Fox.</p></li>
+</ul>
+<div class="clearfix"> </div>
+</div>
+
+
+</div>
+<style>
+
+
+
+#fs-wrapper {
+	min-width:960px; /*why do i need to set min width in order to avoid overlap?*/
+	margin:auto;	
+}
+#fs-header {
+	position:relative;
+	width:100%;
+}
+
+#fs-header p {
+	margin-left:95%;
+}
+
+.container {
+  position: relative;
+}
+#fs-metadata {
+  float:left;
+  min-width:25%;
+  height:100%;
+  border-right:1px solid #fff;
+}
+
+#fs-metadata p {
+	margin-left: 10%;
+	font-size:.7em;
+	line-height:1.1;
+}
+
+#fs-owner {
+	margin-left:8%;
+}
+#fs-owner img {
+	float:left;
+	margin-top:-5px;
+}
+#fs-owner p {
+	float:left;
+	margin-left:5px;
+}
+
+#fs-contextualMenu {
+	background-color:#000;
+	
+}
+
+#fs-contextualMenu img {
+	margin-left:5%;
+}
+.comments {
+ float:left;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+.comments li img {
+	float:left;
+}
+.comments li p{
+	margin-left:50px;
+}
+
+
+
+
+</style>
+
+<script type="text/javascript"> 
+
+$(document).ready(function()
+			{
+				$.getJSON("dummy.js",function(data)
+			{
+				$.each(data.posts, function(i,data)
+			{
+				var div_data =
+				"<li ><a href='"+data.url+"'>"+data.actor+"</a> "+data.verb+" "+data.obj+" "+data.dateTime+" </li>";
+				$(div_data).prependTo(".blob");
+			});
+	}
+		);
+		return false;
+	});	
+
+
+	$('#fs-docIcon').click(function() {
+	$('#fs-contextualMenu').slideToggle('down', function() {
+	// Animation complete.
+	});
+});
+</script>
+
+

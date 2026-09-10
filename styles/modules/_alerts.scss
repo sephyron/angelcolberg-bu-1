@@ -1,101 +1,103 @@
-
-/*-----------------------------------------------------------------------------------
+/* -----------------------------------------------------------------------------------
 
 	Shortcodes: alerts.scss
 
------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------
 	Alerts
------------------------------------------------------------------*/
+----------------------------------------------------------------- */
 
 .style-msg,
 .style-msg2 {
-	position: relative;
-	display: block;
-	color: #444;
-	border-left: 4px solid rgba(0,0,0,0.1);
-	margin-bottom: 20px;
+  position: relative;
+  display: block;
+  color: #444;
+  border-left: 4px solid rgb(0 0 0 / 10%);
+  margin-bottom: 20px;
 }
 
-.style-msg2 { border-left: 4px solid rgba(0,0,0,0.2); }
+.style-msg2 { border-left: 4px solid rgb(0 0 0 / 20%); }
 
 .successmsg {
-	background: #C5EBD4;
-	color: #184B21;
+  background: #c5ebd4;
+  color: #184b21;
 }
 
 .errormsg {
-	background: #FFCCCC;
-	color: #740D0A;
+  background: #fcc;
+  color: #740d0a;
 }
 
 .infomsg {
-	background: #B9DFF4;
-	color: #124F70;
+  background: #b9dff4;
+  color: #124f70;
 }
 
 .alertmsg {
-	background: #FCE0B6;
-	color: #975E06;
+  background: #fce0b6;
+  color: #975e06;
 }
 
 .style-msg .sb-msg,
 .style-msg2 .msgtitle,
 .style-msg2 .sb-msg {
-	display: block;
-	padding: 15px;
-	border-left: 1px solid rgba(255,255,255,0.5);
-	font-size: 14px;
-	text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
+  display: block;
+  padding: 15px;
+  border-left: 1px solid rgb(255 255 255 / 50%);
+  font-size: 14px;
+  text-shadow: 1px 1px 1px rgb(255 255 255 / 60%);
 }
 
 .style-msg2 .msgtitle {
-	background: rgba(0,0,0,0.15);
-	border-top: none;
-	border-bottom: none;
-	font-size: 15px;
-	font-weight: bold;
+  background: rgb(0 0 0 / 15%);
+  border-top: none;
+  border-bottom: none;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .style-msg-light .sb-msg,
 .style-msg-light .msgtitle {
-	color: #FFF;
-	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+  color: #fff;
+  text-shadow: 1px 1px 1px rgb(0 0 0 / 30%);
 }
 
 .style-msg2 {
-	.sb-msg {
-		font-weight: normal;
-	}
-	ol,
-	ul {
-		margin: 0 0 0 30px;
-	}
-	ol {
-		list-style-type: decimal;
-	}
-	ul {
-		list-style-type: disc;
-	}
+  .sb-msg {
+    font-weight: normal;
+  }
+
+  ol,
+  ul {
+    margin: 0 0 0 30px;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
 }
 
 .alert,
 .sb-msg,
 .msgtitle {
-	i {
-		position: relative;
-		top: 1px;
-		font-size: 14px;
-		width: 14px;
-		text-align: center;
-		margin-right: 5px;
-	}
+  i {
+    position: relative;
+    top: 1px;
+    font-size: 14px;
+    width: 14px;
+    text-align: center;
+    margin-right: 5px;
+  }
 }
 
 .style-msg .close {
-	position: absolute;
-	top: 10px;
-	left: auto;
-	right: 10px;
+  position: absolute;
+  top: 10px;
+  left: auto;
+  right: 10px;
 }

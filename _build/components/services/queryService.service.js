@@ -1,0 +1,1 @@
+angular.module("portfolio-app").factory("QueryService",["$http","$q","CONSTANTS",function(u,c,a){return{query:function(r,e,o,n){var t=c.defer();return u({method:r,url:a.API_URL+e,params:o,data:n}).then(function(r){r.config||console.log("Server error occured."),t.resolve(r)},function(r){t.reject(r)}),t.promise}}}]);
