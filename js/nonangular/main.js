@@ -474,7 +474,7 @@ const angelPortfolio = window.angelPortfolio;
         <button type="button" class="portfolio-image-viewer-close" aria-label="Close image">&times;</button>
         <button type="button" class="portfolio-image-viewer-prev" aria-label="Previous image">&#10094;</button>
         <figure>
-          <img alt="">
+          <img alt="Expanded portfolio image">
           <figcaption></figcaption>
         </figure>
         <button type="button" class="portfolio-image-viewer-next" aria-label="Next image">&#10095;</button>

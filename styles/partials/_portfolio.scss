@@ -282,6 +282,7 @@ body {
   .portfolio-image {
     position: relative;
     overflow: hidden;
+    aspect-ratio: 4 / 3;
   }
 }
 
@@ -298,7 +299,8 @@ body {
   .portfolio-image img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
