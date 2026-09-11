@@ -225,8 +225,11 @@ function useminTask() {
 
 // Fonts
 function fonts() {
-  return gulp.src(['fonts/**/*'])
-    .pipe(gulp.dest('./_build/fonts/'))
+  return gulp.src([
+    'fonts/**/*',
+    'styles/static/**/*.{eot,ttf,woff,woff2,svg}'
+  ], { base: './' })
+    .pipe(gulp.dest('./_build/'))
     .pipe(browserSync.stream());
 }
 

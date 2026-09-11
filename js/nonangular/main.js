@@ -455,7 +455,91 @@ const angelPortfolio = window.angelPortfolio;
       });
     },
 
-    lightbox: function() {},
+    lightbox: function() {
+      if (document.body.dataset.portfolioLightboxInitialized === 'true') return;
+
+      const imagePattern = /\.(avif|gif|jpe?g|png|webp)(?:[?#].*)?$/i;
+      const getLinks = (image) => {
+        const project = image.closest('#portfolio-ajax-container') || image.closest('#content') || document;
+        return Array.from(project.querySelectorAll('a[href]')).filter(link =>
+          link.querySelector('img') && imagePattern.test(link.href)
+        );
+      };
+
+      const viewer = document.createElement('div');
+      viewer.id = 'portfolio-image-viewer';
+      viewer.className = 'portfolio-image-viewer';
+      viewer.setAttribute('aria-hidden', 'true');
+      viewer.innerHTML = `
+        <button type="button" class="portfolio-image-viewer-close" aria-label="Close image">&times;</button>
+        <button type="button" class="portfolio-image-viewer-prev" aria-label="Previous image">&#10094;</button>
+        <figure>
+          <img alt="">
+          <figcaption></figcaption>
+        </figure>
+        <button type="button" class="portfolio-image-viewer-next" aria-label="Next image">&#10095;</button>
+      `;
+      document.body.appendChild(viewer);
+
+      const viewerImage = viewer.querySelector('img');
+      const viewerCaption = viewer.querySelector('figcaption');
+      const viewerCounter = document.createElement('span');
+      viewerCounter.className = 'portfolio-image-viewer-counter';
+      viewer.querySelector('figure').appendChild(viewerCounter);
+      let links = [];
+      let currentIndex = 0;
+      let previousFocus = null;
+
+      const close = () => {
+        viewer.classList.remove('is-open');
+        viewer.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('portfolio-image-viewer-open');
+        if (previousFocus) previousFocus.focus();
+      };
+
+      const show = (index) => {
+        currentIndex = (index + links.length) % links.length;
+        const link = links[currentIndex];
+        const image = link.querySelector('img');
+        viewerImage.src = link.href;
+        viewerImage.alt = image.alt || '';
+        viewerCaption.textContent = image.alt || '';
+        viewerCounter.textContent = `${currentIndex + 1} / ${links.length}`;
+        viewer.querySelector('.portfolio-image-viewer-prev').hidden = links.length < 2;
+        viewer.querySelector('.portfolio-image-viewer-next').hidden = links.length < 2;
+      };
+
+      document.addEventListener('click', event => {
+        const image = event.target.closest('#portfolio-ajax-container a[href] img, .portfolio-single-image a[href] img, .use-case a[href] img, .portfolio-use-case-gallery a[href] img');
+        if (!image || !image.closest('a') || !imagePattern.test(image.closest('a').href)) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        links = getLinks(image);
+        currentIndex = links.indexOf(image.closest('a'));
+        previousFocus = image;
+        show(currentIndex);
+        viewer.classList.add('is-open');
+        viewer.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('portfolio-image-viewer-open');
+        viewer.querySelector('.portfolio-image-viewer-close').focus();
+      }, true);
+
+      viewer.querySelector('.portfolio-image-viewer-close').addEventListener('click', close);
+      viewer.querySelector('.portfolio-image-viewer-prev').addEventListener('click', () => show(currentIndex - 1));
+      viewer.querySelector('.portfolio-image-viewer-next').addEventListener('click', () => show(currentIndex + 1));
+      viewer.addEventListener('click', event => {
+        if (event.target === viewer) close();
+      });
+      document.addEventListener('keydown', event => {
+        if (!viewer.classList.contains('is-open')) return;
+        if (event.key === 'Escape') close();
+        if (event.key === 'ArrowLeft') show(currentIndex - 1);
+        if (event.key === 'ArrowRight') show(currentIndex + 1);
+      });
+
+      document.body.dataset.portfolioLightboxInitialized = 'true';
+    },
 
     resizeVideos: function() {
       const selectors = [
