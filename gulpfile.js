@@ -251,12 +251,12 @@ function copyEtLineBesideBundledCss() {
     .pipe(gulp.dest('./_build/css/'));
 }
 
-function fonts() {
-  return gulp.parallel(
+function fonts(done) {
+  gulp.parallel(
     copyFontsToBuild,
     copyIconFontsBesideBundledCss,
     copyEtLineBesideBundledCss
-  )();
+  )(done);
 }
 
 // Assets
