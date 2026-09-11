@@ -224,13 +224,39 @@ function useminTask() {
 }
 
 // Fonts
-function fonts() {
+const iconFontSources = [
+  'styles/static/fonts/**/*.{eot,svg,ttf,woff,woff2}',
+  'styles/static/et-line/**/*.{eot,svg,ttf,woff,woff2}'
+];
+
+function copyFontsToBuild() {
   return gulp.src([
     'fonts/**/*',
-    'styles/static/**/*.{eot,ttf,woff,woff2,svg}'
+    ...iconFontSources
   ], { base: './' })
-    .pipe(gulp.dest('./_build/'))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest('./_build/'));
+}
+
+function copyIconFontsBesideBundledCss() {
+  return gulp.src('styles/static/fonts/**/*.{eot,svg,ttf,woff,woff2}', {
+    base: 'styles/static/fonts'
+  })
+    .pipe(gulp.dest('./_build/css/fonts/'));
+}
+
+function copyEtLineBesideBundledCss() {
+  return gulp.src('styles/static/et-line/**/*.{eot,svg,ttf,woff,woff2}', {
+    base: 'styles/static'
+  })
+    .pipe(gulp.dest('./_build/css/'));
+}
+
+function fonts() {
+  return gulp.parallel(
+    copyFontsToBuild,
+    copyIconFontsBesideBundledCss,
+    copyEtLineBesideBundledCss
+  )();
 }
 
 // Assets
