@@ -5430,11 +5430,32 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
   cursor: pointer;
 }
 
+.portfolio-use-case-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.portfolio-use-case-gallery a,
+.portfolio-use-case-gallery img {
+  display: block;
+  width: 100%;
+}
+
+.portfolio-use-case-gallery a {
+  cursor: zoom-in;
+}
+
 @media (max-width: 767px) {
   .portfolio-image-mosaic {
     grid-auto-rows: 90px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-height: 270px;
+  }
+
+  .portfolio-use-case-gallery {
+    grid-template-columns: 1fr;
   }
 }
 
