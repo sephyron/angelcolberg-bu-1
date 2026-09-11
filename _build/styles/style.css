@@ -106,7 +106,7 @@ h1 {
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 60px;
 }
 
 h3 {
@@ -594,6 +594,7 @@ span.middot {
 
 .vertical-middle {
   height: auto !important;
+  position: relative;
   left: 0;
 }
 
@@ -1097,6 +1098,16 @@ body.stretched #header.full-header .container {
 
 #header.transparent-header.full-header #logo {
   border-right-color: rgb(0 0 0 / 10%);
+}
+
+/* Make hero/header logo white on transparent header */
+#header.transparent-header #logo img {
+  filter: brightness(0) invert(1);
+}
+
+/* Make About section logo white */
+#section-about .img-portrait {
+  filter: brightness(0) invert(1);
 }
 
 #logo a {
@@ -5322,6 +5333,132 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
   width: 100%;
 }
 
+#portfolio-ajax-single > figure.portfolio-single-image {
+  clear: both;
+}
+
+.portfolio-image-mosaic {
+  clear: both;
+  display: grid;
+  grid-auto-rows: 110px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 338px;
+  margin: 0 0 2rem;
+  overflow: hidden;
+}
+
+.portfolio-mosaic-item {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.portfolio-mosaic-item:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.mosaic-tile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: zoom-in;
+  background: #252525;
+}
+
+.mosaic-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.mosaic-tile:hover img,
+.mosaic-tile:focus img {
+  opacity: 0.78;
+  transform: scale(1.03);
+}
+
+.portfolio-image-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 5vw;
+  background: rgb(10 10 10 / 92%);
+}
+
+.portfolio-image-viewer.is-open {
+  display: flex;
+}
+
+.portfolio-image-viewer figure {
+  max-width: min(1100px, 90vw);
+  max-height: 90vh;
+  margin: 0;
+  text-align: center;
+}
+
+.portfolio-image-viewer img {
+  display: block;
+  max-width: 100%;
+  max-height: 78vh;
+  margin: 0 auto;
+}
+
+.portfolio-image-viewer figcaption {
+  margin-top: 0.75rem;
+  color: #f0e7dc;
+  font-size: 0.9rem;
+}
+
+.portfolio-image-viewer-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgb(240 231 220 / 55%);
+  color: #f0e7dc;
+  background: transparent;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.portfolio-use-case-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.portfolio-use-case-gallery a,
+.portfolio-use-case-gallery img {
+  display: block;
+  width: 100%;
+}
+
+.portfolio-use-case-gallery a {
+  cursor: zoom-in;
+}
+
+@media (max-width: 767px) {
+  .portfolio-image-mosaic {
+    grid-auto-rows: 90px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 270px;
+  }
+
+  .portfolio-use-case-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
 .portfolio-single-image-full {
   position: relative;
   height: 600px;
@@ -5413,8 +5550,8 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 .portfolio-single-content h2 {
   margin: 0 0 20px;
   padding: 0;
-  font-size: 20px;
-  font-weight: 600 !important;
+  font-size: 64px;
+  font-weight: 100;
 }
 
 .portfolio-ajax-modal {
@@ -5438,22 +5575,29 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 
 #portfolio-ajax-wrap {
   position: relative;
-  max-height: 0;
+  height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease;
+
+  /* Keep browser scroll anchoring from chasing the collapsing content. */
+  overflow-anchor: none;
+  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: height;
 }
 
 #portfolio-ajax-wrap.portfolio-ajax-opened {
-  max-height: 100%;
+  height: auto;
 }
 
 #portfolio-ajax-container {
   display: none;
   padding: 3em;
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
 }
 
 #portfolio-ajax-single h2 {
-  font-size: 26px;
+  font-size: 64px;
+  font-weight: 100;
 }
 
 /* Portfolio Single - Meta
@@ -5462,11 +5606,19 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 .portfolio-share {
   list-style: none;
   font-size: 14px;
+  position: relative;
+  right: 0;
+  top: 0;
 }
 
 .portfolio-meta li {
-  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35em;
+  padding: 10px 0;
   color: #666;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
 }
 
 .portfolio-meta li:first-child {
@@ -5486,6 +5638,45 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
   width: 14px;
   text-align: center;
   margin-right: 7px;
+}
+
+.portfolio-meta li.project-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.55rem 0.8rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep external project destinations as native text links in the portfolio palette. */
+.portfolio-meta a.project-link,
+.portfolio-meta a.project-link:visited {
+  display: inline-block;
+  position: relative;
+  z-index: 3;
+  color: #d9d1c2;
+  text-decoration: none;
+  border-bottom: 1px solid rgb(217 209 194 / 65%);
+  padding: 0.08em 0;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  font-weight: 600;
+}
+
+.portfolio-meta a.project-link:hover,
+.portfolio-meta a.project-link:focus,
+.portfolio-meta a.project-link:active {
+  color: #f0e7dc;
+  border-bottom-color: rgb(240 231 220 / 90%);
+  text-decoration: none;
+}
+
+.meta-divider {
+  display: inline-block;
+  color: rgb(255 255 255 / 55%);
+  margin: 0 0.15em;
 }
 
 .well .line {
@@ -12591,6 +12782,67 @@ body:not(.device-touch) .social-icon i {
   background-color: #52aad8 !important;
 }
 
+.si-mixcloud i {
+  display: block;
+  height: 38px;
+  line-height: 38px !important;
+  width: 40px;
+  text-align: center;
+  color: transparent !important;
+  position: relative;
+}
+
+.si-mixcloud i::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  background-color: #fff;
+  mask: url("../images/logo/mixcloud-svgrepo-com.svg") center / contain no-repeat;
+}
+
+.si-mixcloud:hover i::before,
+.si-colored.si-mixcloud i::before {
+  background-color: #fff;
+}
+
+.si-flickr-custom:hover,
+.si-colored.si-flickr-custom {
+  background-color: #ff007e !important;
+}
+
+.si-flickr-custom i {
+  display: block;
+  height: 38px;
+  line-height: 38px !important;
+  width: 40px;
+  text-align: center;
+  color: transparent !important;
+  position: relative;
+}
+
+.si-flickr-custom i::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  background-color: #fff;
+  mask: url("../images/logo/flickr-svgrepo-com.svg") center / contain no-repeat;
+}
+
+.si-flickr-custom:hover i::before,
+.si-colored.si-flickr-custom i::before {
+  background-color: #fff;
+}
+
 /* Social Icons Text Color
 ----------------------------------------------------------------- */
 .si-text-color.si-facebook i {
@@ -15486,12 +15738,12 @@ h2.fancy-heading {
   z-index: 20;
   top: 50%;
   left: 50%;
-  width: 48px;
-  height: 48px;
-  margin: -24px 0 0 -24px;
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
   background-color: rgb(0 0 0 / 70%);
   border-radius: 3px;
-  line-height: 48px;
+  line-height: 64px;
   font-size: 24px;
   color: #fff;
   text-align: center;
@@ -15511,6 +15763,119 @@ h2.fancy-heading {
 
 #portfolio-ajax-loader img {
   display: block;
+}
+
+#portfolio-ajax-loader {
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+#portfolio-ajax-loader.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#portfolio-ajax-loader .loader {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  margin: 11px auto;
+}
+
+#portfolio-ajax-loader .loader svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+#portfolio-ajax-loader .loader circle {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 185 320;
+  animation: portfolioLoaderDash 1.4s ease-in-out infinite;
+}
+
+#portfolio-ajax-loader .loader svg:nth-child(2) circle {
+  animation-delay: 0.2s;
+  opacity: 0.7;
+}
+
+#portfolio-ajax-loader .loader svg:nth-child(3) circle {
+  animation-delay: 0.4s;
+  opacity: 0.4;
+}
+
+#portfolio-ajax-container.portfolio-ajax-visible {
+  display: block;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  animation: fadeInUpContent 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Backwards compatibility for inline style based show/hide logic. */
+#portfolio-ajax-container[style*="display: block"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  animation: fadeInUpContent 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Staggered reveal of the project content while the wrapper slides open. */
+#portfolio-ajax-single #portfolio-ajax-title {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: fadeInUpContent 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+#portfolio-ajax-single .portfolio-single-image,
+#portfolio-ajax-single .portfolio-single-video {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: fadeInUpContent 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+#portfolio-ajax-single .portfolio-single-content,
+#portfolio-ajax-container .use-case {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  animation: fadeInUpContent 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+@keyframes portfolioLoaderDash {
+  0% {
+    stroke-dashoffset: 360;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInUpContent {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeOutDownContent {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
 }
 
 /* ----------------------------------------------------------------
@@ -15820,6 +16185,10 @@ blockquote.pull-right {
 ----------------------------------------------------------------- */
 .text-rotater > .t-rotate > .animated {
   display: inline-block;
+}
+
+#slider .text-rotater > .t-rotate {
+  font-family: Raleway, sans-serif !important;
 }
 
 /* ----------------------------------------------------------------

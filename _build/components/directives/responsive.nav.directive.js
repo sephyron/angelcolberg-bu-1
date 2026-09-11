@@ -1,0 +1,1 @@
+angular.module("portfolio-app").directive("responsiveNav",function(){return{restrict:"E",templateUrl:"components/directives/responsive-nav.html",link:function(e,n,i,r){n.on("click",function(e){$(".responsive-wrapper").slideToggle(150,"swing"),e.preventDefault()})}}});

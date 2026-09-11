@@ -109,9 +109,42 @@
     function run($rootScope, $location, $routeParams) {
         $rootScope.path = '/' + $routeParams.dir;
         // put here everything that you need to run on page load
-        var $ = jQuery.noConflict();
+        var $ = window.jQuery;
 
+        // Re-run the non-angular layout/initialize logic every time a route's
+        // view finishes rendering, since it originally only ran once on
+        // window 'load' (before ngRoute had injected the view template).
+        $rootScope.$on('$viewContentLoaded', function() {
+            setTimeout(function() {
+                if (typeof angelPortfolio === 'undefined') return;
 
+                if (!window.__angelPortfolioReady) {
+                    if (angelPortfolio.documentOnReady && typeof angelPortfolio.documentOnReady.init === 'function') {
+                        angelPortfolio.documentOnReady.init();
+                    }
+                }
+
+                if (!window.__angelPortfolioLoaded) {
+                    if (angelPortfolio.documentOnLoad && typeof angelPortfolio.documentOnLoad.init === 'function') {
+                        angelPortfolio.documentOnLoad.init();
+                    }
+                } else if (angelPortfolio.documentOnResize && typeof angelPortfolio.documentOnResize.init === 'function') {
+                    // Layout already initialized once; just recompute
+                    // dimension-dependent styles (full-screen height, etc.)
+                    // for the newly rendered view.
+                    angelPortfolio.documentOnResize.init();
+                }
+
+                // ngRoute swaps in fresh DOM nodes on every view render, but
+                // documentOnReady.init() (which wires up click handlers) only
+                // ever runs once due to the __angelPortfolioReady guard above.
+                // Rebind portfolio interactivity against the current DOM every
+                // time, since ajaxload() itself is idempotent per-element.
+                if (angelPortfolio.portfolio && typeof angelPortfolio.portfolio.ajaxload === 'function') {
+                    angelPortfolio.portfolio.ajaxload();
+                }
+            }, 300);
+        });
 
         // DOM Ready
         $(function() {

@@ -21,7 +21,6 @@
         var self = this;
         $rootScope.cssClass = 'view3 pt-page-current';
         $rootScope.path = '/' + $routeParams.dir;
-        var $ = jQuery.noConflict();
         ////////////  function definitions
 
 

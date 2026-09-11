@@ -1,0 +1,1 @@
+angular.module("portfolio-app").directive("myslider",function(){return{restrict:"AE",link:function(i,r,n){}}});

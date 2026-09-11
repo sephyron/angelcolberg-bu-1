@@ -18,7 +18,6 @@
         var self = this;
         $rootScope.cssClass = 'view2 pt-page-current';
         $rootScope.path = '/' + $routeParams.dir;
-        var $ = jQuery.noConflict();
         ////////////  function definitions
 
 

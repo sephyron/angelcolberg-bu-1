@@ -1,0 +1,125 @@
+<div id="portfolio-ajax-single" class="clearfix">
+
+    <div id="portfolio-ajax-title" style="position: relative;">
+        <h2>Lightstep</h2>
+        <div id="portfolio-navigation">
+
+            <a href="#" id="close-portfolio"><i class="icon-line-cross"></i></a>
+        </div>
+    </div>
+
+    <div class="line line-sm topmargin-sm"></div>
+
+    <!-- Portfolio Single Image
+    ============================================= -->
+    <div class="col_three_fifth portfolio-single-image nobottommargin">
+        <!-- Portfolio Single - Description
+        ============================================= -->
+        <h3>Observability and Distributed Tracing</h3>
+        <p>As Principal Product Designer, worked on Lightstep's observability and tracing tools, helping engineers move from a spike in latency or errors to the specific service and span responsible for it across a distributed system. Work included a walkthrough of the correlations feature for root cause analysis, and enhancements to the search bar to make it more intelligent.</p>
+
+    </div>
+    <!-- .portfolio-single-image end -->
+
+    <!-- Portfolio Single Content
+    ============================================= -->
+    <div class="col_two_fifth portfolio-single-content col_last nobottommargin">
+
+        <!-- Portfolio Single - Meta
+        ============================================= -->
+        <ul class="portfolio-meta bottommargin topmargin">
+            <li><span><i class="icon-line2-user"></i>Skills</span>Principal Product Design | Observability | Data Visualization</li>
+            <li><span><i class="icon-line2-notebook"></i>Methods</span>Cognitive Evals | Service maps | Mockups | Code Prototypes</li>
+            <li><span><i class="icon-line2-screen-desktop"></i>Tools</span> Figma | FigJam | HTML5 | JS | CSS3</li>
+            <li><span><i class="icon-line2-link"></i>Artifacts</span></li>
+            <li><span><i class="icon-line2-calendar"></i>Date</span>2019 - 2020</li>
+        </ul>
+        <!-- Portfolio Single - Meta End -->
+
+
+    </div>
+    <!-- .portfolio-single-content end -->
+
+</div>
+
+<section class="use-case col_five_fifth">
+    <h3>Use Case</h3>
+    <div class="fancy-title title-border clearfix">
+        <h3 class="fancy-heading">Trace Analysis and Service Diagram</h3>
+    </div>
+    <div class="clearfix col_five_fifth">
+        <a class="col_three_fifth" href="#">
+            <img src="images/projects/lightstep/lightstep_4904_screenshot_1574232008_0sov2.jpeg" alt="Lightstep service diagram">
+        </a>
+
+        <div class="col_two_fifth col_last nobottommargin">
+            <h4>Problem Definition</h4>
+            <p>When latency or errors spiked, engineers had to manually correlate a histogram of span durations with a separate list of services to find which one was actually responsible, often across dozens of interdependent services.</p>
+
+            <div class="si-share clearfix">
+                <span>Hypothesis</span>
+            </div>
+            <p>
+                Pairing a latency histogram with percentile comparison against a live service topology diagram, and surfacing correlated tags automatically, would cut the time to isolate a root cause from minutes to seconds.
+            </p>
+            <div class="si-share clearfix">
+                <span>Method</span>
+            </div>
+            <p>
+                Service maps and code prototypes were used to test the diagram interaction model: highlighting nodes with errors or added latency, and exposing per-service detail (instance count, platform, status) directly on the graph.
+            </p>
+            <div class="si-share clearfix">
+                <span>Result and next steps</span>
+            </div>
+            <p>
+                The combined trace analysis table, correlations panel, and service diagram gave engineers a single workspace to go from "something is slow" to a specific service and trace, without switching tools mid-investigation.
+            </p>
+        </div>
+    </div>
+
+    <div class="fancy-title title-border clearfix">
+        <h3 class="fancy-heading">Correlations Walkthrough and Search Improvements</h3>
+    </div>
+    <div class="clearfix col_five_fifth nobottommargin">
+        <a class="col_three_fifth" href="#">
+            <img src="images/projects/lightstep/lightstep_4904_screenshot_1574231990_ntcwb.jpg" alt="Lightstep Explorer with correlations panel">
+        </a>
+
+        <div class="col_two_fifth col_last nobottommargin">
+            <h4>Problem Definition</h4>
+            <p>The correlations panel could point to a likely root cause, but new users did not understand how to read it or fold its findings into their investigation. Separately, the search bar required knowing the exact tag syntax, which slowed down anyone unfamiliar with the query language.</p>
+
+            <div class="si-share clearfix">
+                <span>Hypothesis</span>
+            </div>
+            <p>
+                An in-product walkthrough of the correlations feature would teach the root cause analysis flow in context, and a more intelligent search bar would let engineers filter traces without memorizing exact syntax.
+            </p>
+            <div class="si-share clearfix">
+                <span>Method</span>
+            </div>
+            <p>
+                Designed a step-by-step walkthrough that introduces the correlations panel directly inside the Explorer workspace, and iterated on search bar behavior to support more flexible, forgiving query input.
+            </p>
+            <div class="si-share clearfix">
+                <span>Result and next steps</span>
+            </div>
+            <p>
+                The walkthrough gave new users a clear path from "here is a correlation" to "here is why it matters," and the smarter search bar reduced the friction of getting to the right trace during an investigation.
+            </p>
+        </div>
+    </div>
+
+    <div class="fancy-title title-border clearfix">
+        <h3 class="fancy-heading">Snapshot Analyzer</h3>
+    </div>
+    <div class="clearfix col_five_fifth nobottommargin">
+        <a class="col_three_fifth" href="#">
+            <img src="images/projects/lightstep/lightstep-snapshot-analyzer-2-3.gif" alt="Lightstep snapshot analyzer">
+        </a>
+        <div class="col_two_fifth col_last nobottommargin">
+            <h4>Investigation in motion</h4>
+            <p>The snapshot analyzer carried the same investigation model into a focused workflow, helping engineers compare trace behavior and narrow an issue without leaving the observability workspace.</p>
+        </div>
+    </div>
+</section>

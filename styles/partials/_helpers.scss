@@ -1,432 +1,434 @@
-
-
-/*-----------------------------------------------------------------------------------
+/* -----------------------------------------------------------------------------------
 	helpers.scss
------------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------- */
 
 .uppercase {
-    text-transform: uppercase !important;
+  text-transform: uppercase !important;
 }
 
 .lowercase {
-    text-transform: lowercase !important;
+  text-transform: lowercase !important;
 }
 
 .capitalize {
-    text-transform: capitalize !important;
+  text-transform: capitalize !important;
 }
 
 .nott {
-    text-transform: none !important;
+  text-transform: none !important;
 }
 
 .tright {
-    text-align: right !important;
+  text-align: right !important;
 }
 
 .tleft {
-    text-align: left !important;
+  text-align: left !important;
 }
 
 .fright {
-    float: right !important;
+  float: right !important;
 }
 
 .fleft {
-    float: left !important;
+  float: left !important;
 }
 
 .fnone {
-    float: none !important;
+  float: none !important;
 }
 
 .ohidden {
-    position: relative;
-    overflow: hidden !important;
+  position: relative;
+  overflow: hidden !important;
 }
 
 .line,
 .double-line {
-    clear: both;
-    position: relative;
-    width: 100%;
-    margin: ($margin-base + 10) 0;
-    border-top: 1px solid #EEE;
-    &.line-sm {
-        margin: $margin-small 0;
-    }
+  clear: both;
+  position: relative;
+  width: 100%;
+  margin: ($margin-base + 10) 0;
+  border-top: 1px solid #eee;
+
+  &.line-sm {
+    margin: $margin-small 0;
+  }
 }
 
 span.middot {
-    display: inline-block;
-    margin: 0 5px;
+  display: inline-block;
+  margin: 0 5px;
 }
 
 .double-line {
-    border-top: 3px double #E5E5E5;
+  border-top: 3px double #e5e5e5;
 }
 
 .emptydiv {
-    display: block !important;
-    position: relative !important;
+  display: block !important;
+  position: relative !important;
 }
 
 .allmargin {
-    margin: $margin-base !important;
+  margin: $margin-base !important;
 }
 
 .leftmargin {
-    margin-left: $margin-base !important;
+  margin-left: $margin-base !important;
 }
 
 .rightmargin {
-    margin-right: $margin-base !important;
+  margin-right: $margin-base !important;
 }
 
 .topmargin {
-    margin-top: $margin-base !important;
+  margin-top: $margin-base !important;
 }
 
 .bottommargin {
-    margin-bottom: $margin-base !important;
+  margin-bottom: $margin-base !important;
 }
 
 .clear-bottommargin {
-    margin-bottom: -$margin-base !important;
+  margin-bottom: -$margin-base !important;
 }
 
 .allmargin-sm {
-    margin: $margin-small !important;
+  margin: $margin-small !important;
 }
 
 .leftmargin-sm {
-    margin-left: $margin-small !important;
+  margin-left: $margin-small !important;
 }
 
 .rightmargin-sm {
-    margin-right: $margin-small !important;
+  margin-right: $margin-small !important;
 }
 
 .topmargin-sm {
-    margin-top: $margin-small !important;
+  margin-top: $margin-small !important;
 }
 
 .bottommargin-sm {
-    margin-bottom: $margin-small !important;
+  margin-bottom: $margin-small !important;
 }
 
 .clear-bottommargin-sm {
-    margin-bottom: -$margin-small !important;
+  margin-bottom: -$margin-small !important;
 }
 
 .allmargin-lg {
-    margin: $margin-big !important;
+  margin: $margin-big !important;
 }
 
 .leftmargin-lg {
-    margin-left: $margin-big !important;
+  margin-left: $margin-big !important;
 }
 
 .rightmargin-lg {
-    margin-right: $margin-big !important;
+  margin-right: $margin-big !important;
 }
 
 .topmargin-lg {
-    margin-top: $margin-big !important;
+  margin-top: $margin-big !important;
 }
 
 .bottommargin-lg {
-    margin-bottom: $margin-big !important;
+  margin-bottom: $margin-big !important;
 }
 
 .clear-bottommargin-lg {
-    margin-bottom: -$margin-big !important;
+  margin-bottom: -$margin-big !important;
 }
 
 .nomargin {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 .noleftmargin {
-    margin-left: 0 !important;
+  margin-left: 0 !important;
 }
 
 .norightmargin {
-    margin-right: 0 !important;
+  margin-right: 0 !important;
 }
 
 .notopmargin {
-    margin-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 .nobottommargin {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .header-stick {
-    margin-top: -$margin-base !important;
+  margin-top: -$margin-base !important;
 }
 
 .content-wrap .header-stick {
-    margin-top: -$margin-big !important;
+  margin-top: -$margin-big !important;
 }
 
 .footer-stick {
-    margin-bottom: -$margin-base !important;
+  margin-bottom: -$margin-base !important;
 }
 
 .content-wrap .footer-stick {
-    margin-bottom: -$margin-big !important;
+  margin-bottom: -$margin-big !important;
 }
 
 .noborder {
-    border: none !important;
+  border: none !important;
 }
 
 .noleftborder {
-    border-left: none !important;
+  border-left: none !important;
 }
 
 .norightborder {
-    border-right: none !important;
+  border-right: none !important;
 }
 
 .notopborder {
-    border-top: none !important;
+  border-top: none !important;
 }
 
 .nobottomborder {
-    border-bottom: none !important;
+  border-bottom: none !important;
 }
 
 .noradius {
-    @include border-radius(0);
+  @include border-radius(0);
 }
 
 .col-padding {
-    padding: 60px;
+  padding: 60px;
 }
 
 .nopadding {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 .noleftpadding {
-    padding-left: 0 !important;
+  padding-left: 0 !important;
 }
 
 .norightpadding {
-    padding-right: 0 !important;
+  padding-right: 0 !important;
 }
 
 .notoppadding {
-    padding-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .nobottompadding {
-    padding-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .noabsolute {
-    position: relative !important;
+  position: relative !important;
 }
 
 .noshadow {
-    @include box-shadow(none !important)
+  @include box-shadow(none !important);
 }
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 .nothidden {
-    display: block !important;
+  display: block !important;
 }
 
 .inline-block {
-    float: none !important;
-    display: inline-block !important;
+  float: none !important;
+  display: inline-block !important;
 }
 
 .center {
-    text-align: center !important;
+  text-align: center !important;
 }
 
 .divcenter {
-    position: relative !important;
-    float: none !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+  position: relative !important;
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .bgcolor,
 .bgcolor #header-wrap {
-    background-color: $theme-color !important;
+  background-color: $theme-color !important;
 }
 
 .color {
-    color: $theme-color !important;
+  color: $theme-color !important;
 }
 
 .border-color {
-    border-color: $theme-color !important;
+  border-color: $theme-color !important;
 }
 
 .nobg {
-    background: none !important;
+  background: none !important;
 }
 
 .nobgcolor {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 .t100 {
-    font-weight: 100 !important;
+  font-weight: 100 !important;
 }
 
 .t300 {
-    font-weight: 300 !important;
+  font-weight: 300 !important;
 }
 
 .t400 {
-    font-weight: 400 !important;
+  font-weight: 400 !important;
 }
 
 .t500 {
-    font-weight: 500 !important;
+  font-weight: 500 !important;
 }
 
 .t600 {
-    font-weight: 600 !important;
+  font-weight: 600 !important;
 }
 
 .t700 {
-    font-weight: 700 !important;
+  font-weight: 700 !important;
 }
 
 .ls0 {
-    letter-spacing: 0px !important;
+  letter-spacing: 0 !important;
 }
 
 .ls1 {
-    letter-spacing: 1px !important;
+  letter-spacing: 1px !important;
 }
 
 .ls2 {
-    letter-spacing: 2px !important;
+  letter-spacing: 2px !important;
 }
 
 .ls3 {
-    letter-spacing: 3px !important;
+  letter-spacing: 3px !important;
 }
 
 .ls4 {
-    letter-spacing: 4px !important;
+  letter-spacing: 4px !important;
 }
 
 .ls5 {
-    letter-spacing: 5px !important;
+  letter-spacing: 5px !important;
 }
 
 .noheight {
-    height: 0 !important;
+  height: 0 !important;
 }
 
 .nolineheight {
-    line-height: 0 !important;
+  line-height: 0 !important;
 }
 
 .font-body {
-    font-family: 'Lato', sans-serif;
+  font-family: Lato, sans-serif;
 }
 
 .font-primary {
-    font-family: 'Raleway', sans-serif;
+  font-family: Raleway, sans-serif;
 }
 
 .font-secondary {
-    font-family: 'Crete Round', serif;
+  font-family: "Crete Round", serif;
 }
 
 .bgicon {
-    display: block;
-    position: absolute;
-    bottom: -60px;
-    right: -50px;
-    font-size: 210px;
-    color: rgba(0, 0, 0, 0.1);
+  display: block;
+  position: absolute;
+  bottom: -60px;
+  right: -50px;
+  font-size: 210px;
+  color: rgb(0 0 0 / 10%);
 }
-
 
 /* MOVING BG -  TESTIMONIALS */
 
 .bganimate {
-    -webkit-animation: BgAnimated 30s infinite linear;
-    -moz-animation: BgAnimated 30s infinite linear;
-    -ms-animation: BgAnimated 30s infinite linear;
-    -o-animation: BgAnimated 30s infinite linear;
-    animation: BgAnimated 30s infinite linear;
-}
-
-@-webkit-keyframes BgAnimated {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 0 400px;
-    }
-}
-
-@-moz-keyframes BgAnimated {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 0 400px;
-    }
-}
-
-@-ms-keyframes BgAnimated {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 0 400px;
-    }
-}
-
-@-o-keyframes BgAnimated {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 0 400px;
-    }
+  animation: BgAnimated 30s infinite linear;
+  animation: BgAnimated 30s infinite linear;
+  animation: BgAnimated 30s infinite linear;
+  animation: BgAnimated 30s infinite linear;
 }
 
 @keyframes BgAnimated {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: 0 400px;
-    }
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 400px;
+  }
+}
+
+@keyframes BgAnimated {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 400px;
+  }
+}
+
+@keyframes BgAnimated {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 400px;
+  }
+}
+
+@keyframes BgAnimated {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 400px;
+  }
+}
+
+@keyframes BgAnimated {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 400px;
+  }
 }
 
 .input-block-level {
-    display: block;
-    width: 100% !important;
-    min-height: 30px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  display: block;
+  width: 100% !important;
+  min-height: 30px;
+  box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .vertical-middle {
-    height: auto !important;
-    left: 0;
+  position: relative;
+  height: auto !important;
+  left: 0;
 }
 
 .magnific-max-width .mfp-content {
-    max-width: 800px;
+  max-width: 800px;
 }
