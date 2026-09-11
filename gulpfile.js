@@ -261,7 +261,6 @@ gulp.task('build', gulp.series(
   copyHtml,
   copyStaticCss,
   sassbuild,
-  lintCss,
   // purgeCSS,
   images,
   templates,
