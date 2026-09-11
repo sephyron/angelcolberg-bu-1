@@ -1684,6 +1684,12 @@ body:not(.device-sm):not(.device-xs):not(.device-xxs) #primary-menu.style-2.cent
   padding-bottom: 22px;
 }
 
+@media (max-width: 1199px) {
+  .justified {
+    text-align: left;
+  }
+}
+
 /* Primary Menu - Split Menu
 ----------------------------------------------------------------- */
 @media (min-width: 992px) {
