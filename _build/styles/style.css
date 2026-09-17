@@ -1684,6 +1684,12 @@ body:not(.device-sm):not(.device-xs):not(.device-xxs) #primary-menu.style-2.cent
   padding-bottom: 22px;
 }
 
+@media (max-width: 1199px) {
+  .justified {
+    text-align: left;
+  }
+}
+
 /* Primary Menu - Split Menu
 ----------------------------------------------------------------- */
 @media (min-width: 992px) {
@@ -4281,6 +4287,7 @@ body:not(.device-touch):not(.device-xs):not(.device-xxs) .portfolio-notitle .por
 .portfolio-item .portfolio-image {
   position: relative;
   overflow: hidden;
+  aspect-ratio: 4 / 3;
 }
 
 .portfolio-notitle .portfolio-item,
@@ -4293,7 +4300,8 @@ body:not(.device-touch):not(.device-xs):not(.device-xxs) .portfolio-notitle .por
 .portfolio-item .portfolio-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 figure {
@@ -5397,6 +5405,7 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
 }
 
 .portfolio-image-viewer figure {
+  position: relative;
   max-width: min(1100px, 90vw);
   max-height: 90vh;
   margin: 0;
@@ -5428,6 +5437,40 @@ body.device-touch.device-xxs .portfolio-notitle .portfolio-overlay {
   font-size: 1.75rem;
   line-height: 1;
   cursor: pointer;
+}
+
+.portfolio-image-viewer-prev,
+.portfolio-image-viewer-next {
+  position: absolute;
+  top: 50%;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgb(240 231 220 / 55%);
+  color: #f0e7dc;
+  background: rgb(10 10 10 / 65%);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.portfolio-image-viewer-prev {
+  left: 1.25rem;
+}
+
+.portfolio-image-viewer-next {
+  right: 1.25rem;
+}
+
+.portfolio-image-viewer-counter {
+  display: block;
+  margin-top: 0.5rem;
+  color: #f0e7dc;
+  font-size: 0.8rem;
+}
+
+body.portfolio-image-viewer-open {
+  overflow: hidden;
 }
 
 .portfolio-use-case-gallery {
