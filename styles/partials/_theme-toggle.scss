@@ -89,6 +89,12 @@ body.light-theme #header {
   border-bottom: 1px solid $light-border;
 }
 
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
 body.light-theme #header.semi-transparent,
 body.light-theme #header.semi-transparent.floating-header .container {
   background-color: rgb(244 241 234 / 92%);
@@ -143,6 +149,10 @@ body.light-theme #slider .one-page-arrow {
   color: $light-text;
 }
 
+body.light-theme #slider .one-page-arrow {
+  background-color: transparent !important;
+}
+
 body.light-theme #slider .waves {
   background-color: $light-bg;
 }
@@ -181,7 +191,6 @@ body.light-theme .fancy-title.title-border-color::before {
   border-top-color: $light-border;
 }
 
-// Footer + copyright bar, previously left fully dark in light mode.
 body.light-theme #footer {
   background-color: $light-bg-elevated;
   color: $light-text;
@@ -189,30 +198,36 @@ body.light-theme #footer {
 }
 
 body.light-theme #copyrights {
-  background-color: transparent;
-  color: rgb(37 37 37 / 55%);
+  background-color: rgb(37 37 37 / 5%);
+  color: $light-text-muted;
   text-shadow: none;
 }
 
+body.light-theme #copyrights .si-share {
+  border-top-color: $light-border;
+  border-bottom-color: $light-border;
+}
+
 body.light-theme #copyrights i.footer-icon {
-  color: rgb(37 37 37 / 55%);
+  color: $light-text-muted;
 }
 
 body.light-theme .copyright-links a {
-  color: rgb(37 37 37 / 55%);
-  border-bottom-color: rgb(37 37 37 / 35%);
+  color: $light-text-muted;
+  border-bottom-color: $light-border;
 }
 
-// Social icons: the dark-mode "!important" rules need matching specificity + !important to lose.
-body.light-theme .dark .social-icon,
-body.light-theme #footer .social-icon.si-borderless,
-body.light-theme #footer.dark .social-icon.si-borderless {
+body.light-theme .dark .social-icon {
   color: $light-text-muted !important;
   border-color: $light-border;
 }
 
-body.light-theme .social-icon:hover {
-  color: #fff !important;
+body.light-theme #footer .social-icon.si-borderless {
+  color: $light-text-muted !important;
+}
+
+body.light-theme #copyrights .si-label img {
+  filter: brightness(0) opacity(0.72);
 }
 
 // Image lightbox (js/nonangular/main.js lightbox()) ships with no base CSS, so its

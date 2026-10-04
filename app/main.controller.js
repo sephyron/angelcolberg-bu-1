@@ -31,9 +31,17 @@
             [255, 0, 255],
             [255, 128, 0]
         ];
+        var lightColors = [
+            [137, 207, 193],
+            [199, 156, 194],
+            [81, 51, 164],
+            [202, 220, 45],
+            [237, 226, 201]
+        ];
         var step = 0;
         var colorIndices = [0, 1, 2, 3];
         var gradientSpeed = 0.002;
+        var darkWaveGradient;
 
         var sineWaves = new SineWaves({
             el: wavesElement,
@@ -58,6 +66,7 @@
                 gradient.addColorStop(0, 'rgba(23, 210, 168, 0.2)');
                 gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.5)');
                 gradient.addColorStop(1, 'rgba(23, 210, 168, 0.2)');
+                darkWaveGradient = gradient;
 
                 this.waves.forEach(function(wave) {
                     wave.strokeStyle = gradient;
@@ -71,30 +80,33 @@
             }
 
             var isLight = document.body.classList.contains('light-theme');
-            var currentLeft = colors[colorIndices[0]];
-            var nextLeft = colors[colorIndices[1]];
-            var currentRight = colors[colorIndices[2]];
-            var nextRight = colors[colorIndices[3]];
+            var palette = isLight ? lightColors : colors;
+            var currentLeftIndex = colorIndices[0] % palette.length;
+            var nextLeftIndex = colorIndices[1] % palette.length;
+            var currentRightIndex = colorIndices[2] % palette.length;
+            var nextRightIndex = colorIndices[3] % palette.length;
+            var currentLeft = palette[currentLeftIndex];
+            var nextLeft = palette[nextLeftIndex];
+            var currentRight = palette[currentRightIndex];
+            var nextRight = palette[nextRightIndex];
             var inverseStep = 1 - step;
-            var color1 = isLight ? 'rgb(244, 241, 234)' : 'rgb(' + interpolateColor(currentLeft, nextLeft, inverseStep) + ')';
-            var color2 = isLight ? 'rgb(255, 250, 242)' : 'rgb(' + interpolateColor(currentRight, nextRight, inverseStep) + ')';
+            var color1 = 'rgb(' + interpolateColor(currentLeft, nextLeft, inverseStep) + ')';
+            var color2 = 'rgb(' + interpolateColor(currentRight, nextRight, inverseStep) + ')';
 
             wavesElement.style.background = 'linear-gradient(90deg, ' + color1 + ', ' + color2 + ')';
 
-            var waveStroke = isLight ? 'rgba(37, 37, 37, 0.22)' : null;
-            if (waveStroke) {
-                sineWaves.waves.forEach(function(wave) {
-                    wave.strokeStyle = waveStroke;
-                });
-            }
+            var waveStroke = isLight ? 'rgba(37, 37, 37, 0.22)' : darkWaveGradient;
+            sineWaves.waves.forEach(function(wave) {
+                wave.strokeStyle = waveStroke;
+            });
 
             step += gradientSpeed;
             if (step >= 1) {
                 step %= 1;
-                colorIndices[0] = colorIndices[1];
-                colorIndices[2] = colorIndices[3];
-                colorIndices[1] = nextColorIndex(colorIndices[1], colors.length);
-                colorIndices[3] = nextColorIndex(colorIndices[3], colors.length);
+                colorIndices[0] = nextLeftIndex;
+                colorIndices[2] = nextRightIndex;
+                colorIndices[1] = isLight ? (nextLeftIndex + 1) % palette.length : nextColorIndex(nextLeftIndex, palette.length);
+                colorIndices[3] = isLight ? (nextRightIndex + 1) % palette.length : nextColorIndex(nextRightIndex, palette.length);
             }
 
             window.setTimeout(updateGradient, 10);
