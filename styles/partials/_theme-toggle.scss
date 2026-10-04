@@ -1,0 +1,361 @@
+// Light theme palette: warm beige/grey, checked for WCAG AA contrast against
+// $light-bg (page bg vs text 13.6:1, vs $light-text-muted 6:1, vs $light-accent 5.7:1).
+$light-bg: #f4f1ea;
+$light-bg-elevated: #ece7db;
+$light-text: #252525;
+$light-text-muted: #5c5c54;
+$light-accent: #066b60;
+$light-border: rgb(37 37 37 / 15%);
+
+body.light-theme {
+  color: $light-text;
+  background-color: $light-bg;
+}
+
+body.light-theme #wrapper,
+body.light-theme #content,
+body.light-theme .darker,
+body.light-theme .dark:not(.portfolio-item),
+body.light-theme .section,
+body.light-theme .section.darker,
+body.light-theme .section.dark {
+  color: $light-text;
+  background-color: $light-bg;
+  border-color: $light-border;
+}
+
+// .portfolio-item keeps its original dark thumbnail + dark hover-caption design,
+// unrelated to site theme, so it is excluded from every .dark rule below.
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme h5,
+body.light-theme h6,
+body.light-theme .dark:not(.portfolio-item) h1,
+body.light-theme .dark:not(.portfolio-item) h2,
+body.light-theme .dark:not(.portfolio-item) h3,
+body.light-theme .dark:not(.portfolio-item) h4,
+body.light-theme .dark:not(.portfolio-item) h5,
+body.light-theme .dark:not(.portfolio-item) h6 {
+  color: $light-text;
+}
+
+body.light-theme a,
+body.light-theme .dark:not(.portfolio-item) a,
+body.light-theme .dark:not(.portfolio-item) p,
+body.light-theme .dark:not(.portfolio-item) .fancy-heading {
+  color: $light-text;
+}
+
+body.light-theme a:hover,
+body.light-theme .dark:not(.portfolio-item) a:hover {
+  color: $light-accent;
+}
+
+// The ":not(.portfolio-item)" guards above only stop the figure itself from being
+// re-colored; #wrapper is also ".dark" and still cascades text color into captions
+// nested inside portfolio figures, so restore their original light-on-dark caption
+// colors explicitly (matches the plain ".dark {color:#eee}" inherited look).
+body.light-theme .portfolio-overlay,
+body.light-theme .portfolio-overlay h1,
+body.light-theme .portfolio-overlay h2,
+body.light-theme .portfolio-overlay h3,
+body.light-theme .portfolio-overlay h4,
+body.light-theme .portfolio-overlay h5,
+body.light-theme .portfolio-overlay h6,
+body.light-theme .portfolio-overlay p {
+  color: #eee !important;
+}
+
+body.light-theme .portfolio-overlay a {
+  color: #444 !important;
+}
+
+body.light-theme .portfolio-overlay a:hover {
+  color: $theme-color !important;
+}
+
+// Hero heading text: beats ".dark .emphasis-title:not(.not-dark) h1/h2" (white).
+body.light-theme .emphasis-title:not(.not-dark) h1,
+body.light-theme .emphasis-title:not(.not-dark) h2 {
+  color: $light-text;
+}
+
+// Header: the site's compound ".dark #header.semi-transparent..." rules outrank a
+// plain "#header" override, so selectors below mirror that exact structure.
+body.light-theme #header {
+  background-color: rgb(244 241 234 / 92%);
+  border-bottom: 1px solid $light-border;
+}
+
+body.light-theme #header.semi-transparent,
+body.light-theme #header.semi-transparent.floating-header .container {
+  background-color: rgb(244 241 234 / 92%);
+}
+
+body.light-theme #header.sticky-header.semi-transparent,
+body.light-theme #header.semi-transparent.floating-header,
+body.light-theme #header.semi-transparent.floating-header.sticky-header .container {
+  background-color: transparent;
+}
+
+body.light-theme #header.semi-transparent.sticky-header #header-wrap,
+body.light-theme #header.sticky-header.transparent-header #header-wrap:not(.not-dark) {
+  background-color: rgb(244 241 234 / 92%);
+}
+
+body.light-theme #header #logo a,
+body.light-theme #header #primary-menu-trigger {
+  color: $light-text;
+}
+
+body.light-theme #header-wrap:not(.not-dark) #primary-menu > ul > li > a,
+body.light-theme #header-wrap:not(.not-dark) #primary-menu > .container > ul > li > a {
+  color: $light-text;
+  text-shadow: none;
+}
+
+body.light-theme #header-wrap:not(.not-dark) #primary-menu > ul > li:hover a,
+body.light-theme #header-wrap:not(.not-dark) #primary-menu > ul > li.current a,
+body.light-theme #header-wrap:not(.not-dark) #primary-menu > .container > ul > li:hover a,
+body.light-theme #header-wrap:not(.not-dark) #primary-menu > .container > ul > li.current a {
+  color: $light-accent;
+}
+
+body.light-theme #portfolio-ajax-wrap,
+body.light-theme #portfolio-ajax-container,
+body.light-theme #portfolio-ajax-single {
+  background-color: $light-bg;
+}
+
+body.light-theme #slider,
+body.light-theme #content,
+body.light-theme #section-about,
+body.light-theme #section-projects,
+body.light-theme #section-what {
+  background-color: $light-bg;
+}
+
+body.light-theme #slider .button-light,
+body.light-theme #slider .one-page-arrow {
+  border-color: $light-text;
+  color: $light-text;
+}
+
+body.light-theme #slider .waves {
+  background-color: $light-bg;
+}
+
+// Project detail modal: "Skills/Methods/..." labels and the close/prev/next controls.
+body.light-theme .portfolio-meta li {
+  color: $light-text-muted;
+}
+
+body.light-theme .portfolio-meta li span {
+  color: $light-text;
+}
+
+body.light-theme #portfolio-navigation a {
+  color: $light-text;
+}
+
+body.light-theme #portfolio-navigation a:hover {
+  color: $light-accent;
+}
+
+// "WORK" / "Hire" / "Use Case" badges: beats ".dark/.darker/.darkest .fancy-title h#"
+// dark-grey backgrounds that otherwise leave dark text on a dark chip.
+body.light-theme .fancy-title h1,
+body.light-theme .fancy-title h2,
+body.light-theme .fancy-title h3,
+body.light-theme .fancy-title h4,
+body.light-theme .fancy-title h5,
+body.light-theme .fancy-title h6 {
+  background-color: $light-bg-elevated;
+}
+
+body.light-theme .fancy-title.title-double-border::before,
+body.light-theme .fancy-title.title-border::before,
+body.light-theme .fancy-title.title-border-color::before {
+  border-top-color: $light-border;
+}
+
+// Footer + copyright bar, previously left fully dark in light mode.
+body.light-theme #footer {
+  background-color: $light-bg-elevated;
+  color: $light-text;
+  border-top-color: $light-border;
+}
+
+body.light-theme #copyrights {
+  background-color: transparent;
+  color: rgb(37 37 37 / 55%);
+  text-shadow: none;
+}
+
+body.light-theme #copyrights i.footer-icon {
+  color: rgb(37 37 37 / 55%);
+}
+
+body.light-theme .copyright-links a {
+  color: rgb(37 37 37 / 55%);
+  border-bottom-color: rgb(37 37 37 / 35%);
+}
+
+// Social icons: the dark-mode "!important" rules need matching specificity + !important to lose.
+body.light-theme .dark .social-icon,
+body.light-theme #footer .social-icon.si-borderless,
+body.light-theme #footer.dark .social-icon.si-borderless {
+  color: $light-text-muted !important;
+  border-color: $light-border;
+}
+
+body.light-theme .social-icon:hover {
+  color: #fff !important;
+}
+
+// Image lightbox (js/nonangular/main.js lightbox()) ships with no base CSS, so its
+// close/prev/next controls render inline at the bottom of the page when idle.
+.portfolio-image-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgb(0 0 0 / 88%);
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.portfolio-image-viewer.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.portfolio-image-viewer figure {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: 0;
+}
+
+.portfolio-image-viewer img {
+  display: block;
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.portfolio-image-viewer figcaption,
+.portfolio-image-viewer-counter {
+  display: block;
+  color: #eee;
+  text-align: center;
+  font-size: 13px;
+}
+
+.portfolio-image-viewer-close,
+.portfolio-image-viewer-prev,
+.portfolio-image-viewer-next {
+  position: absolute;
+  border: 1px solid rgb(255 255 255 / 40%);
+  border-radius: 50%;
+  background: rgb(0 0 0 / 40%);
+  color: #fff;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  line-height: 1;
+  font-size: 20px;
+}
+
+.portfolio-image-viewer-close {
+  top: -50px;
+  right: 0;
+}
+
+.portfolio-image-viewer-prev {
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.portfolio-image-viewer-next {
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.theme-toggle {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  transition: color 180ms ease;
+  z-index: 1;
+}
+
+#primary-menu {
+  align-items: center;
+  display: flex;
+}
+
+#primary-menu > ul {
+  align-items: stretch;
+  display: flex;
+  float: none;
+}
+
+#primary-menu > .theme-toggle {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  height: 48px;
+  justify-content: center;
+  margin-left: 2px;
+  padding: 0;
+  width: 48px;
+}
+
+#primary-menu > .theme-toggle:hover,
+#primary-menu > .theme-toggle:focus-visible {
+  color: $theme-color;
+}
+
+#primary-menu > .theme-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.theme-toggle-icon {
+  display: block;
+  font-size: 18px;
+  line-height: inherit;
+  text-align: center;
+  width: 18px;
+}
+
+@media (max-width: 767px) {
+  #header #primary-menu {
+    position: absolute;
+    right: 50px;
+    top: 10px;
+    width: auto;
+  }
+
+  #primary-menu > .theme-toggle {
+    padding: 12px;
+  }
+}

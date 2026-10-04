@@ -35,7 +35,7 @@
         var colorIndices = [0, 1, 2, 3];
         var gradientSpeed = 0.002;
 
-        new SineWaves({
+        var sineWaves = new SineWaves({
             el: wavesElement,
             speed: 4,
             width: function() {
@@ -70,15 +70,23 @@
                 return;
             }
 
+            var isLight = document.body.classList.contains('light-theme');
             var currentLeft = colors[colorIndices[0]];
             var nextLeft = colors[colorIndices[1]];
             var currentRight = colors[colorIndices[2]];
             var nextRight = colors[colorIndices[3]];
             var inverseStep = 1 - step;
-            var color1 = 'rgb(' + interpolateColor(currentLeft, nextLeft, inverseStep) + ')';
-            var color2 = 'rgb(' + interpolateColor(currentRight, nextRight, inverseStep) + ')';
+            var color1 = isLight ? 'rgb(244, 241, 234)' : 'rgb(' + interpolateColor(currentLeft, nextLeft, inverseStep) + ')';
+            var color2 = isLight ? 'rgb(255, 250, 242)' : 'rgb(' + interpolateColor(currentRight, nextRight, inverseStep) + ')';
 
             wavesElement.style.background = 'linear-gradient(90deg, ' + color1 + ', ' + color2 + ')';
+
+            var waveStroke = isLight ? 'rgba(37, 37, 37, 0.22)' : null;
+            if (waveStroke) {
+                sineWaves.waves.forEach(function(wave) {
+                    wave.strokeStyle = waveStroke;
+                });
+            }
 
             step += gradientSpeed;
             if (step >= 1) {

@@ -271,6 +271,8 @@ function bsreload() {
   return Promise.resolve('reloaded');
 }
 
+gulp.task('sassdev', sassdev);
+
 // Build size
 function buildSize() {
   return gulp.src('./_build/**/*')
