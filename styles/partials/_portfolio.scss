@@ -1679,6 +1679,57 @@ body {
   opacity: 1;
 }
 
+figure.effect-slide-up-caption .portfolio-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+figure.effect-slide-up-caption .portfolio-overlay h3,
+figure.effect-slide-up-caption .portfolio-overlay p,
+figure.effect-slide-up-caption .portfolio-work-type {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  align-self: stretch;
+  margin: 0;
+}
+
+figure.effect-slide-up-caption .portfolio-work-type {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  bottom: auto;
+  left: auto;
+  z-index: 3;
+  align-self: auto;
+  margin: 0;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 80%);
+  color: #111;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+figure.effect-slide-up-caption .portfolio-overlay h3 {
+  padding: 8px 30px;
+}
+
+figure.effect-slide-up-caption .portfolio-overlay p {
+  padding: 0 30px 30px;
+  transform: translate3d(0, 70px, 0);
+}
+
+figure.effect-slide-up-caption:hover .portfolio-overlay p {
+  transform: translate3d(0, 0, 0);
+}
+
 .portfolio-item:hover a.center-icon,
 .iportfolio:hover a.center-icon {
   opacity: 1;
